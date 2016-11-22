@@ -41,7 +41,7 @@ Software requirements:
 
 1. The EHM Generator requires MATLAB, and has been tested on MATLAB R2013b.  
 2. Running the energy hub model created by the EHM generator requires the optimization package [Aimms](http://aimms.com/).  Aimms is available for free for academic use.
-3. The EHM Generator has been tested on a Windows OS, but should also function with minimal changes on other systems as well. NOTE: The CSV inputs to the EHM Generator use comma-separated formatting. If your OS uses a semicolen as the default list separator, this will cause errors.  On Windows, this can be checked/changed at Control Panel -> Region and language -> Additional settings -> List separator (under the "Numbers" tab).
+3. The EHM Generator has been tested on a Windows OS, but should also function with minimal changes on other systems as well. _NOTE: The CSV inputs to the EHM Generator use comma-separated formatting. If your OS uses a semicolen as the default list separator, this will cause errors.  On Windows, this can be checked/changed at Control Panel -> Region and language -> Additional settings -> List separator (under the "Numbers" tab)._
 
 Download the EHM Generator from [Github](https://github.com/hues-platform/energy-hub-model-generator-aimms) (click the "Clone or download" button). Place the downloaded files in a convenient location in your system
 
