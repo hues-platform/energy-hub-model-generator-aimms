@@ -47,18 +47,13 @@ grid_electricity_feedin_price = experiment_grid_electricity_feedin_price;
 grid_electricity_feedin_price_for_renewables = experiment_grid_electricity_feedin_price_for_renewables;
 
 if dynamic_electricity_price == 1
-    grid_electricity_price = csvread(strcat('scenarios\',scenario_name,'\electricity_costs.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
+    grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
+    xlswrite(strcat(source_path,'aimms_model\energy_hub\electricity_costs.xlsx'),grid_electricity_price,'electricity_costs');
 end
 
 if dynamic_feed_in_price == 1
-    grid_electricity_feed_in_price = csvread(strcat('scenarios\',scenario_name,'\electricity_feed_in_price.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
-end
-
-if dynamic_renewables_feed_in_price_for_renewables == 1 && different_grid_feed_in_price_for_renewables == 1
-    grid_electricity_feed_in_price_renewables = csvread(strcat('scenarios\',scenario_name,'\electricity_feed_in_price_renewables.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx',grid_electricity_feed_in_price_renewables,'price');
+    grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
+    xlswrite(strcat(source_path,'aimms_model\energy_hub\electricity_feed_in_price.xlsx'),grid_electricity_feed_in_price,'price');
 end
 
 %% CARBON PARAMETERS

@@ -1,14 +1,5 @@
-%% DESCRIPTION OF THE SCENARIO
-% This is a simple scenario based on the generic energy hub model. 
-
-%% SET THE SCENARIO NAME
-
-%used for saving the results
-scenario_name = 'suurstoffi_rw';
-
-%% CASE TO BE ANALYZED
-
-case_study = 'suurstoffi_rw';
+%% THIS SCRIPT INCLUDES THE DEFAULT SCENARIO VALUES SO THE DON'T ALWAYS NEED TO BE INCLUDED IN THE SCENARIO FILES 
+% all of the variables set here may be reset by the scenario files
 
 %% OBJECTIVE AND THE TYPE OF OPTIMIZATION
 
@@ -19,11 +10,12 @@ objective = 1;
 
 %select technologies and do sizing?
 select_techs_and_do_sizing = 1;
+include_installed_technologies = 1;
 
 %% TIME VARIABLES
 
 timestep = 'hours';
-timesteps = 1:8760;
+timesteps = 1:24;
 number_of_timesteps = length(timesteps);
 
 %% ELECTRICITY GRID PARAMETERS
@@ -75,3 +67,4 @@ electrical_storage_initialization_method = 1;
 heat_storage_initialization_method = 2;
 cool_storage_initialization_method = 2;
 dhw_storage_initialization_method = 2;
+anergy_storage_initialization_method = 2;
