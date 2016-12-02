@@ -12,6 +12,8 @@
 
 % Create elements to accommodate a dynamic grid feed-in_price.
 
+% Add the case data, in this case just the node data and solar time series.
+
 % Check the file paths in LoadTechnologies.m and LoadCase.m to make sure they're
 % correct.  Quickly check the other m files as well.
 
