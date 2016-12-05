@@ -36,9 +36,9 @@ if simplified_storage_representation == 0
     variable_storage_capacity = '';
     if create_variable_storage_capacity == 1
         if multiple_hubs == 0
-            variable_storage_capacity = '\n\t\tVariable Storage_capacity {\n\t\t\tIndexDomain: stor;\n\t\t\tRange: nonnegative;\n\t\t}';
+            variable_storage_capacity = '\n\t\tVariable Storage_capacity {\n\t\t\tIndexDomain: (x,stor) | Smatrix(x,stor) > 0;\n\t\t\tRange: nonnegative;\n\t\t}';
         else
-            variable_storage_capacity = '\n\t\tVariable Storage_capacity {\n\t\t\tIndexDomain: (stor,h);\n\t\t\tRange: nonnegative;\n\t\t}';
+            variable_storage_capacity = '\n\t\tVariable Storage_capacity {\n\t\t\tIndexDomain: (x,stor,h) | Smatrix(x,stor) > 0;\n\t\t\tRange: nonnegative;\n\t\t}';
         end
     end
 

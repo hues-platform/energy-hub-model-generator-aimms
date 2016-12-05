@@ -66,9 +66,9 @@ if simplified_storage_representation == 0
     constraint_installed_storage_techs = '';
     if apply_constraint_installed_storage_techs == 1
         if multiple_hubs == 0
-            constraint_installed_storage_techs = '\n\t\tConstraint Installed_storage_techs_constraint {\n\t\t\tIndexDomain: (x,stor);\n\t\t\tDefinition: Installation_storage(x,stor) = Installed_storage_techs(stor);\n\t\t}';
+            constraint_installed_storage_techs = '\n\t\tConstraint Installed_storage_techs_constraint {\n\t\t\tIndexDomain: stor;\n\t\t\tDefinition: Installation_storage(stor) = Installed_storage_techs(stor);\n\t\t}';
         else
-            constraint_installed_storage_techs = '\n\t\tConstraint Installed_storage_techs_constraint {\n\t\t\tIndexDomain: (x,stor,h);\n\t\t\tDefinition: Installation_storage(x,stor,h) = Installed_storage_techs(stor,h);\n\t\t}';
+            constraint_installed_storage_techs = '\n\t\tConstraint Installed_storage_techs_constraint {\n\t\t\tIndexDomain: (stor,h);\n\t\t\tDefinition: Installation_storage(stor,h) = Installed_storage_techs(stor,h);\n\t\t}';
         end
     end
     

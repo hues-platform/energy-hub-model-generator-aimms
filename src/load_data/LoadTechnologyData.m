@@ -179,7 +179,7 @@ end
 technologies.conversion_techs_operating_costs = [];
 for t=1:length(technologies.conversion_techs_names)
     if strcmp(technologies.conversion_techs_names(t),'Grid')
-        technologies.conversion_techs_operating_costs(t) = grid_electricity_price;
+        technologies.conversion_techs_operating_costs(t) = 0; %this isn't used
     elseif strcmp(technologies.conversion_techs_inputs(t),'Gas')
         technologies.conversion_techs_operating_costs(t) = gas_price;
     else

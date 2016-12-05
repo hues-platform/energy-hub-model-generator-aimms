@@ -44,16 +44,6 @@ dynamic_grid_feed_in_price = experiment_dynamic_grid_feed_in_price;
 grid_electricity_price = experiment_grid_electricity_price;
 grid_electricity_feedin_price = experiment_grid_electricity_feedin_price;
 
-if dynamic_electricity_price == 1
-    grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
-end
-
-if dynamic_grid_feed_in_price == 1
-    grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
-end
-
 %% CARBON PARAMETERS
 
 carbon_limit_boolean = 0;

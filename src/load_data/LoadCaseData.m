@@ -20,6 +20,12 @@ end
 if exist('aimms_model\energy_hub\solar_inputs.xlsx','file')==2
   delete('aimms_model\energy_hub\solar_inputs.xlsx');
 end
+if exist('aimms_model\energy_hub\electricity_feed_in_price.xlsx','file')==2
+  delete('aimms_model\energy_hub\electricity_feed_in_price.xlsx');
+end
+if exist('aimms_model\energy_hub\electricity_costs.xlsx','file')==2
+  delete('aimms_model\energy_hub\electricity_costs.xlsx');
+end
 
 %% LOAD DEMAND DATA
 
@@ -149,6 +155,18 @@ if sum(strcmp('Solar',inputs_types)) > 0
         consider_solar_inputs = 1;
         xlswrite('aimms_model\energy_hub\solar_inputs.xlsx',solar_radiations,'solar');
     end
+end
+
+%% LOAD DYNAMIC ELECTRICITY PRICE DATA
+
+if dynamic_electricity_price == 1
+    grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
+    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
+end
+
+if dynamic_grid_feed_in_price == 1
+    grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
+    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
 end
 
 %% LOAD INSTALLED TECHNOLOGY DATA

@@ -8,7 +8,9 @@
 
 %% TODO
 
-% Test to make sure the dynamic feed-in pricing and net metering code are working
+% Create visualization code
+
+% Run experiments, adjust, repeat
 
 % BEFORE MERGING WITH MAIN BRANCH:
 
@@ -42,7 +44,8 @@ experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-g
 
 %% FIT EXPERIMENTS
 
-for fit_level = 0:5:30
+for fit_level = 0.30
+%for fit_level = 0.0:0.05:0.30
     
     copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
 
@@ -52,7 +55,7 @@ for fit_level = 0:5:30
     experiment_dynamic_grid_feed_in_price = 0;
 
     experiment_grid_electricity_price = 0.214;
-    experiment_grid_electricity_feed_in_price = fit_level;
+    experiment_grid_electricity_feedin_price = fit_level;
     
     experiment_implement_net_metering = 0;
     
@@ -62,13 +65,14 @@ end
 
 %% FIP EXPERIMENTS
 
-for fip_level = 0:5:30
+for fip_level = 0.30
+%for fip_level = 0.0:0.05:0.30
     
     copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
     
     spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
     fip_time_series = spot_prices + fip_level;
-    csv_write((strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv')),fip_time_series);
+    csvwrite((strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv')),fip_time_series);
 
     experiment_name = strcat('FIP_', num2str(fip_level));
     
@@ -110,7 +114,7 @@ spot_quantities = csvread(strcat(experiment_path,'price_time_series\electricity_
 electricity_tax = 0.03;
 electricity_network_surcharge = 0.1 * (spot_quantities - min(spot_quantities)) / (max(spot_quantities) - min(spot_quantities)) + 0.05; %varies between 0.05 and 0.15 depending on the spot quantity
 rtp_time_series = spot_prices + electricity_tax + electricity_network_surcharge;
-csv_write((strcat(experiment_path,'price_time_series\electricity_costs.csv')),fip_time_series);
+csvwrite((strcat(experiment_path,'price_time_series\electricity_costs.csv')),rtp_time_series);
 
 experiment_name = 'RTP';
 

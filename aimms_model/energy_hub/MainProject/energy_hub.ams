@@ -133,7 +133,7 @@ Model Energy_Hub_Model {
 		}
 		Parameter Technology_carbon_factors {
 			IndexDomain: (conv);
-			Definition: data {Electric_boiler:0,Gas_CHP:0.09,Gas_boiler:0.09,Grid:0.214,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
+			Definition: data {Electric_boiler:0,Gas_CHP:0.09,Gas_boiler:0.09,Grid:0,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
 		}
 		Parameter Solar_radiation {
 			IndexDomain: t;
