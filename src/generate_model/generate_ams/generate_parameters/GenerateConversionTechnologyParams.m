@@ -100,11 +100,16 @@ if create_param_fixed_capital_costs == 1
     param_fixed_capital_costs = strcat(fixed_capital_costs,definition_string,'}\n\t\t\t};\n\t\t}');
 end
 
-%energy feed-in price
+%electricity feed-in price
 param_electricity_feedin_price = '';
 if create_param_electricity_feedin_price == 1
-    definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
-    param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
+    if length(grid_electricity_feedin_price) > 1
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
+        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tIndexDomain: t;\n\t\t}');
+    else
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
+        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tDefinition: data { ',num2str(grid_electricity_feedin_price),' };\n\t\t}');
+    end
 end
 
 %interest rate

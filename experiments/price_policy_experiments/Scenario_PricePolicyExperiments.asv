@@ -53,7 +53,7 @@ end
 
 if dynamic_feed_in_price == 1
     grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
+    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx'),grid_electricity_feed_in_price,'price');
 end
 
 %% CARBON PARAMETERS

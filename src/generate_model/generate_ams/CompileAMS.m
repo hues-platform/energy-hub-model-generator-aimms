@@ -31,7 +31,7 @@ ams_string = strcat(header_model,...
 %% GENERATE THE AMS FILE
 
 %initialize new AMS file based on the template
-template_AMS = 'generate_model\generate_ams\energy_hub_template.ams';
+template_AMS = 'src\generate_model\generate_ams\energy_hub_template.ams';
 new_AMS_path = '';
 new_AMS_name = 'aimms_model\energy_hub\MainProject\energy_hub.ams';
 new_AMS = [new_AMS_path new_AMS_name];

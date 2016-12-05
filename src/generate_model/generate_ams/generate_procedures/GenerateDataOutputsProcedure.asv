@@ -1,4 +1,4 @@
-%% CLEAN UP THE OUTPUT FILES AND CREATE RESULTS DIRECTORY
+%% CLEAN UP THE OUTPUT FILES
 
 if exist(strcat('aimms_model\energy_hub\results\',experiment_name),'dir')==7
     if exist(strcat('aimms_model\energy_hub\results\',experiment_name,'\results_demands.xlsx'),'file')==2
@@ -23,7 +23,7 @@ if exist(strcat('aimms_model\energy_hub\results\',experiment_name),'dir')==7
       delete(strcat('aimms_model\energy_hub\results\',experiment_name,'\results_emissions.xlsx'));
     end
 else
-    mkdir(strcat('aimms_model\energy_hub\results\',experiment_name));
+    
 end
 
 %% WRITE OUTPUT DATA

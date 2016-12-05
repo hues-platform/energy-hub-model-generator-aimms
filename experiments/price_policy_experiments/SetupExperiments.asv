@@ -8,15 +8,23 @@
 
 %% TODO
 
+% Make the RTP network fee dependent on quantity not price.
+
+% Create elements to accommodate a dynamic grid feed-in_price.
+
+% Add the case data, in this case just the node data and solar time series.
+
+% Check the file paths in LoadTechnologies.m and LoadCase.m to make sure they're
+% correct.  Quickly check the other m files as well.
+
+% Save the results in a folder named according to the experiment/scenario name.
+
 % Test to make sure the dynamic feed-in pricing and net metering code are working
 
 % BEFORE MERGING WITH MAIN BRANCH:
 
 % Fix the code for the test experiments and the generic energy hub basic
 % experiment
-
-% Make sure you're uploading only the necessary files (i.e. not all the
-% extraneous aimms files.
 
 % Check with Ashreeta before you merge to make sure you don't screw
 % anything up that she's working on.
@@ -32,10 +40,11 @@ clc
 
 %% SET THE PATH
 
-addpath(genpath('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms'));
-
 %set this path to the root of the project
-cd('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\');
+addpath(genpath('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\src'));
+
+%source path
+source_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\src\';
 
 %add the path to the experiment folder
 experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\price_policy_experiments\';
@@ -108,7 +117,7 @@ copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.c
 spot_prices = csv_read(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
 spot_quantities = csv_read(strcat(experiment_path,'price_time_series\electricity_spot_quantities.csv'));
 electricity_tax = 0.03;
-electricity_network_surcharge = 0.1 * (spot_quantities - min(spot_quantities)) / (max(spot_quantities) - min(spot_quantities)) + 0.05; %varies between 0.05 and 0.15 depending on the spot quantity
+electricity_network_surcharge = 0.1 * (spot_prices - min(spot_prices)) / (max(spot_prices) - min(spot_prices)) + 0.05; %varies between 0.05 and 0.15 depending on the spot price
 rtp_time_series = spot_prices + electricity_tax + electricity_network_surcharge;
 csv_write((strcat(experiment_path,'price_time_series\electricity_costs.csv')),fip_time_series);
 

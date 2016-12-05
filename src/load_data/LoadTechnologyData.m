@@ -3,7 +3,7 @@
 if select_techs_and_do_sizing == 1
 
     %read the conversion technology data
-    filename = 'technology_data\conversion_technology_data.csv';
+    filename = strcat(experiment_path,'technology_data\conversion_technology_data.csv');
     [num,text,raw] = xlsread(filename);
 
     technologies.conversion_techs_names = raw(1,2:end);
@@ -21,7 +21,7 @@ if select_techs_and_do_sizing == 1
     technologies.conversion_techs_max_capacity = num(10,1:end);
 
     % read the storage technology data
-    filename = 'technology_data\storage_technology_data.csv';
+    filename = strcat(experiment_path,'technology_data\storage_technology_data.csv');
     [num,text,raw] = xlsread(filename);
 
     technologies.storage_techs_names = raw(1,2:end);
@@ -85,7 +85,7 @@ technologies_for_selection_and_sizing = technologies; %used for determining whet
 
 %if there are installed conversion technologies
 if include_installed_technologies == 1
-    if exist(strcat('case_study_data\',case_study,'\installed_conversion_technologies.csv'),'file')==2
+    if exist(strcat(experiment_path,'case_data\installed_conversion_technologies.csv'),'file')==2
 
         %add the installed energy conversion technologies
         number_of_installed_conversion_techs = length(installed_technologies.conversion_techs_names);
@@ -106,7 +106,7 @@ if include_installed_technologies == 1
     end
 
     %if there are installed storage technologies
-    if exist(strcat('case_study_data\',case_study,'\installed_storage_technologies.csv'),'file')==2
+    if exist(strcat(experiment_path,'case_data\installed_storage_technologies.csv'),'file')==2
 
         %add the installed energy storage technologies
         number_of_installed_storage_techs = length(installed_technologies.storage_techs_names);
@@ -215,14 +215,14 @@ technologies.storage_techs_types = strrep(technologies.storage_techs_types,' ','
 if include_installed_technologies == 1
     
     %if there are installed conversion technologies
-    if exist(strcat('case_study_data\',case_study,'\installed_conversion_technologies.csv'),'file')==2
+    if exist(strcat(experiment_path,'case_data\installed_conversion_technologies.csv'),'file')==2
         installed_technologies.conversion_techs_names = strrep(installed_technologies.conversion_techs_names,' ','_');
         installed_technologies.conversion_techs_outputs = strrep(installed_technologies.conversion_techs_outputs,' ','_');
         installed_technologies.conversion_techs_inputs = strrep(installed_technologies.conversion_techs_inputs,' ','_');
     end
 
     %if there are installed storage technologies
-    if exist(strcat('case_study_data\',case_study,'\installed_storage_technologies.csv'),'file')==2
+    if exist(strcat(experiment_path,'case_data\installed_storage_technologies.csv'),'file')==2
         installed_technologies.storage_techs_names = strrep(installed_technologies.storage_techs_names,' ','_');
         installed_technologies.storage_techs_types = strrep(installed_technologies.storage_techs_types,' ','_');
     end
