@@ -30,6 +30,7 @@ number_of_timesteps = length(timesteps);
 grid_connected_system = 1;
 size_grid_connection = 0;
 grid_connection_capacity = 1000000;
+limit_grid_feed_in_to_solar_techs = 1;
 
 %% PRICE PARAMETERS
 
@@ -39,19 +40,16 @@ interest_rate = 0.08;
 
 dynamic_electricity_price = experiment_dynamic_electricity_price;
 dynamic_grid_feed_in_price = experiment_dynamic_grid_feed_in_price;
-different_grid_feed_in_price_for_renewables = experiment_different_grid_feed_in_price_for_renewables;
-dynamic_grid_feed_in_price_for_renewables = experiment_dynamic_grid_feed_in_price_for_renewables;
 
 grid_electricity_price = experiment_grid_electricity_price;
 grid_electricity_feedin_price = experiment_grid_electricity_feedin_price;
-grid_electricity_feedin_price_for_renewables = experiment_grid_electricity_feedin_price_for_renewables;
 
 if dynamic_electricity_price == 1
     grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
     xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
 end
 
-if dynamic_feed_in_price == 1
+if dynamic_grid_feed_in_price == 1
     grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
     xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
 end

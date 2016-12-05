@@ -3,7 +3,7 @@
 % These constraints are automatically set based on selected options/inputs
 % Generally, these should not be changed
 
-% INITIALLY, SET ALL THE CONSTRAINTS TO ZERO
+%% INITIALLY, SET ALL THE CONSTRAINTS TO ZERO
 apply_constraint_energy_balance = 0;
 apply_constraint_capacity = 0;
 apply_constraint_dispatch = 0;
@@ -20,6 +20,7 @@ apply_constraint_installed_storage_techs = 0;
 apply_constraint_operation = 0;
 apply_constraint_grid_capacity_violation1 = 0;
 apply_constraint_grid_capacity_violation2 = 0;
+apply_constraint_solar_export = 0;
 apply_constraint_htp_ratio_heat = 0;
 apply_constraint_htp_ratio_dhw = 0;
 apply_constraint_htp_ratio_anergy = 0;
@@ -60,7 +61,8 @@ apply_constraint_link_operation = 0;
 apply_constraint_link_capacity = 0;
 apply_constraint_link_flow_direction = 0;
 
-%ACTIVATE THE DIFFERENT CONSTRAINTS DEPENDING ON THE INPUTS
+%% ACTIVATE THE DIFFERENT CONSTRAINTS DEPENDING ON THE INPUTS
+
 % These constraints are applicable as long as you are considering energy conversion techs
 if isempty(technologies.conversion_techs_names) == 0
     apply_constraint_energy_balance = 1;
@@ -72,6 +74,11 @@ if isempty(technologies.conversion_techs_names) == 0
     if grid_connected_system == 1
         apply_constraint_grid_capacity_violation1 = 1;
         apply_constraint_grid_capacity_violation2 = 1;
+        
+        %only applicable if the system is grid connected and we want to limit grid feed-in to solar technologies
+        if limit_grid_feed_in_to_solar_techs == 1
+            apply_constraint_solar_export = 1;
+        end
     end
     
     %only applicable if the system is grid connected and we're doing selection/sizing

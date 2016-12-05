@@ -108,7 +108,7 @@ if create_param_electricity_feedin_price == 1
         param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tIndexDomain: t;\n\t\t}');
     else
         definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
-        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tDefinition: data { ',num2str(grid_electricity_feedin_price),' };\n\t\t}');
+        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tDefinition: ',num2str(grid_electricity_feedin_price),';\n\t\t}');
     end
 end
 

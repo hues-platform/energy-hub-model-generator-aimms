@@ -66,7 +66,7 @@ for fip_level = 0:5:30
     
     copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
     
-    spot_prices = csv_read(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
+    spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
     fip_time_series = spot_prices + fip_level;
     csv_write((strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv')),fip_time_series);
 
@@ -105,8 +105,8 @@ RunExperiment
 
 copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
 
-spot_prices = csv_read(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
-spot_quantities = csv_read(strcat(experiment_path,'price_time_series\electricity_spot_quantities.csv'));
+spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
+spot_quantities = csvread(strcat(experiment_path,'price_time_series\electricity_spot_quantities.csv'));
 electricity_tax = 0.03;
 electricity_network_surcharge = 0.1 * (spot_quantities - min(spot_quantities)) / (max(spot_quantities) - min(spot_quantities)) + 0.05; %varies between 0.05 and 0.15 depending on the spot quantity
 rtp_time_series = spot_prices + electricity_tax + electricity_network_surcharge;

@@ -261,6 +261,24 @@ if apply_constraint_grid_capacity_violation2 == 1
     end
 end
 
+%solar export constraint
+constraint_solar_export = '';
+if apply_constraint_solar_export == 1
+    solar_technologies_with_electrical_output = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"'}))));
+    index_domain_string = '';
+    for t=1:length(solar_technologies_with_electrical_output)
+        index_domain_string = strcat(index_domain_string,'''',char(solar_technologies_with_electrical_output(t)),'''');
+        if t < length(solar_technologies_with_electrical_output)
+             index_domain_string = strcat(index_domain_string,' OR conv = '); 
+        end
+    end   
+    if multiple_hubs == 0
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy(t,x) <= sum(conv | (conv = ',index_domain_string,'), Input_energy(t,conv));\n\t\t}');
+    else
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy(t,x,h)) <= sum((h,conv) | (conv = ',index_domain_string,'), Input_energy(t,conv,h));\n\t\t}');
+    end
+end
+
 %% CHP CONSTRAINTS
 
 %heat-to-power ratio constraint for heat generating CHP technologies
@@ -386,5 +404,5 @@ end
 
 constraints_section = strcat(constraints_section,constraint_energy_balance,constraint_capacity,constraint_min_capacity,constraint_max_capacity,constraint_dispatch,constraint_min_part_load,...
     constraint_solar_availability,constraint_roof_area,constraint_installation,constraint_installed_conversion_techs,constraint_operation,...
-    constraint_grid_capacity_violation1,constraint_grid_capacity_violation2,constraint_htp_ratio_heat,constraint_htp_ratio_dhw,constraint_htp_ratio_anergy,...
+    constraint_grid_capacity_violation1,constraint_grid_capacity_violation2,constraint_solar_export,constraint_htp_ratio_heat,constraint_htp_ratio_dhw,constraint_htp_ratio_anergy,...
     constraint_chp_heat,constraint_chp_dhw,constraint_chp_anergy,constraint_chp2);
