@@ -11,13 +11,23 @@ if create_variable_input_streams == 1
         
 end
 
-%variable denoting exported energy
-variable_exported_energy = '';
-if create_variable_exported_energy == 1
+%variable denoting exported energy nonrenewable
+variable_exported_energy_nonrenewable = '';
+if create_variable_exported_energy_nonrenewable == 1
     if multiple_hubs == 0
-        variable_exported_energy = '\n\t\tVariable Exported_energy {\n\t\t\tIndexDomain: (t,x) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+        variable_exported_energy_nonrenewable = '\n\t\tVariable Exported_energy_nonrenewable {\n\t\t\tIndexDomain: (t,x) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
     else
-        variable_exported_energy = '\n\t\tVariable Exported_energy {\n\t\t\tIndexDomain: (t,x,h) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+        variable_exported_energy_nonrenewable = '\n\t\tVariable Exported_energy_nonrenewable {\n\t\t\tIndexDomain: (t,x,h) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+    end
+end
+
+%variable denoting exported energy renewable
+variable_exported_energy_renewable = '';
+if create_variable_exported_energy_renewable == 1
+    if multiple_hubs == 0
+        variable_exported_energy_renewable = '\n\t\tVariable Exported_energy_renewable {\n\t\t\tIndexDomain: (t,x) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+    else
+        variable_exported_energy_renewable = '\n\t\tVariable Exported_energy_renewable {\n\t\t\tIndexDomain: (t,x,h) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
     end
 end
 
@@ -161,7 +171,7 @@ if create_variable_total_cost_grid_without_capital_costs
     variable_total_cost_grid_without_capital_costs = '\n\t\tVariable Total_cost_grid {\n\t\t\tRange: free;\n\t\t\tDefinition: sum(conv | conv = ''Grid'', Operating_cost_grid + Maintenance_cost_per_technology(conv));\n\t\t}';
 end
 
-variables_section = strcat(variables_section,variable_input_streams,variable_exported_energy,variable_technology_installation,variable_technology_operation,...
+variables_section = strcat(variables_section,variable_input_streams,variable_exported_energy_nonrenewable,variable_exported_energy_renewable,variable_technology_installation,variable_technology_operation,...
     variable_technology_capacity,variable_grid_capacity,variable_electricity_output,variable_heat_output,variable_cool_output,variable_dhw_output,variable_anergy_output,...
     variable_operating_cost_per_technology,variable_maintenance_cost_per_technology,variable_capital_cost_per_technology,...
     variable_total_cost_per_technology,variable_total_cost_per_technology_without_capital_costs,variable_total_cost_grid,variable_total_cost_grid_without_capital_costs);

@@ -30,7 +30,6 @@ number_of_timesteps = length(timesteps);
 grid_connected_system = 1;
 size_grid_connection = 0;
 grid_connection_capacity = 1000000;
-limit_grid_feed_in_to_solar_techs = 1;
 
 %% PRICE PARAMETERS
 
@@ -39,10 +38,14 @@ carbon_price = 0;
 interest_rate = 0.08;
 
 dynamic_electricity_price = experiment_dynamic_electricity_price;
-dynamic_grid_feed_in_price = experiment_dynamic_grid_feed_in_price;
+dynamic_grid_feed_in_price_renewables = experiment_dynamic_grid_feed_in_price_renewables;
+dynamic_grid_feed_in_price_nonrenewables = experiment_dynamic_grid_feed_in_price_nonrenewables;
 
 grid_electricity_price = experiment_grid_electricity_price;
-grid_electricity_feedin_price = experiment_grid_electricity_feedin_price;
+grid_electricity_feedin_price_renewables = experiment_grid_electricity_feedin_price_renewables;
+grid_electricity_feedin_price_nonrenewables = experiment_grid_electricity_feedin_price_nonrenewables;
+
+implement_net_metering = experiment_implement_net_metering;
 
 %% CARBON PARAMETERS
 

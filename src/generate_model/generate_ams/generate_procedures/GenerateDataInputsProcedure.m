@@ -56,10 +56,15 @@ if length(grid_electricity_price) > 1
     load_electricity_price_data = strcat('\n\t\t\tSpreadsheet::RetrieveParameter( "electricity_costs.xlsx", Operating_costs_grid(t),"A1:A',num2str(number_of_timesteps),'","electricity_costs");');
 end
 
-load_electricity_feedin_price_data = '';
-if length(grid_electricity_feedin_price) > 1
-    load_electricity_feedin_price_data = strcat('\n\t\t\tSpreadsheet::RetrieveParameter( "electricity_feed_in_price.xlsx", Electricity_feedin_price(t),"A1:A',num2str(number_of_timesteps),'","price");');
+load_electricity_feedin_price_data_renewables = '';
+if length(grid_electricity_feedin_price_renewables) > 1
+    load_electricity_feedin_price_data_renewables = strcat('\n\t\t\tSpreadsheet::RetrieveParameter( "electricity_feed_in_price_renewables.xlsx", Electricity_feedin_price_renewables(t),"A1:A',num2str(number_of_timesteps),'","price");');
+end
+
+load_electricity_feedin_price_data_nonrenewables = '';
+if length(grid_electricity_feedin_price_nonrenewables) > 1
+    load_electricity_feedin_price_data_nonrenewables = strcat('\n\t\t\tSpreadsheet::RetrieveParameter( "electricity_feed_in_price_nonrenewables.xlsx", Electricity_feedin_price_nonrenewables(t),"A1:A',num2str(number_of_timesteps),'","price");');
 end
 
 data_inputs_procedure = strcat(load_electricity_demand_data,load_heating_demand_data,load_cooling_demand_data,load_dhw_demand_data,load_anergy_demand_data,load_solar_data,...
-    load_electricity_price_data,load_electricity_feedin_price_data);
+    load_electricity_price_data,load_electricity_feedin_price_data_renewables,load_electricity_feedin_price_data_nonrenewables);

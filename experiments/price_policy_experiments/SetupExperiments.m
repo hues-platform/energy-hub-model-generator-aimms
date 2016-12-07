@@ -46,16 +46,16 @@ experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-g
 
 for fit_level = 0.30
 %for fit_level = 0.0:0.05:0.30
-    
-    copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
 
     experiment_name = strcat('FIT_', num2str(fit_level));
     
     experiment_dynamic_electricity_price = 0;
-    experiment_dynamic_grid_feed_in_price = 0;
+    experiment_dynamic_grid_feed_in_price_renewables = 0;
+    experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
     experiment_grid_electricity_price = 0.214;
-    experiment_grid_electricity_feedin_price = fit_level;
+    experiment_grid_electricity_feedin_price_renewables = fit_level;
+    experiment_grid_electricity_feedin_price_nonrenewables = 0;
     
     experiment_implement_net_metering = 0;
     
@@ -68,19 +68,19 @@ end
 for fip_level = 0.30
 %for fip_level = 0.0:0.05:0.30
     
-    copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
-    
     spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
     fip_time_series = spot_prices + fip_level;
-    csvwrite((strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv')),fip_time_series);
+    csvwrite((strcat(experiment_path,'price_time_series\electricity_feed_in_price_renewables.csv')),fip_time_series);
 
     experiment_name = strcat('FIP_', num2str(fip_level));
     
     experiment_dynamic_electricity_price = 0;
-    experiment_dynamic_grid_feed_in_price = 1;
+    experiment_dynamic_grid_feed_in_price_renewables = 1;
+    experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
     experiment_grid_electricity_price = 0.214;
-    experiment_grid_electricity_feedin_price = 0;
+    experiment_grid_electricity_feedin_price_renewables = 0;
+    experiment_grid_electricity_feedin_price_nonrenewables = 0;
     
     experiment_implement_net_metering = 0;
     
@@ -90,15 +90,15 @@ end
 
 %% NET METERING EXPERIMENTS
 
-copyfile(strcat(experiment_path,'technology_data\storage_technology_data_withNM.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
-
 experiment_name = 'NetMetering';
 
 experiment_dynamic_electricity_price = 0;
-experiment_dynamic_grid_feed_in_price = 0;
+experiment_dynamic_grid_feed_in_price_renewables = 0;
+experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
 experiment_grid_electricity_price = 0.214;
-experiment_grid_electricity_feedin_price = 0;
+experiment_grid_electricity_feedin_price_renewables = 0;
+experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 1;
 
@@ -107,22 +107,24 @@ RunExperiment
 
 %% REAL-TIME PRICING EXPERIMENTS
 
-copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
-
 spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
 spot_quantities = csvread(strcat(experiment_path,'price_time_series\electricity_spot_quantities.csv'));
 electricity_tax = 0.03;
 electricity_network_surcharge = 0.1 * (spot_quantities - min(spot_quantities)) / (max(spot_quantities) - min(spot_quantities)) + 0.05; %varies between 0.05 and 0.15 depending on the spot quantity
 rtp_time_series = spot_prices + electricity_tax + electricity_network_surcharge;
+rtp_time_series = rtp_time_series * 0.214 / mean(rtp_time_series); %scale the average to that of the flat price
+
 csvwrite((strcat(experiment_path,'price_time_series\electricity_costs.csv')),rtp_time_series);
 
 experiment_name = 'RTP';
 
 experiment_dynamic_electricity_price = 1;
-experiment_dynamic_grid_feed_in_price = 0;
+experiment_dynamic_grid_feed_in_price_renewables = 0;
+experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
 experiment_grid_electricity_price = 0;
-experiment_grid_electricity_feedin_price = 0;
+experiment_grid_electricity_feedin_price_renewables = 0.19;
+experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 
@@ -130,17 +132,17 @@ RunExperiment
 
 %% TOU PRICING EXPERIMENTS
 
-copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
-
 copyfile(strcat(experiment_path,'price_time_series\TOU_prices.csv'),strcat(experiment_path,'price_time_series\electricity_costs.csv'));
 
 experiment_name = 'TOU';
 
 experiment_dynamic_electricity_price = 1;
-experiment_dynamic_grid_feed_in_price = 0;
+experiment_dynamic_grid_feed_in_price_renewables = 0;
+experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
 experiment_grid_electricity_price = 0;
-experiment_grid_electricity_feedin_price = 0;
+experiment_grid_electricity_feedin_price_renewables = 0.19;
+experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 
@@ -148,15 +150,15 @@ RunExperiment
 
 %% FLAT PRICING EXPERIMENTS
 
-copyfile(strcat(experiment_path,'technology_data\storage_technology_data_basic.csv'),strcat(experiment_path,'technology_data\storage_technology_data.csv'));
-
 experiment_name = 'FlatPricing';
 
 experiment_dynamic_electricity_price = 0;
-experiment_dynamic_grid_feed_in_price = 0;
+experiment_dynamic_grid_feed_in_price_renewables = 0;
+experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
 
 experiment_grid_electricity_price = 0.214;
-experiment_grid_electricity_feedin_price = 0;
+experiment_grid_electricity_feedin_price_renewables = 0.19;
+experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 

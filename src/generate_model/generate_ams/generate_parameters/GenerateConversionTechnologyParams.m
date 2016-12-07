@@ -100,15 +100,27 @@ if create_param_fixed_capital_costs == 1
     param_fixed_capital_costs = strcat(fixed_capital_costs,definition_string,'}\n\t\t\t};\n\t\t}');
 end
 
-%electricity feed-in price
-param_electricity_feedin_price = '';
-if create_param_electricity_feedin_price == 1
-    if length(grid_electricity_feedin_price) > 1
-        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
-        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tIndexDomain: t;\n\t\t}');
+%electricity feed-in price renewables
+param_electricity_feedin_price_renewables = '';
+if create_param_electricity_feedin_price_renewables == 1
+    if length(grid_electricity_feedin_price_renewables) > 1
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price_renewables));
+        param_electricity_feedin_price_renewables = strcat('\n\t\tParameter Electricity_feedin_price_renewables {\n\t\t\tIndexDomain: t;\n\t\t}');
     else
-        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price));
-        param_electricity_feedin_price = strcat('\n\t\tParameter Electricity_feedin_price {\n\t\t\tDefinition: ',num2str(grid_electricity_feedin_price),';\n\t\t}');
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price_renewables));
+        param_electricity_feedin_price_renewables = strcat('\n\t\tParameter Electricity_feedin_price_renewables {\n\t\t\tDefinition: ',num2str(grid_electricity_feedin_price_renewables),';\n\t\t}');
+    end
+end
+
+%electricity feed-in price nonrenewables
+param_electricity_feedin_price_nonrenewables = '';
+if create_param_electricity_feedin_price_nonrenewables == 1
+    if length(grid_electricity_feedin_price_nonrenewables) > 1
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price_nonrenewables));
+        param_electricity_feedin_price_nonrenewables = strcat('\n\t\tParameter Electricity_feedin_price_nonrenewables {\n\t\t\tIndexDomain: t;\n\t\t}');
+    else
+        definition_string = strcat('Elec:',num2str(grid_electricity_feedin_price_nonrenewables));
+        param_electricity_feedin_price_nonrenewables = strcat('\n\t\tParameter Electricity_feedin_price_nonrenewables {\n\t\t\tDefinition: ',num2str(grid_electricity_feedin_price_nonrenewables),';\n\t\t}');
     end
 end
 
@@ -513,5 +525,5 @@ end
 
 
 params_section = strcat(params_section,param_operating_costs,param_operating_costs_grid,param_OMV_costs,param_linear_capital_costs,param_fixed_capital_costs,...
-    param_electricity_feedin_price,param_int_rate,param_lifetimes,param_technology_CRF,param_C_matrix,param_capacity,param_capacity_grid,param_minimum_capacities,param_maximum_capacities,...
+    param_electricity_feedin_price_renewables,param_electricity_feedin_price_nonrenewables,param_int_rate,param_lifetimes,param_technology_CRF,param_C_matrix,param_capacity,param_capacity_grid,param_minimum_capacities,param_maximum_capacities,...
     param_min_capacity_grid,param_max_capacity_grid,param_minimum_part_load,param_installed_conversion_technologies);

@@ -173,6 +173,24 @@ if grid_connected_system == 1
     end
 end
 
+%% ADD NET METERING STORAGE
+
+if implement_net_metering == 1
+    technologies.storage_techs_names(end+1) = {'Net_meter'};
+    technologies.storage_techs_types(end+1) = {'Elec'};
+    technologies.storage_techs_lifetime(end+1) = 100;
+    technologies.storage_techs_capital_cost_variable(end+1) = 0;
+    technologies.storage_techs_capital_cost_fixed(end+1) = 0;
+    technologies.storage_techs_charging_efficiency(end+1) = 1;
+    technologies.storage_techs_discharging_efficiency(end+1) = 1;
+    technologies.storage_techs_decay(end+1) = 0;
+    technologies.storage_techs_max_charging_rate(end+1) = 1;
+    technologies.storage_techs_max_discharging_rate(end+1) = 1;
+    technologies.storage_techs_min_state_of_charge(end+1) = 0;
+    technologies.storage_techs_min_capacity(end+1) = 100000;
+    technologies.storage_techs_max_capacity(end+1) = 100000;
+end
+
 %% ADD OPERATING COSTS
 
 %add operating costs to the conversion technology data

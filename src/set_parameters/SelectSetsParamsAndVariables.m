@@ -14,7 +14,8 @@ create_param_linear_capital_costs = 0;
 create_param_fixed_capital_costs = 0;
 create_param_linear_storage_costs = 0;
 create_param_fixed_storage_costs = 0;
-create_param_electricity_feedin_price = 0;
+create_param_electricity_feedin_price_renewables = 0;
+create_param_electricity_feedin_price_nonrenewables = 0;
 create_param_int_rate = 0;
 create_param_lifetimes = 0;
 create_param_storage_lifetimes = 0;
@@ -59,7 +60,8 @@ create_variable_heat_output = 0;
 create_variable_cool_output = 0;
 create_variable_dhw_output = 0;
 create_variable_anergy_output = 0;
-create_variable_exported_energy = 0;
+create_variable_exported_energy_nonrenewable = 0;
+create_variable_exported_energy_renewable = 0;
 create_variable_technology_installation = 0;
 create_variable_technology_operation = 0;
 create_variable_technology_capacity = 0;
@@ -132,6 +134,13 @@ else
     end
 end
 
+%if we have net metering, we add an electrical storage, which in many cases
+%will mean multiple electrical storages.
+if implement_net_metering == 1
+    simplified_storage_representation = 0;
+end
+    
+
 %% SELECT SETS
 
 %these sets should always be created
@@ -156,7 +165,8 @@ create_param_big_M = 1;
 
 %to be created if the system is grid connected
 if grid_connected_system == 1
-    create_param_electricity_feedin_price = 1;
+    create_param_electricity_feedin_price_renewables = 1;
+    create_param_electricity_feedin_price_nonrenewables = 1;
     create_param_operating_costs_grid = 1;
     create_objectivefn_operating_cost_grid = 1;
 end
@@ -290,7 +300,8 @@ end
 
 %to be created if the system is grid connected
 if grid_connected_system == 1
-    create_variable_exported_energy = 1;
+    create_variable_exported_energy_nonrenewable = 1;
+    create_variable_exported_energy_renewable = 1;
     create_objectivefn_income_via_exports = 1;
 end
 

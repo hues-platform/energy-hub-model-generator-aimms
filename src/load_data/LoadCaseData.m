@@ -20,8 +20,11 @@ end
 if exist('aimms_model\energy_hub\solar_inputs.xlsx','file')==2
   delete('aimms_model\energy_hub\solar_inputs.xlsx');
 end
-if exist('aimms_model\energy_hub\electricity_feed_in_price.xlsx','file')==2
-  delete('aimms_model\energy_hub\electricity_feed_in_price.xlsx');
+if exist('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx','file')==2
+  delete('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx');
+end
+if exist('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx','file')==2
+  delete('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx');
 end
 if exist('aimms_model\energy_hub\electricity_costs.xlsx','file')==2
   delete('aimms_model\energy_hub\electricity_costs.xlsx');
@@ -164,9 +167,14 @@ if dynamic_electricity_price == 1
     xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
 end
 
-if dynamic_grid_feed_in_price == 1
-    grid_electricity_feed_in_price = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price.xlsx',grid_electricity_feed_in_price,'price');
+if dynamic_grid_feed_in_price_renewables == 1
+    grid_electricity_feedin_price_renewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_renewables.csv'));
+    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx',grid_electricity_feedin_price_renewables,'price');
+end
+
+if dynamic_grid_feed_in_price_nonrenewables == 1
+    grid_electricity_feedin_price_nonrenewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_nonrenewables.csv'));
+    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx',grid_electricity_feedin_price_nonrenewables,'price');
 end
 
 %% LOAD INSTALLED TECHNOLOGY DATA

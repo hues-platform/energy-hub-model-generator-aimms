@@ -21,6 +21,8 @@ apply_constraint_operation = 0;
 apply_constraint_grid_capacity_violation1 = 0;
 apply_constraint_grid_capacity_violation2 = 0;
 apply_constraint_solar_export = 0;
+apply_constraint_nonsolar_export = 0;
+apply_constraint_solar_export_with_net_metering = 0;
 apply_constraint_htp_ratio_heat = 0;
 apply_constraint_htp_ratio_dhw = 0;
 apply_constraint_htp_ratio_anergy = 0;
@@ -75,9 +77,14 @@ if isempty(technologies.conversion_techs_names) == 0
         apply_constraint_grid_capacity_violation1 = 1;
         apply_constraint_grid_capacity_violation2 = 1;
         
-        %only applicable if the system is grid connected and we want to limit grid feed-in to solar technologies
-        if limit_grid_feed_in_to_solar_techs == 1
+        if implement_net_metering == 0
             apply_constraint_solar_export = 1;
+            apply_constraint_nonsolar_export = 1;
+            apply_constraint_solar_export_with_net_metering = 0;
+        else
+            apply_constraint_solar_export = 0;
+            apply_constraint_nonsolar_export = 1;
+            apply_constraint_solar_export_with_net_metering = 1;
         end
     end
     

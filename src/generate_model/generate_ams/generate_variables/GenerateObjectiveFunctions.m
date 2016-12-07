@@ -33,10 +33,14 @@ if multiple_hubs == 0
     %equation for income via exports
     objectivefn_income_via_exports = '';
     if create_objectivefn_income_via_exports == 1
-        if length(grid_electricity_feedin_price) > 1
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price(t) * Exported_energy(t,x)));\n\t\t}';
+        if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x) + Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
+        elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + sum(t, Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
+        elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)) + sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x)));\n\t\t}';
         else
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price * sum(t, Exported_energy(t,x)));\n\t\t}';
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)));\n\t\t}';
         end
     end
 

@@ -42,7 +42,10 @@ Model Energy_Hub_Model {
 			data {(Elec,Gas_CHP):0,(Elec,Grid):0,(Elec,Solar_PV):0,(Heat,Electric_boiler):0,(Heat,Gas_boiler):0,(Heat,Heat_pump):0,(Heat,Solar_thermal):0}
 			};
 		}
-		Parameter Electricity_feedin_price {
+		Parameter Electricity_feedin_price_renewables {
+			IndexDomain: t;
+		}
+		Parameter Electricity_feedin_price_nonrenewables {
 			Definition:0;
 		}
 		Parameter Interest_rate {
@@ -147,7 +150,11 @@ Model Energy_Hub_Model {
 			IndexDomain: (t,conv);
 			Range: nonnegative;
 		}
-		Variable Exported_energy {
+		Variable Exported_energy_nonrenewable {
+			IndexDomain: (t,x) | x = "Elec";
+			Range: nonnegative;
+		}
+		Variable Exported_energy_renewable {
 			IndexDomain: (t,x) | x = "Elec";
 			Range: nonnegative;
 		}
@@ -266,7 +273,7 @@ Model Energy_Hub_Model {
 		}
 		Variable Income_via_exports {
 			Range: nonnegative;
-			Definition: sum(x | x = 'Elec', Electricity_feedin_price * sum(t, Exported_energy(t,x)));
+			Definition: sum(x | x = 'Elec', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)) + sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x)));
 		}
 		Variable Capital_cost {
 			Range: nonnegative;
@@ -284,7 +291,7 @@ Model Energy_Hub_Model {
 	DeclarationSection Constraints {
 		Constraint Load_balance_constraint {
 			IndexDomain: (t,x);
-			Definition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x) = Loads(t,x) + Exported_energy(t,x);
+			Definition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x);
 		}
 		Constraint Capacity_constraint {
 			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Electric_boiler' OR conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump');
@@ -327,11 +334,15 @@ Model Energy_Hub_Model {
 		}
 		Constraint Grid_capacity_violation_constraint_export {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: Exported_energy(t,x) <= Capacity_grid;
+			Definition: Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) <= Capacity_grid;
 		}
 		Constraint Electricity_export_solar_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: Exported_energy(t,x) <= sum(conv | (conv ='Solar_PV'), Input_energy(t,conv));
+			Definition: Exported_energy_renewable(t,x) <= sum(conv | (conv ='Solar_PV'), Input_energy(t,conv) * Cmatrix(x,conv));
+		}
+		Constraint Electricity_export_nonsolar_constraint {
+			IndexDomain: (t,x) | x='Elec';
+			Definition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv ='Gas_CHP'), Input_energy(t,conv) * Cmatrix(x,conv));
 		}
 		Constraint Heat_CHP_HTP_constraint {
 			IndexDomain: conv | (conv ='Gas_CHP');
@@ -416,62 +427,65 @@ Model Energy_Hub_Model {
 			Spreadsheet::RetrieveParameter( "electricity_demand.xlsx", Loads(t,'Elec'),"A1:A8760","electricity_demand");
 			Spreadsheet::RetrieveParameter( "heating_demand.xlsx", Loads(t,'Heat'),"A1:A8760","heating_demand");
 			Spreadsheet::RetrieveParameter( "solar_inputs.xlsx", Solar_radiation(t),"A1:A8760","solar");
+			Spreadsheet::RetrieveParameter( "electricity_feed_in_price_renewables.xlsx", Electricity_feedin_price_renewables(t),"A1:A8760","price");
 		}
 	}
 	Procedure Write_Output_Data {
 		Body: {
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_demands.xlsx","Energy_demands");
-			Spreadsheet::AssignTable("results/FlatPricing/results_demands.xlsx",Energy_demands,"B2:C8761","A2:A8761","B1:C1","Energy_demands",0,1,1);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_demands.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_conversion.xlsx","Input_energy");
-			Spreadsheet::AssignTable("results/FlatPricing/results_conversion.xlsx",Input_energy,"B2:H8761","A2:A8761","B1:H1","Input_energy",0,1,1);
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_conversion.xlsx","Exported_energy");
-			Spreadsheet::AssignTable("results/FlatPricing/results_conversion.xlsx",Exported_energy,"B2:C8761","A2:A8761","B1:C1","Exported_energy",0,1,1);
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_conversion.xlsx","Output_energy_electricity");
-			Spreadsheet::AssignTable("results/FlatPricing/results_conversion.xlsx",Output_energy_electricity,"B2:H8761","A2:A8761","B1:H1","Output_energy_electricity",0,1,1);
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_conversion.xlsx","Output_energy_heat");
-			Spreadsheet::AssignTable("results/FlatPricing/results_conversion.xlsx",Output_energy_heat,"B2:H8761","A2:A8761","B1:H1","Output_energy_heat",0,1,1);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_conversion.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_storage.xlsx","Storage_input_energy");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_storage.xlsx","Storage_output_energy");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_storage.xlsx","Storage_SOC");
-			Spreadsheet::AssignTable("results/FlatPricing/results_storage.xlsx",Storage_input_energy,"B2:C8761","A2:A8761","B1:C1","Storage_input_energy",0,1,1);
-			Spreadsheet::AssignTable("results/FlatPricing/results_storage.xlsx",Storage_output_energy,"B2:C8761","A2:A8761","B1:C1","Storage_output_energy",0,1,1);
-			Spreadsheet::AssignTable("results/FlatPricing/results_storage.xlsx",Storage_SOC,"B2:C8761","A2:A8761","B1:C1","Storage_SOC",0,1,1);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_storage.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_capacities.xlsx","Installation");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_capacities.xlsx","Capacity");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_capacities.xlsx","Storage_capacity");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_capacities.xlsx","Installation_storage");
-			Spreadsheet::AssignTable("results/FlatPricing/results_capacities.xlsx",Installation,"B2:H3","A2:A3","B1:H1","Installation",0,1,1);
-			Spreadsheet::AssignTable("results/FlatPricing/results_capacities.xlsx",Capacity,"B2:H3","A2:A3","B1:H1","Capacity",0,1,1);
-			Spreadsheet::AssignTable("results/FlatPricing/results_capacities.xlsx",Storage_capacity,"B1:B2","A1:A2","","Storage_capacity",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_capacities.xlsx",Installation_storage,"B1:B2","A1:A2","","Installation_storage",0,1,3);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_capacities.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_costs.xlsx","Operating_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Maintenance_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Capital_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Total_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Operating_cost_grid");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Total_cost_grid");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Capital_cost_per_storage");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Total_cost_per_storage");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_costs.xlsx","Income_via_exports");
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Maintenance_cost_per_technology,"B1:B8","A1:A8","","Maintenance_cost_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Capital_cost_per_technology,"B1:B8","A1:A8","","Capital_cost_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Operating_cost_per_technology,"B1:B7","A1:A7","","Operating_cost_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Total_cost_per_technology,"B1:B8","A1:A8","","Total_cost_per_technology",0,1,3);
-			Spreadsheet::AssignValue("results/FlatPricing/results_costs.xlsx",Operating_cost_grid,"A1:A1","Operating_cost_grid");
-			Spreadsheet::AssignValue("results/FlatPricing/results_costs.xlsx",Total_cost_grid,"A1:A1","Total_cost_grid");
-			Spreadsheet::AssignValue("results/FlatPricing/results_costs.xlsx",Income_via_exports,"A1:A1","Income_via_exports");
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Capital_cost_per_storage,"B1:B3","A1:A3","","Capital_cost_per_storage",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_costs.xlsx",Total_cost_per_storage,"B1:B3","A1:A3","","Total_cost_per_storage",0,1,3);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_costs.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/FlatPricing/results_emissions.xlsx","Total_carbon_per_technology");
-			Spreadsheet::AddNewSheet("results/FlatPricing/results_emissions.xlsx","Total_carbon_per_timestep");
-			Spreadsheet::AssignTable("results/FlatPricing/results_emissions.xlsx",Total_carbon_per_technology,"B1:B7","A1:A7","","Total_carbon_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/FlatPricing/results_emissions.xlsx",Total_carbon_per_timestep,"B1:B8760","A1:A8760","","Total_carbon_per_timestep",0,1,3);
-			Spreadsheet::CloseWorkbook("results/FlatPricing/results_emissions.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_demands.xlsx","Energy_demands");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_demands.xlsx",Energy_demands,"B2:C8761","A2:A8761","B1:C1","Energy_demands",0,1,1);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_demands.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_conversion.xlsx","Input_energy");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_conversion.xlsx",Input_energy,"B2:H8761","A2:A8761","B1:H1","Input_energy",0,1,1);
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_conversion.xlsx","Exported_energy_renewable");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_conversion.xlsx",Exported_energy_renewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_renewable",0,1,1);
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_conversion.xlsx","Exported_energy_nonrenewable");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_conversion.xlsx",Exported_energy_nonrenewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_nonrenewable",0,1,1);
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_conversion.xlsx","Output_energy_electricity");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_conversion.xlsx",Output_energy_electricity,"B2:H8761","A2:A8761","B1:H1","Output_energy_electricity",0,1,1);
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_conversion.xlsx","Output_energy_heat");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_conversion.xlsx",Output_energy_heat,"B2:H8761","A2:A8761","B1:H1","Output_energy_heat",0,1,1);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_conversion.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_storage.xlsx","Storage_input_energy");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_storage.xlsx","Storage_output_energy");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_storage.xlsx","Storage_SOC");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_storage.xlsx",Storage_input_energy,"B2:C8761","A2:A8761","B1:C1","Storage_input_energy",0,1,1);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_storage.xlsx",Storage_output_energy,"B2:C8761","A2:A8761","B1:C1","Storage_output_energy",0,1,1);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_storage.xlsx",Storage_SOC,"B2:C8761","A2:A8761","B1:C1","Storage_SOC",0,1,1);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_storage.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_capacities.xlsx","Installation");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_capacities.xlsx","Capacity");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_capacities.xlsx","Storage_capacity");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_capacities.xlsx","Installation_storage");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_capacities.xlsx",Installation,"B2:H3","A2:A3","B1:H1","Installation",0,1,1);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_capacities.xlsx",Capacity,"B2:H3","A2:A3","B1:H1","Capacity",0,1,1);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_capacities.xlsx",Storage_capacity,"B1:B2","A1:A2","","Storage_capacity",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_capacities.xlsx",Installation_storage,"B1:B2","A1:A2","","Installation_storage",0,1,3);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_capacities.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_costs.xlsx","Operating_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Maintenance_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Capital_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Total_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Operating_cost_grid");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Total_cost_grid");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Capital_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Total_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_costs.xlsx","Income_via_exports");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Maintenance_cost_per_technology,"B1:B8","A1:A8","","Maintenance_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Capital_cost_per_technology,"B1:B8","A1:A8","","Capital_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Operating_cost_per_technology,"B1:B7","A1:A7","","Operating_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Total_cost_per_technology,"B1:B8","A1:A8","","Total_cost_per_technology",0,1,3);
+			Spreadsheet::AssignValue("results/FIP_0.3/results_costs.xlsx",Operating_cost_grid,"A1:A1","Operating_cost_grid");
+			Spreadsheet::AssignValue("results/FIP_0.3/results_costs.xlsx",Total_cost_grid,"A1:A1","Total_cost_grid");
+			Spreadsheet::AssignValue("results/FIP_0.3/results_costs.xlsx",Income_via_exports,"A1:A1","Income_via_exports");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Capital_cost_per_storage,"B1:B3","A1:A3","","Capital_cost_per_storage",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_costs.xlsx",Total_cost_per_storage,"B1:B3","A1:A3","","Total_cost_per_storage",0,1,3);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_costs.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/FIP_0.3/results_emissions.xlsx","Total_carbon_per_technology");
+			Spreadsheet::AddNewSheet("results/FIP_0.3/results_emissions.xlsx","Total_carbon_per_timestep");
+			Spreadsheet::AssignTable("results/FIP_0.3/results_emissions.xlsx",Total_carbon_per_technology,"B1:B7","A1:A7","","Total_carbon_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/FIP_0.3/results_emissions.xlsx",Total_carbon_per_timestep,"B1:B8760","A1:A8760","","Total_carbon_per_timestep",0,1,3);
+			Spreadsheet::CloseWorkbook("results/FIP_0.3/results_emissions.xlsx",1);
 		}
 	}
 	Procedure Main_Termination {

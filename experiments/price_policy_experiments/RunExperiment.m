@@ -16,7 +16,7 @@ disp('EHM generated successfully!');
 
 %% EXECUTE AIMMS MODEL
 
-execute_energy_hub_model = 1;
+execute_energy_hub_model = 0;
 
 if execute_energy_hub_model == 1
     fprintf('Running AIMMS \n');
