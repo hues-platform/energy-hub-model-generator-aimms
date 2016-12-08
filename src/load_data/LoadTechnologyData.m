@@ -265,7 +265,7 @@ unique_technologies.conversion_techs_HTP_ratio = technologies.conversion_techs_H
 unique_technologies.conversion_techs_min_capacity = technologies.conversion_techs_min_capacity(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_max_capacity = technologies.conversion_techs_max_capacity(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_operating_costs = technologies.conversion_techs_operating_costs(unique_conversion_techs_indices);
-unique_technologies.conversion_techs_carbon_factors = technologies.conversion_techs_operating_costs(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_carbon_factors = technologies.conversion_techs_carbon_factors(unique_conversion_techs_indices);
 
 [C,ia,ic] = unique(technologies.storage_techs_names);
 unique_storage_techs_indices = ia;

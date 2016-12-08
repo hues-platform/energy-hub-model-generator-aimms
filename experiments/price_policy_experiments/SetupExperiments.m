@@ -44,7 +44,7 @@ experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-g
 
 %% FIT EXPERIMENTS
 
-for fit_level = 0.30
+for fit_level = 0:0.19:0.19
 %for fit_level = 0.0:0.05:0.30
 
     experiment_name = strcat('FIT_', num2str(fit_level));
@@ -65,11 +65,12 @@ end
 
 %% FIP EXPERIMENTS
 
-for fip_level = 0.30
+for fip_level = 0.19
 %for fip_level = 0.0:0.05:0.30
     
     spot_prices = csvread(strcat(experiment_path,'price_time_series\electricity_spot_prices.csv'));
     fip_time_series = spot_prices + fip_level;
+    fip_time_series = fip_time_series * fip_level / mean(fip_time_series); %scale the average to that of the FIT level
     csvwrite((strcat(experiment_path,'price_time_series\electricity_feed_in_price_renewables.csv')),fip_time_series);
 
     experiment_name = strcat('FIP_', num2str(fip_level));
