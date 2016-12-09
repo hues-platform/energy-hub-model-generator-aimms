@@ -8,10 +8,6 @@
 
 %% TODO
 
-% Create visualization code
-
-% Run experiments, adjust, repeat
-
 % BEFORE MERGING WITH MAIN BRANCH:
 
 % Fix the code for the test experiments and the generic energy hub basic

@@ -132,7 +132,7 @@ Model Energy_Hub_Model {
 			Definition: data {Elec:100000,Heat:100000 };
 		}
 		Parameter Building_roof_area {
-			Definition:2500;
+			Definition:12500;
 		}
 		Parameter Technology_carbon_factors {
 			IndexDomain: (conv);

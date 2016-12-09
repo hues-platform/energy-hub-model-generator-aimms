@@ -1,10 +1,12 @@
-%% DESCRIPTION OF THE SCENARIO
-% This is a simple scenario based on the generic energy hub model. 
+%% DESCRIPTION
+
+% This file sets the parameters for an experiment. Values may be manually
+% set here, or dynamically set in SetupExperiments.m
 
 %% SET THE SCENARIO NAME
 
 %used for saving the results
-scenario_name = 'generic_energy_hub_basic';
+scenario_name = experiment_name;
 
 %% CASE TO BE ANALYZED
 
@@ -46,19 +48,19 @@ grid_max_connection_capacity = 1000000;
 
 %% PRICE PARAMETERS
 
-dynamic_electricity_price = 0;
-
-grid_electricity_price = 0.24;
-grid_electricity_feedin_price = 0.14;
 gas_price = 0.09;
 carbon_price = 0;
 interest_rate = 0.08;
 
-if dynamic_electricity_price == 1
-    grid_electricity_price = csvread(strcat('scenarios\',scenario_name,'\electricity_costs.csv'));
-    grid_electricity_price = grid_electricity_price(:,3);
-    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
-end
+dynamic_electricity_price = 0;
+dynamic_grid_feed_in_price_renewables = 0;
+dynamic_grid_feed_in_price_nonrenewables = 0;
+
+grid_electricity_price = 0.24;
+grid_electricity_feedin_price_renewables = 0.14;
+grid_electricity_feedin_price_nonrenewables = 0.14;
+
+implement_net_metering = 0;
 
 %% CARBON PARAMETERS
 
