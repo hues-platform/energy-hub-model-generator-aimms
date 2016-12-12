@@ -30,7 +30,8 @@ clc
 
 %% SET THE PATH
 
-addpath(genpath('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms'));
+addpath(genpath('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\src'));
+addpath(genpath('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\price_policy_experiments'));
 
 %set this path to the root of the project
 cd('C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\');

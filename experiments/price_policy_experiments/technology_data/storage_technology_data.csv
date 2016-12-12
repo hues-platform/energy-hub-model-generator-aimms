@@ -5,7 +5,7 @@ Capital cost per kWh,430,40
 Capital cost fixed,0,0
 Charging efficiency,0.9,0.9
 Discharging efficiency,0.9,0.9
-Decay,0.001,0.01
+Decay,0.0001,0.001
 Maximum charging rate,0.3,0.25
 Maximum discharging rate,0.3,0.25
 Minimum state of charge,0,0
