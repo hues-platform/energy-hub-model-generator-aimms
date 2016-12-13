@@ -1,2 +1,49 @@
-Warning at line 3 in user-defined function section "Main_Execution".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(6,Elec,Grid)" and "Operation_constraint(21,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(6,Elec,Grid)" and "Operation_constraint(22,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(7,Elec,Grid)" and "Operation_constraint(22,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(7,Elec,Grid)" and "Operation_constraint(20,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(8,Elec,Grid)" and "Operation_constraint(20,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(8,Elec,Grid)" and "Operation_constraint(9,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(9,Elec,Grid)" and "Operation_constraint(10,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(4,Elec,Grid)" and "Operation_constraint(10,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(4,Elec,Grid)" and "Operation_constraint(23,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(23,Elec,Grid)" and "Operation_constraint(24,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(12,Elec,Grid)" and "Operation_constraint(24,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(12,Elec,Grid)" and "Operation_constraint(19,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(13,Elec,Grid)" and "Operation_constraint(19,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(3,Elec,Grid)" and "Operation_constraint(13,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(3,Elec,Grid)" and "Operation_constraint(18,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(17,Elec,Grid)" and "Operation_constraint(18,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(16,Elec,Grid)" and "Operation_constraint(17,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(15,Elec,Grid)" and "Operation_constraint(16,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(5,Elec,Grid)" and "Operation_constraint(15,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(1,Elec,Grid)" and "Operation_constraint(5,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(1,Elec,Grid)" and "Operation_constraint(14,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+The maximum of 20 warnings reached, further warnings suppressed.
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(11,Elec,Grid)" and "Operation_constraint(14,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
+The rows "Operation_constraint(2,Elec,Grid)" and "Operation_constraint(11,Elec,Grid)" are equal in the generated mathematical program "Cost_minimization".  This may lead to non-unique shadow prices.  For more information regarding potential causes and consequences, see the help associated with the option "Warning_duplicate_row".
+Warning at line 6 in user-defined function section "Main_Execution".
 The row "Storage_minimum_SOC_constraint(1,Elec)" with type >= is made obsolete because of row "Storage_initialization_constraint_electricity1(1,Elec)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
