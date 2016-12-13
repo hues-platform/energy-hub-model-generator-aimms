@@ -1,8 +1,0 @@
-Technology name,Heat pump,Gas boiler,Gas CHP,Solar PV,Solar thermal,Heat pump,Gas boiler,Gas CHP,Solar PV,Solar thermal
-Output type,Heat,Heat,"""Heat,Elec""",Elec,Heat,Heat,Heat,"""Heat,Elec""",Elec,Heat
-Input type,Elec,Gas,Gas,Solar,Solar,Elec,Gas,Gas,Solar,Solar
-Efficiency,3.2,0.94,0.3,0.14,0.46,3.2,0.94,0.3,0.14,0.46
-Minimum part load,0,0,0.5,0,0,0,0,0.5,0,0
-Heat to power ratio,0,0,1.73,0,0,0,0,1.73,0,0
-Capacity,100,100,50,0,0,100,100,50,0,0
-Node,1,1,1,1,1,2,2,2,2,2
