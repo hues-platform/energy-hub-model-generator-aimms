@@ -69,7 +69,7 @@ In addition to these two files, several additional files may be optionally creat
 6. a file titled "installed_network_technologies.csv" containing a description of network technologies already installed at the site.
 7. a file titled "network_data.csv" containing a description of the network structure.
 
-Each of these files must be formatted in a specific way, with specific properties defined on each row. See [INPUT_FILE_SPECIFICATION] for further details. 
+Each of these files must be formatted in a specific way, with specific properties defined on each row. See the [INPUT_FILE_SPECIFICATION](INPUT_FILE_SPECIFICATION.md) for further details. 
 
 For an example of how to structure and format the case study files, see experiments/generic_energy_hub_basic/case_data.
 
@@ -77,7 +77,7 @@ For an example of how to structure and format the case study files, see experime
 
 If you would like to optimize the selection and sizing of *energy conversion and storage technologies* for a given case, you must define the properties of the technologies to be considered. These should be defined in the "technology_data" directory in your newly created experiment folder.  
 
-Descriptions of energy conversion and storage technologies should be defined in a "conversion_technology_data.csv" file and a "storage_technology_data.csv"file, respectively, which should be placed within this directory. These files must be formatted in a specific way, with specific properties defined on each row.  See [INPUT_FILE_SPECIFICATION] for details on how to format these files.
+Descriptions of energy conversion and storage technologies should be defined in a "conversion_technology_data.csv" file and a "storage_technology_data.csv"file, respectively, which should be placed within this directory. These files must be formatted in a specific way, with specific properties defined on each row.  See the [INPUT_FILE_SPECIFICATION](INPUT_FILE_SPECIFICATION.md) for details on how to format these files.
 
 For an example of how to structure and format these files, see the default "conversion_technology_data.csv" and "storage_technology_data.csv" files in experiments/generic_energy_hub_basic/technology_data/. Note: In the current version of the Ehub Modeling Tool, it is not possible to generate models for optimizing the network technologies or topology.
 
