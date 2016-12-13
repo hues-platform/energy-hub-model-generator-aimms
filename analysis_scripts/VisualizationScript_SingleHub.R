@@ -20,10 +20,10 @@ library(sqldf)
 options(stringsAsFactors = FALSE)
 
 # set the working directory - the path to the directory where the results are stored
-setwd("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results")
+setwd("C:\\Users\\boa\\Documents\\Repositories_Github\\energy-hub-model-generator-aimms\\aimms_model\\energy_hub\\results")
 
 #set the experiments - list the names of the directories containing the XLSX results files from AIMMS
-experiments = c("FlatPricing","TOU","RTP","NetMetering","FIT_0.19","FIT_0","FIP_0.19")
+experiments = c("Generic_energy_hub_experiment_with_sizing")
 
 #create some dataframes for saving data
 results_capacity_heat <- data.frame(value=numeric(),technology=character(),experiment=character())
@@ -65,7 +65,7 @@ for(experiment in experiments) {
   
   ##### EXTRACT STORAGE CAPACITY DATA #####
   
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_capacities.xlsx",sep='')
+  filename = paste(experiment,"\\results_capacities.xlsx",sep='')
   data = read.xlsx(filename,"Storage_capacity",colNames=FALSE,rowNames=FALSE)
   
   if (experiment == "NetMetering") {
@@ -82,10 +82,10 @@ for(experiment in experiments) {
   ##### EXTRACT PRODUCTION DATA #####
   
   #electricity production
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_conversion.xlsx",sep='')
+  filename = paste(experiment,"\\results_conversion.xlsx",sep='')
   data = read.xlsx(filename,"Output_energy_electricity")
   
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_storage.xlsx",sep='')
+  filename = paste(experiment,"\\results_storage.xlsx",sep='')
   data_stor = read.xlsx(filename,"Storage_output_energy")
   
   data_stor <- data.frame(data_stor$Elec)
@@ -118,10 +118,10 @@ for(experiment in experiments) {
   results_total_production_elec <- rbind(results_total_production_elec,data_total_summed)
   
   #heat production
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_conversion.xlsx",sep='')
+  filename = paste(experiment,"\\results_conversion.xlsx",sep='')
   data = read.xlsx(filename,"Output_energy_heat")
   
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_storage.xlsx",sep='')
+  filename = paste(experiment,"\\results_storage.xlsx",sep='')
   data_stor = read.xlsx(filename,"Storage_output_energy")
   
   data_stor <- data.frame(data_stor$Heat)
@@ -145,7 +145,7 @@ for(experiment in experiments) {
   
   ##### EXTRACT COST DATA #####
   
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_costs.xlsx",sep='')
+  filename = paste(experiment,"\\results_costs.xlsx",sep='')
   data1 = read.xlsx(filename,"Total_cost_per_technology",colNames=FALSE)
   data2 = read.xlsx(filename,"Total_cost_grid",colNames=FALSE)
   data3 = read.xlsx(filename,"Total_cost_per_storage",colNames=FALSE)
@@ -173,7 +173,7 @@ for(experiment in experiments) {
   results_total_income$value <- as.numeric(results_total_income$value) 
   
   #EXTRACT THE CARBON EMISSIONS
-  filename = paste("H:\\papers\\BuildingSimulation2017\\data\\results_data\\results\\",experiment,"\\results_emissions.xlsx",sep='')
+  filename = paste(experiment,"\\results_emissions.xlsx",sep='')
   data = read.xlsx(filename,"Total_carbon_per_technology",colNames=FALSE)
   
   emissions <- data.frame(cbind(data,experiment))

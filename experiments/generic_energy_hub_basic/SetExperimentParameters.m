@@ -22,7 +22,7 @@ include_installed_technologies = experiment_include_installed_technologies;
 %% TIME VARIABLES
 
 timestep = 'hours';
-timesteps = 1:8760;
+timesteps = 1:24;
 number_of_timesteps = length(timesteps);
 
 %% ELECTRICITY GRID PARAMETERS
@@ -80,4 +80,4 @@ anergy_storage_initialization_method = 2;
 
 %set to 1 to execute the energy hub model automatically
 %set to 0 if you want to run the energy hub model manually
-execute_energy_hub_model = 0;
+execute_energy_hub_model = 1;

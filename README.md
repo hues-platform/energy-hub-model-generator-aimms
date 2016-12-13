@@ -123,4 +123,4 @@ The script will output a number of PNG files visualizing the results of your exp
 * Cumulative CO2 emissions per technology
 * Cumulative and weekly production values per technology
 
-In its current form, the visualization script has a number of limitations.  These are listed on the top lines of "VisualizationScript_SingleHub.R". The file has been constructed to be easily extensible and editable, and may be adapted to suit different needs.  Some knowledge of R is necessary for this.
+In its current form, the visualization script has a number of limitations, and may not work properly in some cases.  These limitations are listed on the top lines of "VisualizationScript_SingleHub.R". The file has been constructed to be easily extensible and editable, and may be adapted to suit different needs.  Some knowledge of R is necessary for this.
