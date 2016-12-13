@@ -56,6 +56,7 @@ for fit_level = 0:0.19:0.19
     
     experiment_implement_net_metering = 0;
     
+    SetExperimentParameters
     RunExperiment
 
 end
@@ -82,6 +83,7 @@ for fip_level = 0.19
     
     experiment_implement_net_metering = 0;
     
+    SetExperimentParameters
     RunExperiment
 
 end
@@ -100,6 +102,7 @@ experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 1;
 
+SetExperimentParameters
 RunExperiment
 
 
@@ -126,6 +129,7 @@ experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 
+SetExperimentParameters
 RunExperiment
 
 %% TOU PRICING EXPERIMENTS
@@ -144,6 +148,7 @@ experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 
+SetExperimentParameters
 RunExperiment
 
 %% FLAT PRICING EXPERIMENTS
@@ -160,6 +165,24 @@ experiment_grid_electricity_feedin_price_nonrenewables = 0;
 
 experiment_implement_net_metering = 0;
 
+SetExperimentParameters
 RunExperiment
 
-%%
+%% COMBINED NET METERING / TOU EXPERIMENT
+
+experiment_name = 'Combined_NM_TOU';
+
+copyfile(strcat(experiment_path,'price_time_series\TOU_prices.csv'),strcat(experiment_path,'price_time_series\electricity_costs.csv'));
+
+experiment_dynamic_electricity_price = 1;
+experiment_dynamic_grid_feed_in_price_renewables = 0;
+experiment_dynamic_grid_feed_in_price_nonrenewables = 0;
+
+experiment_grid_electricity_price = 0;
+experiment_grid_electricity_feedin_price_renewables = 0;
+experiment_grid_electricity_feedin_price_nonrenewables = 0;
+
+experiment_implement_net_metering = 1;
+
+SetExperimentParameters
+RunExperiment

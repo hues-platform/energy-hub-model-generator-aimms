@@ -64,3 +64,7 @@ heat_storage_initialization_method = 2;
 cool_storage_initialization_method = 2;
 dhw_storage_initialization_method = 2;
 anergy_storage_initialization_method = 2;
+
+%% RUN OPTIONS
+
+execute_energy_hub_model = 1;

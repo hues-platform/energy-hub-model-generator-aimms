@@ -105,7 +105,15 @@ else
     %equation for income via exports
     objectivefn_income_via_exports = '';
     if create_objectivefn_income_via_exports == 1
-        objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x, Electricity_feedin_price(x) * sum((t,h), Exported_energy(t,x,h)));\n\t\t}';
+        if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum((t,h), Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x,h) + Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x,h)));\n\t\t}';
+        elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum((t,h), Exported_energy_renewable(t,x,h)) + sum((t,h), Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x,h)));\n\t\t}';
+        elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum((t,h), Exported_energy_nonrenewable(t,x,h)) + sum((t,h), Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x,h)));\n\t\t}';
+        else
+            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum((t,h), Exported_energy_renewable(t,x,h)) + Electricity_feedin_price_nonrenewables * sum((t,h), Exported_energy_nonrenewable(t,x,h)));\n\t\t}';
+        end
     end
 
     %equation for total investment costs for the energy hub

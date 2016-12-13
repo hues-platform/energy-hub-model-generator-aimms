@@ -8,10 +8,6 @@
 %used for saving the results
 scenario_name = experiment_name;
 
-%% CASE TO BE ANALYZED
-
-case_study = 'generic_energy_hub';
-
 %% OBJECTIVE AND THE TYPE OF OPTIMIZATION
 
 %objectives
@@ -20,8 +16,8 @@ case_study = 'generic_energy_hub';
 objective = 1;
 
 %select technologies and do sizing?
-select_techs_and_do_sizing = 1;
-include_installed_technologies = 0;
+select_techs_and_do_sizing = experiment_select_techs_and_do_sizing;
+include_installed_technologies = experiment_include_installed_technologies;
 
 %% TIME VARIABLES
 
@@ -79,3 +75,9 @@ heat_storage_initialization_method = 2;
 cool_storage_initialization_method = 2;
 dhw_storage_initialization_method = 2;
 anergy_storage_initialization_method = 2;
+
+%% RUN OPTIONS
+
+%set to 1 to execute the energy hub model automatically
+%set to 0 if you want to run the energy hub model manually
+execute_energy_hub_model = 0;

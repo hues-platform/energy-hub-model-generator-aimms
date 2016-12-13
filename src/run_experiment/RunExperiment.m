@@ -1,22 +1,18 @@
+%% DESCRIPTION
 
+% This script executes an experiment defined in SetupExperiments.m
 
-%% SET THE SCENARIO
-
-Scenario_PricePolicyExperiments
-
-%% SET SOME OPTIONS
+%% SET SOME DATA OUTPUT OPTIONS
 
 SetDataOutputOptions
 
-%% GENERATE MODEL
+%% GENERATE THE ENERGY HUB MODEL CODE
 
 GenerateModel
 
 disp('EHM generated successfully!');
 
-%% EXECUTE AIMMS MODEL
-
-execute_energy_hub_model = 1;
+%% EXECUTE THE ENERGY HUB MODEL IN AIMMS
 
 if execute_energy_hub_model == 1
     fprintf('Running AIMMS \n');
@@ -27,4 +23,6 @@ if execute_energy_hub_model == 1
     disp('EHM executed successfully!');
 end
 
-%%
+%% VISUALIZE THE RESULTS
+
+%not yet completed

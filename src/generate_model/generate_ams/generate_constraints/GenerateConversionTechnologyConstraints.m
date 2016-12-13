@@ -257,7 +257,7 @@ if apply_constraint_grid_capacity_violation2 == 1
     if multiple_hubs == 0
         constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) <= Capacity_grid;\n\t\t}';
     else
-        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x)) <= Capacity_grid;\n\t\t}';
+        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h)) <= Capacity_grid;\n\t\t}';
     end
 end
 
