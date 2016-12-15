@@ -67,4 +67,4 @@ anergy_storage_initialization_method = 2;
 
 %% RUN OPTIONS
 
-execute_energy_hub_model = 1;
+execute_energy_hub_model = 0;

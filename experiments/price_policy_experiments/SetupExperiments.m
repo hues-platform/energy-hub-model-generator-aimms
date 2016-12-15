@@ -41,7 +41,7 @@ experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-g
 
 %% FIT EXPERIMENTS
 
-for fit_level = 0:0.19:0.19
+for fit_level = 0.19
 %for fit_level = 0.0:0.05:0.30
 
     experiment_name = strcat('FIT_', num2str(fit_level));
