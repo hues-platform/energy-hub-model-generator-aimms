@@ -1,7 +1,7 @@
 # TODO
 
 ## PRIORITY
-Fix the generic energy hub model. It seems to be hanging since the latest changes.
+Th: Fix the generic energy hub model. It seems to be hanging since the latest changes.
 
 Automatic identification and setting of energy carriers based on technology and case study input files. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names.
 
