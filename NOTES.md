@@ -1,13 +1,24 @@
 # TODO
 
 ## PRIORITY
-Th: Fix the generic energy hub model. It seems to be hanging since the latest changes.
+Check the things that you adjusted in the current ams file to find the minor things that need to be fixed.
+
+Fix the generic energy hub model. It seems to be hanging since the latest changes. The cause seems to be a combination of the nonzero part load constraint for CHP and the "CHP installation constraint". When the CHP installation constraint sets capacity <= the max, it hangs. When = max, it executes successfully. Check the following:
+* How long does it take to actually solve with both nonzero min part load and the existing CHP installation constraint?
+* Do other technologies have this same problem when you implement nonzero min part load?
+* Does min part load work when you're just optimizing operation?
+Possible easy solution is to remove nonzero min part load of CHP (and others) from the generic energy hub test model.
+NOTE: It still works with shorter time horizons, so it's just a matter of solving difficulty.
+
+The tool unnecessarily creates a lot of variables and constraints in some situations, e.g. for the generic energy hub model.  Only those should be created that are relevant.
 
 Automatic identification and setting of energy carriers based on technology and case study input files. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names.
 
 Add some further documentation of the code structure.
 
-Improve visualization code for single hub analyses
+Improve visualization code for single hub analyses.
+
+Adding custom constraints. How can this be done?
 
 ## MULTI-HUB IMPROVEMENTS
 Implement possibility to optimize the size and structure of a network
