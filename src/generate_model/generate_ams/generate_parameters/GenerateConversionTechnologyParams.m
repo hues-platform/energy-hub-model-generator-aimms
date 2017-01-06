@@ -469,9 +469,9 @@ anergy_technology_minimum_part_load = unique_technologies.conversion_techs_min_p
 
 if create_param_minimum_part_load == 1
     index_domain_string = '';
-    for t=1:length(dispatchable_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(dispatchable_technologies(t)),'''');
-        if t < length(dispatchable_technologies)
+    for t=1:length(technologies_excluding_grid)
+        index_domain_string = strcat(index_domain_string,'''',char(technologies_excluding_grid(t)),'''');
+        if t < length(technologies_excluding_grid)
              index_domain_string = strcat(index_domain_string,' OR conv = '); 
         end
     end

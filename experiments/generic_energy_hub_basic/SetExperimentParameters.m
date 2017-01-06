@@ -29,6 +29,7 @@ number_of_timesteps = length(timesteps);
 
 grid_connected_system = 1;
 size_grid_connection = 0;
+enforce_capacity_constraints_of_grid_connection = 0;
 
 %only used if the grid connection is not being sized
 grid_connection_capacity = 1000000;
@@ -39,7 +40,7 @@ grid_initial_connection_cost_per_kW = 0;
 grid_initial_connection_cost_fixed = 0;
 grid_connection_cost_per_kW = 0;
 grid_connection_cost_fixed = 0;
-grid_min_connection_capacity = 1000000;
+grid_min_connection_capacity = 0;
 grid_max_connection_capacity = 1000000;
 
 %% PRICE PARAMETERS

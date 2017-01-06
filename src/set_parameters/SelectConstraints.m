@@ -70,13 +70,19 @@ if isempty(technologies.conversion_techs_names) == 0
     apply_constraint_energy_balance = 1;
     apply_constraint_capacity = 1;
     apply_constraint_dispatch = 1;
-    apply_constraint_min_part_load = 1;
+    
+    %only applicable if the min part load of technologies > 0
+    if sum(technologies.conversion_techs_min_part_load) > 0
+        apply_constraint_min_part_load = 1;
+    end
     
     %only applicable if the system is grid connected
-    if grid_connected_system == 1
+    if grid_connected_system == 1 && enforce_capacity_constraints_of_grid_connection == 1
         apply_constraint_grid_capacity_violation1 = 1;
         apply_constraint_grid_capacity_violation2 = 1;
-        
+    end
+    
+    if grid_connected_system == 1
         if implement_net_metering == 0
             apply_constraint_solar_export = 1;
             apply_constraint_nonsolar_export = 1;
@@ -89,7 +95,7 @@ if isempty(technologies.conversion_techs_names) == 0
     end
     
     %only applicable if the system is grid connected and we're doing selection/sizing
-    if grid_connected_system == 1 && select_techs_and_do_sizing == 1
+    if grid_connected_system == 1 && select_techs_and_do_sizing == 1 && size_grid_connection == 1 && enforce_capacity_constraints_of_grid_connection == 1
         apply_constraint_min_capacity_grid = 1;
         apply_constraint_max_capacity_grid = 1;
     end
@@ -109,10 +115,14 @@ if isempty(technologies.conversion_techs_names) == 0
 
     %only applicable if you're doing sizing & tech selection of conversion techs
     if select_techs_and_do_sizing == 1
-        apply_constraint_min_capacity = 1;
         apply_constraint_max_capacity = 1;
         apply_constraint_installation = 1;
         apply_constraint_operation = 1;
+        
+        %only applicable if there are conversion techs with nonzero minimum capacities
+        if sum(technologies.conversion_techs_min_capacity) > 0
+            apply_constraint_min_capacity = 1;
+        end
     end
 
     %only applicable if you're doing sizing & tech selection AND are considering CHP techs
@@ -161,8 +171,12 @@ if isempty(technologies.storage_techs_names) == 0
     %only applicable if you're doing sizing and tech selection of storage
     if select_techs_and_do_sizing == 1
         apply_constraint_installation_storage = 1;
-        apply_constraint_min_capacity_storage = 1;
         apply_constraint_max_capacity_storage = 1;
+        
+        %only applicable if any storage techs have a min capacity > 0
+        if sum(technologies.storage_techs_min_capacity) > 0
+            apply_constraint_min_capacity_storage = 1;
+        end
     end
 end
 

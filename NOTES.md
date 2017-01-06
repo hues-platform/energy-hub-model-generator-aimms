@@ -1,7 +1,19 @@
 # TODO
 
 ## PRIORITY
-Check the things that you adjusted in the current ams file to find the minor things that need to be fixed.
+X Add solar techs to Minimum_part_load parameter.
+X Don't set min and max allowed grid capacity params when you're not sizing the grid. Why are you sizing the grid connection in the generic energy hub model?
+X Create an option to ignore grid capacity constraints, which then gets rid of the grid capacity param, variable Capacity_grid, and the Grid_capacity_violation_constraint import and export.
+X Dont create Storage_minimum_capacity_constraint when the min allowed capacities of all storages are zero
+X Don't create min part load param and min part load constaints when min part load is zero.
+X Don't create the Minimum_capacity_constraint when all conv have min capacity of zero
+X Adjust and rename the CHP installation constraint -> remove installation from the equation (this is set by the installation param), and rename it the CHP capacity constraint.
+X Add the enforce grid capacity variable in the test experiments and the price policy experiment
+Test the test scripts to make sure the changes work there.
+
+Check why you're getting the Aimms warnings.
+
+Add your generic energy hub model to the model repository.
 
 Fix the generic energy hub model. It seems to be hanging since the latest changes. The cause seems to be a combination of the nonzero part load constraint for CHP and the "CHP installation constraint". When the CHP installation constraint sets capacity <= the max, it hangs. When = max, it executes successfully. Check the following:
 * How long does it take to actually solve with both nonzero min part load and the existing CHP installation constraint?
@@ -10,9 +22,7 @@ Fix the generic energy hub model. It seems to be hanging since the latest change
 Possible easy solution is to remove nonzero min part load of CHP (and others) from the generic energy hub test model.
 NOTE: It still works with shorter time horizons, so it's just a matter of solving difficulty.
 
-The tool unnecessarily creates a lot of variables and constraints in some situations, e.g. for the generic energy hub model.  Only those should be created that are relevant.
-
-Automatic identification and setting of energy carriers based on technology and case study input files. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names.
+Automatic identification and setting of energy carriers based on technology and case study input files. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names. This goes together with the CHP constraints -> CHP constraints should be more generic to deal with any type of technology with more than one type of input or output.  Probably you'll have to set the max inputs/outputs per tech to 2.
 
 Add some further documentation of the code structure.
 

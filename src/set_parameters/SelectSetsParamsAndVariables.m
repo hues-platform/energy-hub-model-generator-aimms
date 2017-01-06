@@ -172,12 +172,12 @@ if grid_connected_system == 1
 end
 
 %to be created if the system is grid connected and we're not doing selection/sizing
-if grid_connected_system == 1 && select_techs_and_do_sizing == 0
+if grid_connected_system == 1 && select_techs_and_do_sizing == 0 && enforce_capacity_constraints_of_grid_connection == 1
     create_param_capacity_grid = 1;
 end
 
 %to be created if the system is grid connected and we're doing selection/sizing
-if grid_connected_system == 1 && select_techs_and_do_sizing == 1
+if grid_connected_system == 1 && select_techs_and_do_sizing == 1 && size_grid_connection == 1 && enforce_capacity_constraints_of_grid_connection == 1
     create_param_min_capacity_grid = 1;
     create_param_max_capacity_grid = 1;
 end
@@ -185,9 +185,13 @@ end
 %to be created if there are energy conversion techs
 if isempty(technologies.conversion_techs_names) == 0
     create_param_OMV_costs = 1;
-    create_param_minimum_part_load = 1;
     create_param_carbon_factors = 1;
     create_param_operating_costs = 1;
+    
+    %only applicable if the min part load of technologies > 0
+    if sum(technologies.conversion_techs_min_part_load) > 0
+        create_param_minimum_part_load = 1;
+    end
 
     %to be created if there are pre-installed conversion techs & you're doing selection/sizing
     if include_installed_technologies == 1 && isempty(installed_technologies.conversion_techs_names) == 0 && select_techs_and_do_sizing == 1
@@ -206,8 +210,12 @@ if isempty(technologies.conversion_techs_names) == 0
         create_param_technology_CRF = 1;
         create_param_int_rate = 1;
         create_param_lifetimes = 1;
-        create_param_minimum_capacities = 1;
         create_param_maximum_capacities = 1;
+        
+        %only applicable if there are conversion techs with nonzero minimum capacities
+        if sum(technologies.conversion_techs_min_capacity) > 0
+            create_param_minimum_capacities = 1;
+        end
     end
 end
 
@@ -306,7 +314,7 @@ if grid_connected_system == 1
 end
 
 %to be created if the system is grid connected and we're doing selection/sizing
-if grid_connected_system == 1 && select_techs_and_do_sizing == 1
+if grid_connected_system == 1 && select_techs_and_do_sizing == 1 && enforce_capacity_constraints_of_grid_connection == 1
     create_variable_grid_capacity = 1;
 end
 

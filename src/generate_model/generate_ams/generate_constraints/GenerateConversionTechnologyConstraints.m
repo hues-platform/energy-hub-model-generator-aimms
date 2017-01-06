@@ -430,9 +430,9 @@ if apply_constraint_chp2 == 1
         end
     end
     if multiple_hubs == 0
-        constraint_chp2 = strcat('\n\t\tConstraint CHP_installation_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv) <= Max_allowable_capacity(conv) * Installation(''Elec'',conv);\n\t\t}');
+        constraint_chp2 = strcat('\n\t\tConstraint CHP_max_capacity_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv) <= Max_allowable_capacity(conv);\n\t\t}');
     else
-        constraint_chp2 = strcat('\n\t\tConstraint CHP_installation_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv,h) <= Max_allowable_capacity(conv) * Installation(''Elec'',conv,h);\n\t\t}');
+        constraint_chp2 = strcat('\n\t\tConstraint CHP_max_capacity_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv,h) <= Max_allowable_capacity(conv);\n\t\t}');
     end
 end
 
