@@ -134,9 +134,9 @@ if apply_constraint_solar_availability == 1
         end
     end
     if multiple_hubs == 0
-        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv) = Solar_radiation(t) * Capacity(x,conv) / 1000;\n\t\t}');
+        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv) <= Solar_radiation(t) * Capacity(x,conv) / 1000;\n\t\t}');
     else
-        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x,h) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv,h) = Solar_radiation(t,h) * Capacity(x,conv,h) / 1000;\n\t\t}');
+        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x,h) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv,h) <= Solar_radiation(t,h) * Capacity(x,conv,h) / 1000;\n\t\t}');
     end
 end
 

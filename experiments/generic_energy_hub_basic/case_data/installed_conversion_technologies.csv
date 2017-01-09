@@ -4,5 +4,5 @@ Input type,Elec,Gas,Gas,Gas,Gas,Solar,Solar
 Efficiency,3.2,0.94,0.3,0.3,0.3,0.14,0.46
 Minimum part load,0,0,0,0,0,0,0
 Heat to power ratio,0,0,1.73,1.73,1.73,0,0
-Capacity,100,100,50,50,50,0,0
+Capacity,100,100,50,50,50,50,50
 Node,1,1,1,1,1,1,1
