@@ -55,11 +55,7 @@ create_param_link_losses = 0;
 create_param_link_capacity = 0;
 
 create_variable_input_streams = 0;
-create_variable_electricity_output = 0;
-create_variable_heat_output = 0;
-create_variable_cool_output = 0;
-create_variable_dhw_output = 0;
-create_variable_anergy_output = 0;
+create_variables_energy_output = 0;
 create_variable_exported_energy_nonrenewable = 0;
 create_variable_exported_energy_renewable = 0;
 create_variable_technology_installation = 0;
@@ -101,10 +97,12 @@ create_objectivefn_total_cost = 0;
 %determine whether to use a simplified storage representation
 % (this increases speed by representing storage technologies in terms of their energy carrier, rather than as individual technologies)
 if multiple_hubs == 0
-    if length(electricity_storage_technologies) > 1 || length(heat_storage_technologies) > 1 || length(cool_storage_technologies) > 1 || length(dhw_storage_technologies) > 1 || length(anergy_storage_technologies) > 1
-        simplified_storage_representation = 0;
-    else
-        simplified_storage_representation = 1;
+    simplified_storage_representation = 1;
+    for x = energy_outputs
+        storage_techs_of_type_x = find(strcmp(unique_technologies.storage_techs_types,x));
+        if length(storage_techs_of_type_x) > 1
+            simplified_storage_representation = 0;
+        end
     end
 else
     simplified_storage_representation = 1;
@@ -283,28 +281,12 @@ end
 
 %these variables should always be created
 create_variable_input_streams = 1;
+create_variables_energy_output = 1;
 create_objectivefn_operating_cost = 1;
 create_objectivefn_maintenance_cost = 1;
 create_objectivefn_maintenance_cost_per_timestep = 1;
 create_objectivefn_total_carbon = 1;
 create_objectivefn_total_cost = 1;
-
-%these variables should be created depending on the energy outputs
-if ismember('Elec',technologies.conversion_techs_outputs) == 1
-    create_variable_electricity_output = 1;
-end
-if ismember('Heat',technologies.conversion_techs_outputs) == 1
-    create_variable_heat_output = 1;
-end
-if ismember('Cool',technologies.conversion_techs_outputs) == 1
-    create_variable_cool_output = 1;
-end
-if ismember('DHW',technologies.conversion_techs_outputs) == 1
-    create_variable_dhw_output = 1;
-end
-if ismember('Anergy',technologies.conversion_techs_outputs) == 1
-    create_variable_anergy_output = 1;
-end
 
 %to be created if the system is grid connected
 if grid_connected_system == 1

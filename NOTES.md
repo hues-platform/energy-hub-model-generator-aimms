@@ -53,31 +53,32 @@ based on the demand inputs, identify the demand types
 based on the technology outputs in the technology and case inputs files, identify the relevant carriers
 
 Technology and case study input files:
-Change output type row to two rows, output type 1 and output type 2
-Change heat to power ratio row to ratio of output type 2 to 1. Note that input capacity and efficiency are wrt output type 1.
+X Change output type row to two rows, output type 1 and output type 2
+X Change heat to power ratio row to ratio of output type 2 to 1. Note that input capacity and efficiency are wrt output type 1.
 You might need to add a row for type of storage, with the options thermal or electrical (additional types could be added later, e.g. hydrogen). This may be necessary, but I'm not sure actually.
 
 SetExperimentParameters.m
-It should only be possible to set one way of initializing storages, not different ones for different energy carriers. Change the variables accordingly.
+X It should only be possible to set one way of initializing storages, not different ones for different energy carriers. Change the variables accordingly.
 
 LoadCaseData.m: 
-Code for cleaning up of input files has to be adjusted -> just delete all the xlsx files in that folder, or put these in a new folder and just delete the contents each time, maybe that's easier.
-Create a loop to iterate through the demand types and create the necessary input files. The consider_cooling_demand, etc. variables may not be necessary anymore.
-Adjust the code for reading in the technology params from the case study file to reflect the modified structure of the installed technologies file
+X Code for cleaning up of input files has to be adjusted -> just delete all the xlsx files in that folder, or put these in a new folder and just delete the contents each time, maybe that's easier.
+X Create a loop to iterate through the demand types and create the necessary input files. The consider_cooling_demand, etc. variables may not be necessary anymore.
+X Adjust the code for reading in the technology params from the case study file to reflect the modified structure of the installed technologies file
+NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
 
 LoadTechnologyData.m
-Note: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
-Change the code for getting a unique list of the energy outputs
-Remove the variables at the bottom that require stating specific energy carriers/demands.
-Adjust the code for reading in the technology params from the technology file to reflect the modified structure of the technologies file, also adjust this elsewhere in LoadTechnologyData.m.
+NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
+X Change the code for getting a unique list of the energy outputs
+X Remove the variables at the bottom that require stating specific energy carriers/demands.
+X Adjust the code for reading in the technology params from the technology file to reflect the modified structure of the technologies file, also adjust this elsewhere in LoadTechnologyData.m.
 
 SelectConstraints.m
-Remove the constraints for storage initialization for all energy carriers and reduce to a single set of constraints that apply to all storages.
-Replace the constraints having to do with CHP with modified ones as appropriate
+X Remove the constraints for storage initialization for all energy carriers and reduce to a single set of constraints that apply to all storages.
+X Replace the constraints having to do with CHP with modified ones as appropriate
 
 SelectSetsParamsAndVariables.m
-Replace energy output variables with a generic one.
-Modify the code for selecting a form of storage representation.
+X Replace energy output variables with a generic one.
+Modify the code for selecting a form of storage representation. -> still need to complete this for multi-hub case
 
 GenerateConversionTechnologyParams.m
 Adjust code for Linear_capital_costs param -> just print output type 1 instead of iterating through the different output types.
@@ -98,6 +99,8 @@ Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the wa
 Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
 Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
 Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
+Create a constraint for the input ratios
+CHP capacity constraint can just be integrated with the normal capacity constraint now.
 
 GenerateStorageTechnologyInitializationConstraints.m
 Modify all of the constraints in this file

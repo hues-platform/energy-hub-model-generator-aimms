@@ -7,18 +7,21 @@ if select_techs_and_do_sizing == 1
     [num,text,raw] = xlsread(filename);
 
     technologies.conversion_techs_names = raw(1,2:end);
-    technologies.conversion_techs_outputs = raw(2,2:end);
-    technologies.conversion_techs_inputs = raw(3,2:end);
-    technologies.conversion_techs_lifetime = num(1,1:end);
-    technologies.conversion_techs_capital_cost_variable = num(2,1:end);
-    technologies.conversion_techs_capital_cost_fixed = num(3,1:end);
-    technologies.conversion_techs_OM_cost_variable = num(4,1:end);
-    technologies.conversion_techs_OM_cost_fixed = num(5,1:end);
-    technologies.conversion_techs_efficiency = num(6,1:end);
-    technologies.conversion_techs_min_part_load = num(7,1:end);
-    technologies.conversion_techs_HTP_ratio = num(8,1:end);
-    technologies.conversion_techs_min_capacity = num(9,1:end);
-    technologies.conversion_techs_max_capacity = num(10,1:end);
+    technologies.conversion_techs_outputs_1 = raw(2,2:end);
+    technologies.conversion_techs_outputs_2 = raw(3,2:end);
+    technologies.conversion_techs_inputs_1 = raw(4,2:end);
+    technologies.conversion_techs_inputs_2 = raw(5,2:end);
+    technologies.conversion_techs_lifetime = cell2mat(raw(6,2:end));
+    technologies.conversion_techs_capital_cost_variable = cell2mat(raw(7,2:end));
+    technologies.conversion_techs_capital_cost_fixed = cell2mat(raw(8,2:end));
+    technologies.conversion_techs_OM_cost_variable = cell2mat(raw(9,2:end));
+    technologies.conversion_techs_OM_cost_fixed = cell2mat(raw(10,2:end));
+    technologies.conversion_techs_efficiency = cell2mat(raw(11,2:end));
+    technologies.conversion_techs_min_part_load = cell2mat(raw(12,2:end));
+    technologies.conversion_techs_output_ratio = cell2mat(raw(13,2:end));
+    technologies.conversion_techs_input_ratio = cell2mat(raw(14,2:end));
+    technologies.conversion_techs_min_capacity = cell2mat(raw(15,2:end));
+    technologies.conversion_techs_max_capacity = cell2mat(raw(16,2:end));
 
     % read the storage technology data
     filename = strcat(experiment_path,'technology_data\storage_technology_data.csv');
@@ -49,8 +52,10 @@ else
     
     %create empty conversion technology variables
     technologies.conversion_techs_names = [];
-    technologies.conversion_techs_outputs = [];
-    technologies.conversion_techs_inputs = [];
+    technologies.conversion_techs_outputs_1 = [];
+    technologies.conversion_techs_outputs_2 = [];
+    technologies.conversion_techs_inputs_1 = [];
+    technologies.conversion_techs_inputs_2 = [];
     technologies.conversion_techs_lifetime = [];
     technologies.conversion_techs_capital_cost_variable = [];
     technologies.conversion_techs_capital_cost_fixed = [];
@@ -58,7 +63,8 @@ else
     technologies.conversion_techs_OM_cost_fixed = [];
     technologies.conversion_techs_efficiency = [];
     technologies.conversion_techs_min_part_load = [];
-    technologies.conversion_techs_HTP_ratio = [];
+    technologies.conversion_techs_output_ratio = [];
+    technologies.conversion_techs_input_ratio = [];
     technologies.conversion_techs_min_capacity = [];
     technologies.conversion_techs_max_capacity = [];
     
@@ -91,8 +97,10 @@ if include_installed_technologies == 1
         number_of_installed_conversion_techs = length(installed_technologies.conversion_techs_names);
 
         technologies.conversion_techs_names = horzcat(technologies.conversion_techs_names,installed_technologies.conversion_techs_names);
-        technologies.conversion_techs_outputs = horzcat(technologies.conversion_techs_outputs,installed_technologies.conversion_techs_outputs);
-        technologies.conversion_techs_inputs = horzcat(technologies.conversion_techs_inputs,installed_technologies.conversion_techs_inputs);
+        technologies.conversion_techs_outputs_1 = horzcat(technologies.conversion_techs_outputs_1,installed_technologies.conversion_techs_outputs_1);
+        technologies.conversion_techs_outputs_2 = horzcat(technologies.conversion_techs_outputs_2,installed_technologies.conversion_techs_outputs_2);
+        technologies.conversion_techs_inputs_1 = horzcat(technologies.conversion_techs_inputs_1,installed_technologies.conversion_techs_inputs_1);
+        technologies.conversion_techs_inputs_2 = horzcat(technologies.conversion_techs_inputs_2,installed_technologies.conversion_techs_inputs_2);
         technologies.conversion_techs_lifetime = horzcat(technologies.conversion_techs_lifetime,zeros(1,number_of_installed_conversion_techs));
         technologies.conversion_techs_capital_cost_variable = horzcat(technologies.conversion_techs_capital_cost_variable,zeros(1,number_of_installed_conversion_techs));
         technologies.conversion_techs_capital_cost_fixed = horzcat(technologies.conversion_techs_capital_cost_fixed,zeros(1,number_of_installed_conversion_techs));
@@ -100,7 +108,8 @@ if include_installed_technologies == 1
         technologies.conversion_techs_OM_cost_fixed = horzcat(technologies.conversion_techs_OM_cost_fixed,zeros(1,number_of_installed_conversion_techs));
         technologies.conversion_techs_efficiency = horzcat(technologies.conversion_techs_efficiency,installed_technologies.conversion_techs_efficiency);
         technologies.conversion_techs_min_part_load = horzcat(technologies.conversion_techs_min_part_load,installed_technologies.conversion_techs_min_part_load);
-        technologies.conversion_techs_HTP_ratio = horzcat(technologies.conversion_techs_HTP_ratio,installed_technologies.conversion_techs_HTP_ratio);
+        technologies.conversion_techs_output_ratio = horzcat(technologies.conversion_techs_output_ratio,installed_technologies.conversion_techs_output_ratio);
+        technologies.conversion_techs_input_ratio = horzcat(technologies.conversion_techs_input_ratio,installed_technologies.conversion_techs_input_ratio);
         technologies.conversion_techs_min_capacity = horzcat(technologies.conversion_techs_min_capacity,installed_technologies.conversion_techs_capacity);
         technologies.conversion_techs_max_capacity = horzcat(technologies.conversion_techs_max_capacity,installed_technologies.conversion_techs_capacity);
     end
@@ -141,8 +150,10 @@ if grid_connected_system == 1
     if size_grid_connection == 1
 
         technologies.conversion_techs_names(end+1) = {'Grid'};
-        technologies.conversion_techs_outputs(end+1) = {'Elec'};
-        technologies.conversion_techs_inputs(end+1) = {'None'};
+        technologies.conversion_techs_outputs_1(end+1) = {'Elec'};
+        technologies.conversion_techs_outputs_2(end+1) = {};
+        technologies.conversion_techs_inputs_1(end+1) = {'Grid_electricity'};
+        technologies.conversion_techs_inputs_2(end+1) = {};
         technologies.conversion_techs_lifetime(end+1) = 0;
         technologies.conversion_techs_capital_cost_variable(end+1) = grid_initial_connection_cost_per_kW;
         technologies.conversion_techs_capital_cost_fixed(end+1) = grid_initial_connection_cost_fixed;
@@ -150,15 +161,18 @@ if grid_connected_system == 1
         technologies.conversion_techs_OM_cost_fixed(end+1) = grid_connection_cost_fixed;
         technologies.conversion_techs_efficiency(end+1) = 1.0;
         technologies.conversion_techs_min_part_load(end+1) = 0;
-        technologies.conversion_techs_HTP_ratio(end+1) = 0;
+        technologies.conversion_techs_output_ratio(end+1) = 0;
+        technologies.conversion_techs_input_ratio(end+1) = 0;
         technologies.conversion_techs_min_capacity(end+1) = grid_min_connection_capacity;
         technologies.conversion_techs_max_capacity(end+1) = grid_max_connection_capacity;
 
     else
 
         technologies.conversion_techs_names(end+1) = {'Grid'};
-        technologies.conversion_techs_outputs(end+1) = {'Elec'};
-        technologies.conversion_techs_inputs(end+1) = {'None'};
+        technologies.conversion_techs_outputs_1(end+1) = {'Elec'};
+        technologies.conversion_techs_outputs_2(end+1) = {};
+        technologies.conversion_techs_inputs_1(end+1) = {'Grid_electricity'};
+        technologies.conversion_techs_inputs_2(end+1) = {};
         technologies.conversion_techs_lifetime(end+1) = 0;
         technologies.conversion_techs_capital_cost_variable(end+1) = 0;
         technologies.conversion_techs_capital_cost_fixed(end+1) = 0;
@@ -166,7 +180,8 @@ if grid_connected_system == 1
         technologies.conversion_techs_OM_cost_fixed(end+1) = 0;
         technologies.conversion_techs_efficiency(end+1) = 1.0;
         technologies.conversion_techs_min_part_load(end+1) = 0;
-        technologies.conversion_techs_HTP_ratio(end+1) = 0;
+        technologies.conversion_techs_output_ratio(end+1) = 0;
+        technologies.conversion_techs_input_ratio(end+1) = 0;
         technologies.conversion_techs_min_capacity(end+1) = grid_connection_capacity;
         technologies.conversion_techs_max_capacity(end+1) = grid_connection_capacity;
 
@@ -223,8 +238,10 @@ end
 
 %remove spaces from the names/properties of the conversion and storage technologies
 technologies.conversion_techs_names = strrep(technologies.conversion_techs_names,' ','_');
-technologies.conversion_techs_outputs = strrep(technologies.conversion_techs_outputs,' ','_');
-technologies.conversion_techs_inputs = strrep(technologies.conversion_techs_inputs,' ','_');
+technologies.conversion_techs_outputs_1 = strrep(technologies.conversion_techs_outputs_1,' ','_');
+technologies.conversion_techs_outputs_2 = strrep(technologies.conversion_techs_outputs_2,' ','_');
+technologies.conversion_techs_inputs_1 = strrep(technologies.conversion_techs_inputs_1,' ','_');
+technologies.conversion_techs_inputs_2 = strrep(technologies.conversion_techs_inputs_2,' ','_');
 technologies.storage_techs_names = strrep(technologies.storage_techs_names,' ','_');
 technologies.storage_techs_types = strrep(technologies.storage_techs_types,' ','_');
 
@@ -235,8 +252,10 @@ if include_installed_technologies == 1
     %if there are installed conversion technologies
     if exist(strcat(experiment_path,'case_data\installed_conversion_technologies.csv'),'file')==2
         installed_technologies.conversion_techs_names = strrep(installed_technologies.conversion_techs_names,' ','_');
-        installed_technologies.conversion_techs_outputs = strrep(installed_technologies.conversion_techs_outputs,' ','_');
-        installed_technologies.conversion_techs_inputs = strrep(installed_technologies.conversion_techs_inputs,' ','_');
+        installed_technologies.conversion_techs_outputs_1 = strrep(installed_technologies.conversion_techs_outputs_1,' ','_');
+        installed_technologies.conversion_techs_outputs_2 = strrep(installed_technologies.conversion_techs_outputs_2,' ','_');
+        installed_technologies.conversion_techs_inputs_1 = strrep(installed_technologies.conversion_techs_inputs_1,' ','_');
+        installed_technologies.conversion_techs_inputs_2 = strrep(installed_technologies.conversion_techs_inputs_2,' ','_');
     end
 
     %if there are installed storage technologies
@@ -252,8 +271,10 @@ end
 [C,ia,ic] = unique(technologies.conversion_techs_names);
 unique_conversion_techs_indices = ia;
 unique_technologies.conversion_techs_names = technologies.conversion_techs_names(unique_conversion_techs_indices);
-unique_technologies.conversion_techs_outputs = technologies.conversion_techs_outputs(unique_conversion_techs_indices);
-unique_technologies.conversion_techs_inputs = technologies.conversion_techs_inputs(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_outputs_1 = technologies.conversion_techs_outputs_1(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_outputs_2 = technologies.conversion_techs_outputs_2(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_inputs_1 = technologies.conversion_techs_inputs_1(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_inputs_2 = technologies.conversion_techs_inputs_2(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_lifetime = technologies.conversion_techs_lifetime(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_capital_cost_variable = technologies.conversion_techs_capital_cost_variable(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_capital_cost_fixed = technologies.conversion_techs_capital_cost_fixed(unique_conversion_techs_indices);
@@ -261,7 +282,8 @@ unique_technologies.conversion_techs_OM_cost_variable = technologies.conversion_
 unique_technologies.conversion_techs_OM_cost_fixed = technologies.conversion_techs_OM_cost_fixed(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_efficiency = technologies.conversion_techs_efficiency(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_min_part_load = technologies.conversion_techs_min_part_load(unique_conversion_techs_indices);
-unique_technologies.conversion_techs_HTP_ratio = technologies.conversion_techs_HTP_ratio(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_output_ratio = technologies.conversion_techs_output_ratio(unique_conversion_techs_indices);
+unique_technologies.conversion_techs_input_ratio = technologies.conversion_techs_input_ratio(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_min_capacity = technologies.conversion_techs_min_capacity(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_max_capacity = technologies.conversion_techs_max_capacity(unique_conversion_techs_indices);
 unique_technologies.conversion_techs_operating_costs = technologies.conversion_techs_operating_costs(unique_conversion_techs_indices);
@@ -286,49 +308,15 @@ unique_technologies.storage_techs_max_capacity = technologies.storage_techs_max_
 %% SET SOME VARIABLE VALUES FOR LATER USE
 
 %get a list of the energy outputs
-energy_outputs = unique_technologies.conversion_techs_outputs;
-energy_outputs(find(strcmp(energy_outputs,'"Heat,Elec"'))) = []; %remove CHP
-energy_outputs(find(strcmp(energy_outputs,'"Elec,Heat"'))) = []; %remove CHP
-if sum(strcmp(unique_technologies.conversion_techs_outputs,'"Heat,Elec"')) + sum(strcmp(unique_technologies.conversion_techs_outputs,'"Elec,Heat"'))> 0
-    energy_outputs = horzcat(energy_outputs,{'Heat','Elec'}); %add the outputs of CHP
-end
-energy_outputs(find(strcmp(energy_outputs,'"DHW,Elec"'))) = []; %remove CHP
-energy_outputs(find(strcmp(energy_outputs,'"Elec,DHW"'))) = []; %remove CHP
-if sum(strcmp(unique_technologies.conversion_techs_outputs,'"DHW,Elec"')) + sum(strcmp(unique_technologies.conversion_techs_outputs,'"Elec,DHW"'))> 0
-    energy_outputs = horzcat(energy_outputs,{'DHW','Elec'}); %add the outputs of CHP
-end
-energy_outputs(find(strcmp(energy_outputs,'"Anergy,Elec"'))) = []; %remove CHP
-energy_outputs(find(strcmp(energy_outputs,'"Elec,Anergy"'))) = []; %remove CHP
-if sum(strcmp(unique_technologies.conversion_techs_outputs,'"Anergy,Elec"')) + sum(strcmp(unique_technologies.conversion_techs_outputs,'"Elec,Anergy"'))> 0
-    energy_outputs = horzcat(energy_outputs,{'Anergy','Elec'}); %add the outputs of CHP
-end
-energy_outputs = unique(energy_outputs);
+energy_outputs = union(unique_technologies.conversion_techs_outputs_1,unique_technologies.conversion_techs_outputs_2);
 
 %get lists of different groupings of conversion technologies
 energy_conversion_technologies = unique_technologies.conversion_techs_names;
 energy_storage_technologies = unique_technologies.storage_techs_names;
 solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
 technologies_excluding_grid = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
-dispatchable_technologies = intersect(unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))),...
-    unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar'))));
-chp_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'"Heat,Elec"','"Elec,Heat"','"DHW,Elec"','"Elec,DHW"','"Anergy,Elec"','"Elec,Anergy"'})));
-chp_heat_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'"Heat,Elec"','"Elec,Heat"'})));
-chp_dhw_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'"DHW,Elec"','"Elec,DHW"'})));
-chp_anergy_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'"Anergy,Elec"','"Elec,Anergy"'})));
-electricity_generating_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"','"DHW,Elec"','"Elec,DHW"','"Anergy,Elec"','"Elec,Anergy"'})));
-heat_generating_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'Heat','"Heat,Elec"','"Elec,Heat"'})));
-heat_generating_technologies_excluding_chp = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_outputs,'Heat')));
-cooling_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_outputs,'Cool')));
-dhw_generating_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'DHW','"DHW,Elec"','"Elec,DHW"'})));
-anergy_generating_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_outputs,{'Anergy','"Anergy,Elec"','"Elec,Anergy"'})));
-electricity_consuming_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Elec')));
-heat_consuming_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_inputs,{'Heat','"Heat,Elec"','"Elec,Heat"'})));
-anergy_consuming_technologies = unique_technologies.conversion_techs_names(find(ismember(unique_technologies.conversion_techs_inputs,{'Anergy','"Anergy,Elec"','"Elec,Anergy"'})));
-electricity_storage_technologies = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Elec')));
-heat_storage_technologies = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Heat')));
-cool_storage_technologies = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Cool')));
-dhw_storage_technologies = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'DHW')));
-anergy_storage_technologies = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Anergy')));
+technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_inputs_2)));
 if exist('technologies.storage_techs_min_temperature','var')
     storages_with_temperature_constraints = unique_technologies.storage_techs_names(find(~isnan(unique_technologies.storage_techs_min_temperature)));
 else
