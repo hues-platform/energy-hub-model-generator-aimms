@@ -90,4 +90,26 @@ GenerateStorageTechnologyParams.m
 Adjust the S matrix param code.
 Adjust the storage capacity param code, in both places.
 
+GenerateConversionTechnologyVariables.m
+Change the Output_energy_electricity, etc. variables. Create a loop to iterate through the different carriers.
+
+GenerateConversionTechnologyConstraints.m
+Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the way you exclude CHPs won't work anymore.
+Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
+Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
+Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
+
+GenerateStorageTechnologyInitializationConstraints.m
+Modify all of the constraints in this file
+
+GenerateDataInputsProcedure.m
+Create loop for generating the RetrieveParameter commands for energy demands.
+
+GenerateDataOutputsProcedure.m
+Adjust the commands for printing output energy of different types, for both single and multi-hub situations.
+
+GenerateMainExecutionProcedure.m
+Adjust the relaxation strings as necessary.  Are these necessary at all?
+
+
 
