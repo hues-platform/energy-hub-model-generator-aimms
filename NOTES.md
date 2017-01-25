@@ -78,18 +78,18 @@ X Replace the constraints having to do with CHP with modified ones as appropriat
 
 SelectSetsParamsAndVariables.m
 X Replace energy output variables with a generic one.
-Modify the code for selecting a form of storage representation. -> still need to complete this for multi-hub case
+X Modify the code for selecting a form of storage representation. -> still need to complete this for multi-hub case
 
 GenerateConversionTechnologyParams.m
-Adjust code for Linear_capital_costs param -> just print output type 1 instead of iterating through the different output types.
-Do the same with code for Fixed_capital_costs param
-Adjust the code for C_matrix param. This should make it much simpler actually.
-Adjust the code for Capacity param
-Adjust the code for Minimum part load param.
+X Adjust code for Linear_capital_costs param -> just print output type 1 instead of iterating through the different output types.
+X Do the same with code for Fixed_capital_costs param
+X Adjust the code for C_matrix param. This should make it much simpler actually.
+X Adjust the code for Capacity param
+X Adjust the code for Minimum part load param.
 
 GenerateStorageTechnologyParams.m
-Adjust the S matrix param code.
-Adjust the storage capacity param code, in both places.
+X Adjust the S matrix param code.
+X Adjust the storage capacity param code, in both places.
 
 GenerateConversionTechnologyVariables.m
 Change the Output_energy_electricity, etc. variables. Create a loop to iterate through the different carriers.

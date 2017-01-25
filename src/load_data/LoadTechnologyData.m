@@ -313,6 +313,10 @@ energy_outputs = union(unique_technologies.conversion_techs_outputs_1,unique_tec
 %get lists of different groupings of conversion technologies
 energy_conversion_technologies = unique_technologies.conversion_techs_names;
 energy_storage_technologies = unique_technologies.storage_techs_names;
+energy_conversion_technologies_with_single_output = unique_technologies.conversion_techs_names(find(isnan(unique_technologies.conversion_techs_outputs_2)));
+energy_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+energy_conversion_technologies_with_single_input = unique_technologies.conversion_techs_names(find(isnan(unique_technologies.conversion_techs_inputs_2)));
+energy_conversion_technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_inputs_2)));
 solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
 technologies_excluding_grid = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
 technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_outputs_2)));

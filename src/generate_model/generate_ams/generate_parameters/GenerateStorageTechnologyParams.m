@@ -104,27 +104,14 @@ if simplified_storage_representation == 0
     %S matrix
     param_S_matrix = '';
     if create_param_S_matrix == 1
-        S_matrix = '\n\t\tParameter Smatrix {\n\t\t\tIndexDomain: (x,stor);\n\t\t\tDefinition: { data { ';
         definition_string = '';
-        for t=1:length(electricity_storage_technologies)
+        for t=1:length(energy_storage_technologies)
             if t>1
                 definition_string = strcat(definition_string,', ');
             end
-            definition_string = strcat(definition_string,'(Elec,',char(electricity_storage_technologies(t)),'):1.0');
+            definition_string = strcat(definition_string,'(',char(unique_technologies.storage_techs_types(t)),',',char(energy_storage_technologies(t)),'):1.0');
         end
-        for t=1:length(heat_storage_technologies)
-            definition_string = strcat(definition_string,',(Heat,',char(heat_storage_technologies(t)),'):1.0');
-        end
-        for t=1:length(cool_storage_technologies)
-            definition_string = strcat(definition_string,',(Cool,',char(cool_storage_technologies(t)),'):1.0');
-        end
-        for t=1:length(dhw_storage_technologies)
-            definition_string = strcat(definition_string,',(DHW,',char(dhw_storage_technologies(t)),'):1.0');
-        end
-        for t=1:length(anergy_storage_technologies)
-            definition_string = strcat(definition_string,',(Anergy,',char(anergy_storage_technologies(t)),'):1.0');
-        end
-        param_S_matrix = strcat(S_matrix,definition_string,'}\n\t\t\t}\n\t\t}');
+        param_S_matrix = strcat('\n\t\tParameter Smatrix {\n\t\t\tIndexDomain: (x,stor);\n\t\t\tDefinition: { data { ',definition_string,'}\n\t\t\t}\n\t\t}');
     end
 
     %storage maximum charging rate
@@ -209,111 +196,29 @@ if simplified_storage_representation == 0
     %only used if we're not doing technology selection and sizing; otherwise this is set by the capacity variable
     param_storage_capacity = '';
     if create_param_storage_capacity == 1
-        number_of_installed_storage_techs = length(installed_technologies.storage_techs_names);
-        installed_electricity_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Elec')));
-        installed_heat_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Heat')));
-        installed_cool_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        installed_dhw_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        installed_anergy_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-    
-        installed_electricity_storage_capacity = installed_technologies.storage_techs_capacity(find(ismember(installed_technologies.storage_techs_types,{'Elec'})));
-        installed_heat_storage_capacity = installed_technologies.storage_techs_capacity(find(ismember(installed_technologies.storage_techs_types,'Heat')));
-        installed_cool_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        installed_dhw_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        installed_anergy_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-
-        installed_electricity_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Elec')));
-        installed_heat_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Heat')));
-        installed_cool_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        installed_dhw_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        installed_anergy_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-    
         definition_string = '';
         if multiple_hubs == 0
-
             index_domain_string = '(stor)';
-            i = 0;
-            for t=1:length(installed_electricity_storage_technologies)
-                if i > 0
+            for t=1:length(installed_technologies.storage_techs_names)
+                if t > 1
                     definition_string = strcat(definition_string,', ');
                 end
-                definition_string = strcat(definition_string,'(Elec,',char(installed_electricity_storage_technologies(t)),'):',num2str(installed_electricity_storage_capacity(t)));
+                definition_string = strcat(definition_string,char(installed_technologies.storage_techs_names(t)),':',num2str(installed_technologies.storage_techs_capacity(t)));
                 i = 1 + 1;
             end
-            for t=1:length(installed_heat_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Heat,',char(installed_heat_storage_technologies(t)),'):',num2str(installed_heat_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_cool_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Cool,',char(installed_cool_storage_technologies(t)),'):',num2str(installed_cool_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_dhw_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(DHW,',char(installed_dhw_storage_technologies(t)),'):',num2str(installed_dhw_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_anergy_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Anergy,',char(installed_anergy_storage_technologies(t)),'):',num2str(installed_anergy_storage_capacity(t)));
-                i = 1 + 1;
-            end
-
         else
-
             index_domain_string = '(stor,h)';
-            i = 0;
-            for t=1:length(installed_electricity_storage_technologies)
-                if i > 0
+            for t=1:length(installed_technologies.storage_techs_names)
+                if t > 1
                     definition_string = strcat(definition_string,', ');
                 end
-                definition_string = strcat(definition_string,'(Elec,',char(installed_electricity_storage_technologies(t)),',',num2str(installed_electricity_storage_node(t)),'):',num2str(installed_electricity_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_heat_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Heat,',char(installed_heat_storage_technologies(t)),',',num2str(installed_heat_storage_node(t)),'):',num2str(installed_heat_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_cool_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Cool,',char(installed_cool_storage_technologies(t)),',',num2str(installed_cool_storage_technology_node(t)),'):',num2str(installed_cool_storage_technology_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_dhw_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(DHW,',char(installed_dhw_storage_technologies(t)),',',num2str(installed_dhw_storage_technology_node(t)),'):',num2str(installed_dhw_storage_technology_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(installed_anergy_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Anergy,',char(installed_anergy_storage_technologies(t)),',',num2str(installed_anergy_storage_technology_node(t)),'):',num2str(installed_anergy_storage_technology_capacity(t)));
+                definition_string = strcat(definition_string,'(',char(installed_technologies.storage_techs_names(t)),',',num2str(installed_technologies.storage_techs_node(t)),'):',num2str(installed_technologies.storage_techs_capacity(t)));
                 i = 1 + 1;
             end
         end
-    
         param_storage_capacity = strcat('\n\t\tParameter Storage_capacity {\n\t\t\tIndexDomain: ',index_domain_string,';\n\t\t\tDefinition: { data {',definition_string,'};\n\t\t\t}\n\t\t}');
-
     end
-    
+   
     %storage minimum capacity
     param_min_capacity_storage = '';
     if create_param_min_capacity_storage == 1
@@ -521,109 +426,27 @@ else
     %only used if we're not doing technology selection and sizing; otherwise this is set by the capacity variable
     param_storage_capacity = '';
     if create_param_storage_capacity == 1
-        number_of_installed_storage_techs = length(installed_technologies.storage_techs_names);
-        electricity_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Elec')));
-        heat_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Heat')));
-        cool_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        dhw_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        anergy_storage_technologies = installed_technologies.storage_techs_names(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-    
-        electricity_storage_capacity = installed_technologies.storage_techs_capacity(find(ismember(installed_technologies.storage_techs_types,{'Elec'})));
-        heat_storage_capacity = installed_technologies.storage_techs_capacity(find(ismember(installed_technologies.storage_techs_types,'Heat')));
-        cool_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        dhw_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        anergy_storage_capacity = installed_technologies.storage_techs_capacity(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-
-        electricity_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Elec')));
-        heat_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Heat')));
-        cool_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Cool')));
-        dhw_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'DHW')));
-        anergy_storage_node = installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Anergy')));
-    
         definition_string = '';
         if multiple_hubs == 0
-
             index_domain_string = '(x)';
-            i = 0;
-            for t=1:length(electricity_storage_technologies)
-                if i > 0
+            for t=1:length(installed_technologies.storage_techs_names)
+                if t > 1
                     definition_string = strcat(definition_string,', ');
                 end
-                definition_string = strcat(definition_string,'Elec:',num2str(electricity_storage_capacity(t)));
+                definition_string = strcat(definition_string,char(installed_technologies.storage_techs_types(t)),':',num2str(installed_technologies.storage_techs_capacity(t)));
                 i = 1 + 1;
             end
-            for t=1:length(heat_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'Heat:',num2str(heat_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(cool_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'Cool:',num2str(cool_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(dhw_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'DHW:',num2str(dhw_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(anergy_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'Anergy:',num2str(anergy_storage_capacity(t)));
-                i = 1 + 1;
-            end
-
         else
-
             index_domain_string = '(x,h)';
-            i = 0;
-            for t=1:length(electricity_storage_technologies)
-                if i > 0
+            for t=1:length(installed_technologies.storage_techs_names)
+                if t > 1
                     definition_string = strcat(definition_string,', ');
                 end
-                definition_string = strcat(definition_string,'(Elec,',num2str(electricity_storage_node(t)),'):',num2str(electricity_storage_capacity(t)));
+                definition_string = strcat(definition_string,'(',char(installed_technologies.storage_techs_types(t)),',',num2str(installed_technologies.storage_techs_node(t)),'):',num2str(installed_technologies.storage_techs_capacity(t)));
                 i = 1 + 1;
             end
-            for t=1:length(heat_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Heat,',num2str(heat_storage_node(t)),'):',num2str(heat_storage_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(cool_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Cool,',num2str(cool_storage_technology_node(t)),'):',num2str(cool_storage_technology_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(dhw_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(DHW,',num2str(dhw_storage_technology_node(t)),'):',num2str(dhw_storage_technology_capacity(t)));
-                i = 1 + 1;
-            end
-            for t=1:length(anergy_storage_technologies)
-                if i > 0
-                    definition_string = strcat(definition_string,', ');
-                end
-                definition_string = strcat(definition_string,'(Anergy,',num2str(anergy_storage_technology_node(t)),'):',num2str(anergy_storage_technology_capacity(t)));
-                i = 1 + 1;
-            end
-
         end
         param_storage_capacity = strcat('\n\t\tParameter Storage_capacity {\n\t\t\tIndexDomain: ',index_domain_string,';\n\t\t\tDefinition: { data {',definition_string,'};\n\t\t\t}\n\t\t}');
-
     end
     
     %storage minimum capacity
