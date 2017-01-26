@@ -1,6 +1,6 @@
 %% GENERATE CONVERSION TECHNOLOGY CONSTRAINTS
 
-%% ENERGY BALANCE CONSTRAINT
+%% GENERAL CONSTRAINTS
 
 %energy balance constraint
 constraint_energy_balance = '';
@@ -20,15 +20,14 @@ if apply_constraint_energy_balance == 1
     end
 end
 
-%% CAPACITY AND OPERATION CONSTRAINTS
-
 %capacity violation constraint
 constraint_capacity = '';
 if apply_constraint_capacity == 1
+    nonsolar_technologies = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
     index_domain_string = '';
-    for t=1:length(dispatchable_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(dispatchable_technologies(t)),'''');
-        if t < length(dispatchable_technologies)
+    for t=1:length(nonsolar_technologies)
+        index_domain_string = strcat(index_domain_string,'''',char(nonsolar_technologies(t)),'''');
+        if t < length(nonsolar_technologies)
              index_domain_string = strcat(index_domain_string,' OR conv = '); 
         end
     end
@@ -39,9 +38,162 @@ if apply_constraint_capacity == 1
     end       
 end
 
+%operation constraint
+constraint_dispatch = '';
+if apply_constraint_dispatch == 1
+    if multiple_hubs == 0
+        constraint_dispatch = strcat('\n\t\tConstraint Dispatch_constraint {\n\t\t\tIndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Input_energy(t,conv) * Cmatrix(x,conv) <= Big_M * Operation(t,conv);\n\t\t}');
+    else
+        constraint_dispatch = strcat('\n\t\tConstraint Dispatch_constraint {\n\t\t\tIndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Input_energy(t,conv,h) * Cmatrix(x,conv) <= Big_M * Operation(t,conv,h);\n\t\t}');        
+    end
+end
+
+%installation constraint
+constraint_installation = '';
+if apply_constraint_installation == 1
+    if multiple_hubs == 0
+        constraint_installation = '\n\t\tConstraint Installation_constraint {\n\t\t\tIndexDomain: (x,conv);\n\t\t\tDefinition: Capacity(x,conv) <= Big_M * Installation(x,conv);\n\t\t}';
+    else
+        constraint_installation = '\n\t\tConstraint Installation_constraint {\n\t\t\tIndexDomain: (x,conv,h);\n\t\t\tDefinition: Capacity(x,conv,h) <= Big_M * Installation(x,conv,h);\n\t\t}';
+    end
+end
+
+%installed techs constraint
+constraint_installed_conversion_techs = '';
+if apply_constraint_installed_conversion_techs == 1
+    if multiple_hubs == 0
+        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Installation(x,conv) = Installed_conversion_techs(conv);\n\t\t}';
+    else
+        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Installation(x,conv,h) = Installed_conversion_techs(conv,h);\n\t\t}';
+    end
+end
+
+%operation constraint
+constraint_operation = '';
+if apply_constraint_operation == 1
+    if multiple_hubs == 0
+        constraint_operation = strcat('\n\t\tConstraint Operation_constraint {\n\t\t\tIndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Operation(t,conv) <= Installation(x,conv);\n\t\t}');
+    else
+        constraint_operation = strcat('\n\t\tConstraint Operation_constraint {\n\t\t\tIndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Operation(t,conv,h) <= Installation(x,conv,h);\n\t\t}');    
+    end
+end
+
+%solar availability constraint
+constraint_solar_availability = '';
+if apply_constraint_solar_availability == 1
+    index_domain_string = '';
+    for t=1:length(solar_technologies)
+        index_domain_string = strcat(index_domain_string,'''',char(solar_technologies(t)),'''');
+        if t < length(solar_technologies)
+             index_domain_string = strcat(index_domain_string,' OR conv = '); 
+        end
+    end
+    if multiple_hubs == 0
+        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv) <= Solar_radiation(t) * Capacity(x,conv) / 1000;\n\t\t}');
+    else
+        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x,h) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv,h) <= Solar_radiation(t,h) * Capacity(x,conv,h) / 1000;\n\t\t}');
+    end
+end
+
+
+
+%% GRID-ASSOCIATED CONSTRAINTS
+
+%min allowable capacity contraint grid
+constraint_min_capacity_grid = '';
+if apply_constraint_min_capacity_grid == 1
+    constraint_min_capacity_grid = strcat('\n\t\tConstraint Minimum_capacity_grid_constraint {\n\t\t\tDefinition: Capacity_grid >= Min_allowable_capacity_grid');
+end
+
+%max allowable capacity constraint grid
+constraint_max_capacity_grid = '';
+if apply_constraint_max_capacity_grid == 1
+    constraint_max_capacity_grid = strcat('\n\t\tConstraint Maximum_capacity_grid_constraint {\n\t\t\tDefinition: Capacity_grid <= Max_allowable_capacity_grid');
+end
+
+%grid capacity violation constraint 1 (electricity imports)
+constraint_grid_capacity_violation1 = '';
+if apply_constraint_grid_capacity_violation1 == 1
+    if multiple_hubs == 0
+        constraint_grid_capacity_violation1 = '\n\t\tConstraint Grid_capacity_violation_constraint_import {\n\t\t\tIndexDomain: (t,conv) | conv=''Grid'';\n\t\t\tDefinition: Input_energy(t,conv) <= Capacity_grid;\n\t\t}';
+    else
+        constraint_grid_capacity_violation1 = '\n\t\tConstraint Grid_capacity_violation_constraint_import {\n\t\t\tIndexDomain: (t,conv) | conv=''Grid'';\n\t\t\tDefinition: sum(h,Input_energy(t,conv,h)) <= Capacity_grid;\n\t\t}';
+    end
+end
+
+%grid capacity violation constraint 2 (electricity exports)
+constraint_grid_capacity_violation2 = '';
+if apply_constraint_grid_capacity_violation2 == 1
+    if multiple_hubs == 0
+        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) <= Capacity_grid;\n\t\t}';
+    else
+        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h)) <= Capacity_grid;\n\t\t}';
+    end
+end
+
+%solar export constraint
+constraint_solar_export = '';
+if apply_constraint_solar_export == 1
+    technologies_with_electrical_output = unique_technologies.conversion_techs_names(union(find(strcmp(unique_technologies.conversion_techs_output_1,'Elec')),find(strcmp(unique_technologies.conversion_techs_output_2,'Elec'))));
+    solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
+    included_techs = intersect(technologies_with_electrical_output,solar_technologies);
+    definition_string = '';
+    for t=1:length(included_techs)
+        definition_string = strcat(definition_string,'''',char(included_techs(t)),'''');
+        if t < length(included_techs)
+             definition_string = strcat(definition_string,' OR conv = '); 
+        end
+    end   
+    if multiple_hubs == 0
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+    else
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h)) <= sum((h,conv) | (conv = ',definition_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
+    end
+end
+
+%nonsolar export constraint
+constraint_nonsolar_export = '';
+if apply_constraint_nonsolar_export == 1
+    technologies_with_electrical_output = unique_technologies.conversion_techs_names(union(find(strcmp(unique_technologies.conversion_techs_output_1,'Elec')),find(strcmp(unique_technologies.conversion_techs_output_2,'Elec'))));
+    nonsolar_nongrid_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+    included_techs = intersect(technologies_with_electrical_output,nonsolar_nongrid_technologies);
+    definition_string = '';
+    for t=1:length(included_techs)
+        definition_string = strcat(definition_string,'''',char(included_techs(t)),'''');
+        if t < length(included_techs)
+             definition_string = strcat(definition_string,' OR conv = '); 
+        end
+    end   
+    if multiple_hubs == 0
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+    else
+        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv) | (conv = ',definition_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
+    end
+end
+
+%solar export constraint with net metering
+constraint_solar_export_with_net_metering = '';
+if apply_constraint_solar_export_with_net_metering == 1
+    technologies_with_electrical_output = unique_technologies.conversion_techs_names(union(find(strcmp(unique_technologies.conversion_techs_output_1,'Elec')),find(strcmp(unique_technologies.conversion_techs_output_2,'Elec'))));
+    solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
+    included_techs = intersect(technologies_with_electrical_output,solar_technologies);
+    definition_string = '';
+    for t=1:length(included_techs)
+        definition_string = strcat(definition_string,'''',char(included_techs(t)),'''');
+        if t < length(included_techs)
+             definition_string = strcat(definition_string,' OR conv = '); 
+        end
+    end   
+    if multiple_hubs == 0
+        constraint_solar_export_with_net_metering = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) + Storage_input_energy(t,''Net_meter'') <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+    else
+        constraint_solar_export_with_net_metering = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Storage_input_energy(t,''Net_meter'',h)) <= sum((h,conv) | (conv = ',definition_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
+    end
+end
+
+%% SINGLE OUTPUT TECHNOLOGY CONSTRAINTS
+
 %min allowable capacity constraint
-%applies to non-solar techs, excluding grid, with single outputs
-%min capacityfor multi-output techs is enforced in a separate constraint
 constraint_min_capacity = '';
 if apply_constraint_min_capacity == 1
     included_techs = unique_technologies.conversion_techs_names(intersect(...
@@ -81,32 +233,21 @@ if apply_constraint_max_capacity == 1
     end
 end
 
-%min allowable capacity contraint grid
-constraint_min_capacity_grid = '';
-if apply_constraint_min_capacity_grid == 1
-    constraint_min_capacity_grid = strcat('\n\t\tConstraint Minimum_capacity_grid_constraint {\n\t\t\tDefinition: Capacity_grid >= Min_allowable_capacity_grid');
-end
-
-%max allowable capacity constraint grid
-constraint_max_capacity_grid = '';
-if apply_constraint_max_capacity_grid == 1
-    constraint_max_capacity_grid = strcat('\n\t\tConstraint Maximum_capacity_grid_constraint {\n\t\t\tDefinition: Capacity_grid <= Max_allowable_capacity_grid');
-end
-
-%dispatch constraint
-constraint_dispatch = '';
-if apply_constraint_dispatch == 1
+%roof area constraint
+constraint_roof_area = '';
+if apply_constraint_roof_area == 1
+    included_techs = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(isnan(unique_technologies.conversion_techs_outputs_2))));  
     index_domain_string = '';
-    for t=1:length(technologies_excluding_grid)
-        index_domain_string = strcat(index_domain_string,'''',char(technologies_excluding_grid(t)),'''');
-        if t < length(technologies_excluding_grid)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
+    for t=1:length(included_techs)
+        index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
+            if t < length(included_techs)
+                index_domain_string = strcat(index_domain_string,' OR conv = '); 
+            end
     end
     if multiple_hubs == 0
-        constraint_dispatch = strcat('\n\t\tConstraint Dispatch_constraint {\n\t\t\tIndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv) * Cmatrix(x,conv) <= Big_M * Operation(t,conv);\n\t\t}');
+        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(x,conv) <= Building_roof_area;\n\t\t}');
     else
-        constraint_dispatch = strcat('\n\t\tConstraint Dispatch_constraint {\n\t\t\tIndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv,h) * Cmatrix(x,conv) <= Big_M * Operation(t,conv,h);\n\t\t}');        
+        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(x,conv,h) <= Building_roof_area(h);\n\t\t}');
     end
 end
 
@@ -114,9 +255,9 @@ end
 constraint_min_part_load = '';
 if apply_constraint_min_part_load == 1
     index_domain_string = '';
-    for t=1:length(technologies_excluding_grid)
-        index_domain_string = strcat(index_domain_string,'''',char(technologies_excluding_grid(t)),'''');
-        if t < length(technologies_excluding_grid)
+    for t=1:length(energy_conversion_technologies_with_single_output)
+        index_domain_string = strcat(index_domain_string,'''',char(energy_conversion_technologies_with_single_output(t)),'''');
+        if t < length(energy_conversion_technologies_with_single_output)
              index_domain_string = strcat(index_domain_string,' OR conv = '); 
         end
     end
@@ -127,290 +268,74 @@ if apply_constraint_min_part_load == 1
     end
 end
 
-%solar availability constraint
-constraint_solar_availability = '';
-if apply_constraint_solar_availability == 1
-    index_domain_string = '';
-    for t=1:length(solar_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(solar_technologies(t)),'''');
-        if t < length(solar_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
+%% MULTI-OUTPUT TECHNOLOGY CONSTRAINTS
+
+%max capacity constraint for multi-output technologies
+constraint_max_capacity_multi_output_tech = '';
+if apply_constraint_max_capacity_multi_output_tech == 0
+    output_1_of_multi_output_techs = unique_technologies.conversion_techs_output_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    output_2_of_multi_output_techs = unique_technologies.conversion_techs_output_2(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+        if multiple_hubs == 0
+            constraint_max_capacity_multi_output_tech = strcat('\n\t\tConstraint Multi_output_max_capacity_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: conv | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv) <= Max_allowable_capacity(conv);\n\t\t}');
+        else
+            constraint_max_capacity_multi_output_tech = strcat('\n\t\tConstraint Multi_output_max_capacity_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (conv,h) | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv,h) <= Max_allowable_capacity(conv);\n\t\t}');
+        end 
+    end
+end
+
+%min capacity constraint for multi-output technologies
+constraint_min_capacity_multi_output_tech = '';
+if apply_constraint_min_capacity_multi_output_tech == 0
+    output_1_of_multi_output_techs = unique_technologies.conversion_techs_output_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    output_2_of_multi_output_techs = unique_technologies.conversion_techs_output_2(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+        if multiple_hubs == 0
+            constraint_min_capacity_multi_output_tech = strcat('\n\t\tConstraint Multi_output_min_capacity_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: conv | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv) >= Min_allowable_capacity(conv);\n\t\t}');
+        else
+            constraint_min_capacity_multi_output_tech = strcat('\n\t\tConstraint Multi_output_min_capacity_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (conv,h) | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv,h) >= Min_allowable_capacity(conv);\n\t\t}');
+        end 
+    end
+end
+
+%output ratio constraint for multi-output technologies
+constraint_output_ratio = '';
+if apply_constraint_output_ratio == 0
+    output_1_of_multi_output_techs = unique_technologies.conversion_techs_output_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    output_2_of_multi_output_techs = unique_technologies.conversion_techs_output_2(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+        if multiple_hubs == 0
+            constraint_output_ratio = strcat('\n\t\tConstraint Output_ratio_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: conv | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_2_of_multi_output_techs(t)),''',conv) = Cmatrix(''',char(output_2_of_multi_output_techs(t)),''', conv) / Cmatrix(''',char(output_1_of_multi_output_techs(t)),''', conv) * Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv);\n\t\t}');
+        else
+            constraint_output_ratio = strcat('\n\t\tConstraint Output_ratio_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (conv,h) | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Capacity(''',char(output_2_of_multi_output_techs(t)),''',conv,h) = Cmatrix(''',char(output_2_of_multi_output_techs(t)),''', conv) / Cmatrix(''',char(output_1_of_multi_output_techs(t)),''', conv) * Capacity(''',char(output_1_of_multi_output_techs(t)),''',conv,h);\n\t\t}');
+        end 
+    end
+end
+
+%installation constraint for multi-output technologies
+constraint_multi_output_installation = '';
+if apply_constraint_multi_output_installation == 1
+    output_1_of_multi_output_techs = unique_technologies.conversion_techs_output_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    output_2_of_multi_output_techs = unique_technologies.conversion_techs_output_2(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+        if multiple_hubs == 0
+            constraint_multi_output_installation = strcat('\n\t\tConstraint Multi_output_installation_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: conv | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Installation(''',char(output_2_of_multi_output_techs(t)),''',conv) = Installation(''',char(output_1_of_multi_output_techs(t)),''',conv);\n\t\t}');
+        else
+            constraint_multi_output_installation = strcat('\n\t\tConstraint Multi_output_installation_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (conv,h) | (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''');\n\t\t\tDefinition: Installation(''',char(output_2_of_multi_output_techs(t)),''',conv,h) = Installation(''',char(output_1_of_multi_output_techs(t)),''',conv,h);\n\t\t}');
+        end 
+    end
+end
+
+%minimum part load constraint
+constraint_multi_output_min_part_load = '';
+if apply_constraint_min_part_load == 1
+    output_1_of_multi_output_techs = unique_technologies.conversion_techs_output_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+        if multiple_hubs == 0
+            constraint_multi_output_min_part_load = strcat('\n\t\tConstraint Multi_output_part_load_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''') AND (x = ''',char(output_1_of_multi_output_techs(t)),''');\n\t\t\tDefinition: Input_energy(t,conv) * Cmatrix(x,conv) + Big_M * (1 - Operation(t,conv)) >= Minimum_part_load(x,conv) * Capacity(x,conv);\n\t\t}');    
+        else
+            constraint_multi_output_min_part_load = strcat('\n\t\tConstraint Multi_output_part_load_constraint_',char(energy_conversion_technologies_with_multiple_outputs(t)),' {\n\t\t\tIndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ''',char(energy_conversion_technologies_with_multiple_outputs(t)),''') AND (x = ''',char(output_1_of_multi_output_techs(t)),''');\n\t\t\tDefinition: Input_energy(t,conv,h) * Cmatrix(x,conv) + Big_M * (1 - Operation(t,conv,h)) >= Minimum_part_load(x,conv) * Capacity(x,conv,h);\n\t\t}');    
         end
-    end
-    if multiple_hubs == 0
-        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv) <= Solar_radiation(t) * Capacity(x,conv) / 1000;\n\t\t}');
-    else
-        constraint_solar_availability = strcat('\n\t\tConstraint Solar_input_constraint {\n\t\t\tIndexDomain: (t,conv,x,h) | Cmatrix(x, conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Input_energy(t,conv,h) <= Solar_radiation(t,h) * Capacity(x,conv,h) / 1000;\n\t\t}');
-    end
-end
-
-%roof area constraint
-%applies to solar techs with single outputs
-%max roof area for multi-output solar techs is enforced in a separate constraint
-constraint_roof_area = '';
-if apply_constraint_roof_area == 1
-    included_techs = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(isnan(unique_technologies.conversion_techs_outputs_2))));  
-    index_domain_string = '';
-    if multiple_hubs == 0
-        for t=1:length(included_techs)
-            index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
-                if t < length(included_techs)
-                    index_domain_string = strcat(index_domain_string,' OR conv = '); 
-                end
-        end
-        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');;\n\t\t\tDefinition: Capacity(x,conv) <= Building_roof_area;\n\t\t}');
-    else
-        for t=1:length(included_techs)
-            index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
-                if t < length(included_techs)
-                    index_domain_string = strcat(index_domain_string,' OR conv = '); 
-                end
-        end
-        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');;\n\t\t\tDefinition: Capacity(x,conv,h) <= Building_roof_area(h);\n\t\t}');
-    end
-end
-
-%installation constraint
-constraint_installation = '';
-if apply_constraint_installation == 1
-    if multiple_hubs == 0
-        constraint_installation = '\n\t\tConstraint Installation_constraint {\n\t\t\tIndexDomain: (x,conv);\n\t\t\tDefinition: Capacity(x,conv) <= Big_M * Installation(x,conv);\n\t\t}';
-    else
-        constraint_installation = '\n\t\tConstraint Installation_constraint {\n\t\t\tIndexDomain: (x,conv,h);\n\t\t\tDefinition: Capacity(x,conv,h) <= Big_M * Installation(x,conv,h);\n\t\t}';
-    end
-end
-
-%installed techs constraint
-constraint_installed_conversion_techs = '';
-if apply_constraint_installed_conversion_techs == 1
-    if multiple_hubs == 0
-        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (x,conv);\n\t\t\tDefinition: Installation(x,conv) = Installed_conversion_techs(conv);\n\t\t}';
-    else
-        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (x,conv,h);\n\t\t\tDefinition: Installation(x,conv,h) = Installed_conversion_techs(conv,h);\n\t\t}';
-    end
-end
-
-%operation constraint
-constraint_operation = '';
-if apply_constraint_operation == 1
-    dispatchable_techs_including_grid = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
-    index_domain_string = '';
-    for t=1:length(dispatchable_techs_including_grid)
-        index_domain_string = strcat(index_domain_string,'''',char(dispatchable_techs_including_grid(t)),'''');
-        if t < length(dispatchable_techs_including_grid)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_operation = strcat('\n\t\tConstraint Operation_constraint {\n\t\t\tIndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Operation(t,conv) <= Installation(x,conv);\n\t\t}');
-    else
-        constraint_operation = strcat('\n\t\tConstraint Operation_constraint {\n\t\t\tIndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');\n\t\t\tDefinition: Operation(t,conv,h) <= Installation(x,conv,h);\n\t\t}');    
-    end
-end
-
-%I don't think this is necessary
-%electricity export constraint
-% constraint_electricity_export = '';
-% if apply_constraint_electricity_export == 1
-%     if multiple_hubs == 0
-%         constraint_electricity_export = '\n\t\tConstraint Electricity_export_constraint {\n\t\t\tIndexDomain: (t,x,conv) | x=''Elec'' AND conv=''Grid'';\n\t\t\tDefinition: Exported_energy(t,x) <= Big_M * (1 - Operation(t,conv));\n\t\t}';
-%     else
-%         constraint_electricity_export = '\n\t\tConstraint Electricity_export_constraint {\n\t\t\tIndexDomain: (t,x,conv,h) | x=''Elec'' AND conv=''Grid'';\n\t\t\tDefinition: Exported_energy(t,x,h) <= Big_M * (1 - Operation(t,conv,h));\n\t\t}';
-%     end
-% end
-
-%grid capacity violation constraint 1 (electricity imports)
-constraint_grid_capacity_violation1 = '';
-if apply_constraint_grid_capacity_violation1 == 1
-    if multiple_hubs == 0
-        constraint_grid_capacity_violation1 = '\n\t\tConstraint Grid_capacity_violation_constraint_import {\n\t\t\tIndexDomain: (t,conv) | conv=''Grid'';\n\t\t\tDefinition: Input_energy(t,conv) <= Capacity_grid;\n\t\t}';
-    else
-        constraint_grid_capacity_violation1 = '\n\t\tConstraint Grid_capacity_violation_constraint_import {\n\t\t\tIndexDomain: (t,conv) | conv=''Grid'';\n\t\t\tDefinition: sum(h,Input_energy(t,conv,h)) <= Capacity_grid;\n\t\t}';
-    end
-end
-
-%grid capacity violation constraint 2 (electricity exports)
-constraint_grid_capacity_violation2 = '';
-if apply_constraint_grid_capacity_violation2 == 1
-    if multiple_hubs == 0
-        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) <= Capacity_grid;\n\t\t}';
-    else
-        constraint_grid_capacity_violation2 = '\n\t\tConstraint Grid_capacity_violation_constraint_export {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h)) <= Capacity_grid;\n\t\t}';
-    end
-end
-
-%solar export constraint
-constraint_solar_export = '';
-if apply_constraint_solar_export == 1
-    solar_technologies_with_electrical_output = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"'}))));
-    index_domain_string = '';
-    for t=1:length(solar_technologies_with_electrical_output)
-        index_domain_string = strcat(index_domain_string,'''',char(solar_technologies_with_electrical_output(t)),'''');
-        if t < length(solar_technologies_with_electrical_output)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end   
-    if multiple_hubs == 0
-        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) <= sum(conv | (conv = ',index_domain_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
-    else
-        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h)) <= sum((h,conv) | (conv = ',index_domain_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
-    end
-end
-
-%nonsolar export constraint
-constraint_nonsolar_export = '';
-if apply_constraint_nonsolar_export == 1
-    nonsolar_technologies_with_electrical_output = unique_technologies.conversion_techs_names(intersect(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"'}))),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
-    index_domain_string = '';
-    for t=1:length(nonsolar_technologies_with_electrical_output)
-        index_domain_string = strcat(index_domain_string,'''',char(nonsolar_technologies_with_electrical_output(t)),'''');
-        if t < length(nonsolar_technologies_with_electrical_output)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end   
-    if multiple_hubs == 0
-        constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv = ',index_domain_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
-    else
-        constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv) | (conv = ',index_domain_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
-    end
-end
-
-%solar export constraint with net metering
-constraint_solar_export_with_net_metering = '';
-if apply_constraint_solar_export_with_net_metering == 1
-    solar_technologies_with_electrical_output = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"'}))));
-    index_domain_string = '';
-    for t=1:length(solar_technologies_with_electrical_output)
-        index_domain_string = strcat(index_domain_string,'''',char(solar_technologies_with_electrical_output(t)),'''');
-        if t < length(solar_technologies_with_electrical_output)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end   
-    if multiple_hubs == 0
-        constraint_solar_export_with_net_metering = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) + Storage_input_energy(t,''Net_meter'') <= sum(conv | (conv = ',index_domain_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
-    else
-        constraint_solar_export_with_net_metering = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h) + Storage_input_energy(t,''Net_meter'',h)) <= sum((h,conv) | (conv = ',index_domain_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
-    end
-end
-
-%% CHP CONSTRAINTS
-
-%heat-to-power ratio constraint for heat generating CHP technologies
-constraint_htp_ratio_heat = '';
-if apply_constraint_htp_ratio_heat == 1
-    index_domain_string = '';
-    for t=1:length(chp_heat_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_heat_technologies(t)),'''');
-        if t < length(chp_heat_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_htp_ratio_heat = strcat('\n\t\tConstraint Heat_CHP_HTP_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Heat'',conv) = Cmatrix(''Heat'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv);\n\t\t}');
-    else
-        constraint_htp_ratio_heat = strcat('\n\t\tConstraint Heat_CHP_HTP_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Heat'',conv,h) = Cmatrix(''Heat'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv,h);\n\t\t}');
-    end
-end
-
-%heat-to-power ratio constraint for DHW generating CHP technologies
-constraint_htp_ratio_dhw = '';
-if apply_constraint_htp_ratio_dhw == 1
-    index_domain_string = '';
-    for t=1:length(chp_dhw_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_dhw_technologies(t)),'''');
-        if t < length(chp_dhw_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_htp_ratio_dhw = strcat('\n\t\tConstraint DHW_CHP_HTP_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''DHW'',conv) = Cmatrix(''DHW'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv);\n\t\t}');
-    else
-        constraint_htp_ratio_dhw = strcat('\n\t\tConstraint DHW_CHP_HTP_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''DHW'',conv,h) = Cmatrix(''DHW'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv,h);\n\t\t}');
-    end
-end
-
-%heat-to-power ratio constraint for anergy generating CHP technologies
-constraint_htp_ratio_anergy = '';
-if apply_constraint_htp_ratio_anergy == 1
-    index_domain_string = '';
-    for t=1:length(chp_anergy_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_anergy_technologies(t)),'''');
-        if t < length(chp_anergy_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_htp_ratio_anergy = strcat('\n\t\tConstraint Anergy_CHP_HTP_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Anergy'',conv) = Cmatrix(''Anergy'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv);\n\t\t}');
-    else
-        constraint_htp_ratio_anergy = strcat('\n\t\tConstraint Anergy_CHP_HTP_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Anergy'',conv,h) = Cmatrix(''Anergy'', conv) / Cmatrix(''Elec'', conv) * Capacity(''Elec'',conv,h);\n\t\t}');
-    end
-end
-
-%heat chp constraint
-constraint_chp_heat = '';
-if apply_constraint_chp_heat == 1
-    index_domain_string = '';
-    for t=1:length(chp_heat_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_heat_technologies(t)),'''');
-        if t < length(chp_heat_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_chp_heat = strcat('\n\t\tConstraint Heat_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv) = Installation(''Heat'',conv);\n\t\t}');
-    else
-        constraint_chp_heat = strcat('\n\t\tConstraint Heat_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv,h) = Installation(''Heat'',conv,h);\n\t\t}');
-    end
-end
-
-%dhw chp constraint
-constraint_chp_dhw = '';
-if apply_constraint_chp_dhw == 1
-    index_domain_string = '';
-    for t=1:length(chp_dhw_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_dhw_technologies(t)),'''');
-        if t < length(chp_dhw_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_chp_dhw = strcat('\n\t\tConstraint DHW_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv) = Installation(''DHW'',conv);\n\t\t}');
-    else
-        constraint_chp_dhw = strcat('\n\t\tConstraint DHW_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv,h) = Installation(''DHW'',conv,h);\n\t\t}');
-    end
-end
-
-%anergy chp constraint
-constraint_chp_anergy = '';
-if apply_constraint_chp_anergy == 1
-    index_domain_string = '';
-    for t=1:length(chp_anergy_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_anergy_technologies(t)),'''');
-        if t < length(chp_anergy_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_chp_anergy = strcat('\n\t\tConstraint Anergy_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv) = Installation(''Anergy'',conv);\n\t\t}');
-    else
-        constraint_chp_anergy = strcat('\n\t\tConstraint Anergy_CHP_HTP_constraint2 {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Installation(''Elec'',conv,h) = Installation(''Anergy'',conv,h);\n\t\t}');
-    end
-end
-
-%electrical capacity constraint
-constraint_chp2 = '';
-if apply_constraint_chp2 == 1
-    index_domain_string = '';
-    for t=1:length(chp_technologies)
-        index_domain_string = strcat(index_domain_string,'''',char(chp_technologies(t)),'''');
-        if t < length(chp_technologies)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
-    if multiple_hubs == 0
-        constraint_chp2 = strcat('\n\t\tConstraint CHP_max_capacity_constraint {\n\t\t\tIndexDomain: conv | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv) <= Max_allowable_capacity(conv);\n\t\t}');
-    else
-        constraint_chp2 = strcat('\n\t\tConstraint CHP_max_capacity_constraint {\n\t\t\tIndexDomain: (conv,h) | (conv = ',index_domain_string,');\n\t\t\tDefinition: Capacity(''Elec'',conv,h) <= Max_allowable_capacity(conv);\n\t\t}');
     end
 end
 

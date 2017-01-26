@@ -11,6 +11,8 @@ If you have multiple inputs, you need to make the Input_energy variable dependen
 
 You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now.
 
+Can the capacity variable/parameter be defined only with index domain conv, not x?
+
 Add some further documentation of the code structure.
 
 Improve visualization code for single hub analyses.
@@ -102,7 +104,7 @@ GenerateConversionTechnologyConstraints.m
 X Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the way you exclude CHPs won't work anymore.
 X Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
 Add roof area and min/max capacity constraints for multi-output techs. First check if you can integrate them into the existing constraint formulations.
-Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
+X Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
 Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
 Create a constraint for the input ratios
 CHP capacity constraint can just be integrated with the normal capacity constraint now.
