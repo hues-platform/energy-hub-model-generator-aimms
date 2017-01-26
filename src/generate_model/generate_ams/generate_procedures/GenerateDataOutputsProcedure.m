@@ -65,25 +65,9 @@ if print_conversion_data == 1 && isempty(unique_technologies.conversion_techs_na
         conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Exported_energy_renewable,"B2:',char('A' + length(energy_outputs) - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + length(energy_outputs) - 1 + 1),'1","Exported_energy_renewable",0,1,1);');
         conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Exported_energy_nonrenewable");');
         conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Exported_energy_nonrenewable,"B2:',char('A' + length(energy_outputs) - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + length(energy_outputs) - 1 + 1),'1","Exported_energy_nonrenewable",0,1,1);');
-        if consider_electricity_demand == 1
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_electricity");');
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_electricity,"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_electricity",0,1,1);');
-        end
-        if consider_heating_demand == 1
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_heat");');
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_heat,"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_heat",0,1,1);');
-        end
-        if consider_cooling_demand == 1
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_cool");');
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_heat,"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_cool",0,1,1);');
-        end
-        if consider_dhw_demand == 1
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_dhw");');
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_dhw,"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_dhw",0,1,1);');
-        end
-        if consider_anergy_demand == 1
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_anergy");');
-            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_anergy,"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_anergy",0,1,1);');
+        for o = energy_outputs
+            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_',char(o),'");');
+            conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy(t,''',char(o),''',conv),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_',char(o),'",0,1,1);');
         end
     else
         for h = 1:number_of_hubs
@@ -93,25 +77,9 @@ if print_conversion_data == 1 && isempty(unique_technologies.conversion_techs_na
             conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Exported_energy_renewable(t,x,''',num2str(h),'''),"B2:',char('A' + length(energy_outputs) - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + length(energy_outputs) - 1 + 1),'1","Exported_energy_renewable',num2str(h),'",0,1,1);');
             conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Exported_energy_nonrenewable',num2str(h),'");');
             conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Exported_energy_nonrenewable(t,x,''',num2str(h),'''),"B2:',char('A' + length(energy_outputs) - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + length(energy_outputs) - 1 + 1),'1","Exported_energy_nonrenewable',num2str(h),'",0,1,1);');
-            if consider_electricity_demand == 1
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_electricity',num2str(h),'");');
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_electricity(t,conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_electricity',num2str(h),'",0,1,1);');
-            end
-            if consider_heating_demand == 1
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_heat',num2str(h),'");');
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_heat(t,conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_heat',num2str(h),'",0,1,1);');
-            end
-            if consider_cooling_demand == 1
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_cool',num2str(h),'");');
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_cool(t,conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_cool',num2str(h),'",0,1,1);');
-            end
-            if consider_dhw_demand == 1
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_dhw',num2str(h),'");');
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_dhw(t,conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_dhw',num2str(h),'",0,1,1);');
-            end
-            if consider_anergy_demand == 1
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_anergy',num2str(h),'");');
-                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy_anergy(t,conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_anergy',num2str(h),'",0,1,1);');
+            for o = energy_outputs
+                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AddNewSheet("results/',experiment_name,'/results_conversion.xlsx","Output_energy_',char(o),num2str(h),'");');
+                conversion_data_for_printing = strcat(conversion_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_conversion.xlsx",Output_energy(t,''',char(o),''',conv,''',num2str(h),'''),"B2:',char('A' + number_of_conversion_techs - 1 + 1),num2str(number_of_timesteps + 1),'","A2:A',num2str(number_of_timesteps + 1),'","B1:',char('A' + number_of_conversion_techs - 1 + 1),'1","Output_energy_',char(o),num2str(h),'",0,1,1);');
             end
         end
     end

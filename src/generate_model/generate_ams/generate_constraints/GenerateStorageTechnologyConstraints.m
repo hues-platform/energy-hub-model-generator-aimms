@@ -137,9 +137,9 @@ if simplified_storage_representation == 0
             end
         end
         if multiple_hubs == 0
-            constraint_thermal_storage_balance = strcat('\n\t\tConstraint Thermal_storage_balance_constraint {\n\t\t\tIndexDomain: (t,stor,x) | (stor = ',index_domain_string,');\n\t\t\tDefinition: Temperature_thermal_storage(t+1,stor) = Temperature_thermal_storage(t,stor) + Storage_input_energy(t,stor) / (Storage_capacity(x,stor) * Thermal_storage_specific_heat(stor)) - Storage_output_energy(t,stor) / (Storage_capacity(x,stor) * Thermal_storage_specific_heat(stor));');
+            constraint_thermal_storage_balance = strcat('\n\t\tConstraint Thermal_storage_balance_constraint {\n\t\t\tIndexDomain: (t,stor,x) | (stor = ',index_domain_string,');\n\t\t\tDefinition: Temperature_thermal_storage(t+1,stor) = Temperature_thermal_storage(t,stor) + Storage_input_energy(t,stor) / (Storage_capacity(stor) * Thermal_storage_specific_heat(stor)) - Storage_output_energy(t,stor) / (Storage_capacity(stor) * Thermal_storage_specific_heat(stor));');
         else
-            constraint_thermal_storage_balance = strcat('\n\t\tConstraint Thermal_storage_balance_constraint {\n\t\t\tIndexDomain: (t,stor,x,h) | (stor = ',index_domain_string,');\n\t\t\tDefinition: Temperature_thermal_storage(t+1,stor,h) = Temperature_thermal_storage(t,stor,h) + Storage_input_energy(t,stor,h) / (Storage_capacity(x,stor,h) * Thermal_storage_specific_heat(stor)) - Storage_output_energy(t,stor,h) / (Storage_capacity(x,stor,h) * Thermal_storage_specific_heat(stor));');
+            constraint_thermal_storage_balance = strcat('\n\t\tConstraint Thermal_storage_balance_constraint {\n\t\t\tIndexDomain: (t,stor,x,h) | (stor = ',index_domain_string,');\n\t\t\tDefinition: Temperature_thermal_storage(t+1,stor,h) = Temperature_thermal_storage(t,stor,h) + Storage_input_energy(t,stor,h) / (Storage_capacity(stor,h) * Thermal_storage_specific_heat(stor)) - Storage_output_energy(t,stor,h) / (Storage_capacity(stor,h) * Thermal_storage_specific_heat(stor));');
         end
     end    
     

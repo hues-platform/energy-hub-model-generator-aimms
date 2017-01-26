@@ -35,9 +35,9 @@ end
 variable_technology_installation = '';
 if create_variable_technology_installation == 1
     if multiple_hubs == 0
-        variable_technology_installation = '\n\t\tVariable Installation {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0;\n\t\t\tRange: binary;\n\t\t}';
+        variable_technology_installation = '\n\t\tVariable Installation {\n\t\t\tIndexDomain: (conv);\n\t\t\tRange: binary;\n\t\t}';
     else
-        variable_technology_installation = '\n\t\tVariable Installation {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0;\n\t\t\tRange: binary;\n\t\t}';
+        variable_technology_installation = '\n\t\tVariable Installation {\n\t\t\tIndexDomain: (conv,h);\n\t\t\tRange: binary;\n\t\t}';
     end
 end
 
@@ -62,9 +62,9 @@ end
 variable_technology_capacity = '';
 if create_variable_technology_capacity == 1
     if multiple_hubs == 0
-        variable_technology_capacity = '\n\t\tVariable Capacity {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND conv <> ''Grid'';\n\t\t\tRange: nonnegative;\n\t\t}';
+        variable_technology_capacity = '\n\t\tVariable Capacity {\n\t\t\tIndexDomain: conv | conv <> ''Grid'';\n\t\t\tRange: nonnegative;\n\t\t}';
     else
-        variable_technology_capacity = '\n\t\tVariable Capacity {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0 AND conv <> ''Grid'';\n\t\t\tRange: nonnegative;\n\t\t}';
+        variable_technology_capacity = '\n\t\tVariable Capacity {\n\t\t\tIndexDomain: (conv,h) | conv <> ''Grid'';\n\t\t\tRange: nonnegative;\n\t\t}';
     end
 end
 
@@ -105,9 +105,9 @@ end
 variable_capital_cost_per_technology = '';
 if create_variable_capital_cost_per_technology
     if multiple_hubs == 0
-        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x, (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv));\n\t\t}';
+        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x, (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv));\n\t\t}';
     else
-        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(x,conv,h)) * CRF_tech(conv));\n\t\t}';
+        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv));\n\t\t}';
     end
 end
 

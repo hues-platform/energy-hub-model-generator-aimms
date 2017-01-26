@@ -5,13 +5,16 @@ Check why you're getting the Aimms warnings.
 
 Add your generic energy hub model to the model repository.
 
-Automatic identification and setting of energy carriers based on technology and case study input files. SEE NOTES BELOW FOR SPECIFIC TASKS TO DO THIS. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names. This goes together with the CHP constraints -> CHP constraints should be more generic to deal with any type of technology with more than one type of input or output.  Probably you'll have to set the max inputs/outputs per tech to 2.
-
 If you have multiple inputs, you need to make the Input_energy variable dependent on x. You'll have to think through the wider implications of this and where to adjust further elements as necessary.  For heat pump, the output energy equals the input heat plus the work done.
+In GenerateConversionTechnologyParams.m, you need to add the multi-input ratio stuff to the C-matrix parameter.  Right now you're also not including consumed energy in the C-matrix (i.e. negative values), which is going to mess up the results, so you need to change this.  You also probably need to make the input energy variable dependent on x, which has wider implications, but probably this shouldn't be a problem.
 
-You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now.
+You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?
 
-Can the capacity variable/parameter be defined only with index domain conv, not x?
+Can the capacity variable/parameter be defined only with index domain conv, not x?  Can storage capacity also be defined this way? Installation?
+
+Add to documentation the following notes:
+NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
+NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
 
 Add some further documentation of the code structure.
 
@@ -61,7 +64,7 @@ based on the technology outputs in the technology and case inputs files, identif
 Technology and case study input files:
 X Change output type row to two rows, output type 1 and output type 2
 X Change heat to power ratio row to ratio of output type 2 to 1. Note that input capacity and efficiency are wrt output type 1.
-You might need to add a row for type of storage, with the options thermal or electrical (additional types could be added later, e.g. hydrogen). This may be necessary, but I'm not sure actually.
+X You might need to add a row for type of storage, with the options thermal or electrical (additional types could be added later, e.g. hydrogen). This may be necessary, but I'm not sure actually.
 
 SetExperimentParameters.m
 X It should only be possible to set one way of initializing storages, not different ones for different energy carriers. Change the variables accordingly.
@@ -70,10 +73,8 @@ LoadCaseData.m:
 X Code for cleaning up of input files has to be adjusted -> just delete all the xlsx files in that folder, or put these in a new folder and just delete the contents each time, maybe that's easier.
 X Create a loop to iterate through the demand types and create the necessary input files. The consider_cooling_demand, etc. variables may not be necessary anymore.
 X Adjust the code for reading in the technology params from the case study file to reflect the modified structure of the installed technologies file
-NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
 
 LoadTechnologyData.m
-NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
 X Change the code for getting a unique list of the energy outputs
 X Remove the variables at the bottom that require stating specific energy carriers/demands.
 X Adjust the code for reading in the technology params from the technology file to reflect the modified structure of the technologies file, also adjust this elsewhere in LoadTechnologyData.m.
@@ -103,23 +104,23 @@ X Change the Output_energy_electricity, etc. variables. Create a loop to iterate
 GenerateConversionTechnologyConstraints.m
 X Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the way you exclude CHPs won't work anymore.
 X Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
-Add roof area and min/max capacity constraints for multi-output techs. First check if you can integrate them into the existing constraint formulations.
+X Add roof area and min/max capacity constraints for multi-output techs. First check if you can integrate them into the existing constraint formulations.
 X Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
-Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
-Create a constraint for the input ratios
-CHP capacity constraint can just be integrated with the normal capacity constraint now.
+X Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
+X Create a constraint for the input ratios
+X CHP capacity constraint can just be integrated with the normal capacity constraint now.
 
 GenerateStorageTechnologyInitializationConstraints.m
-Modify all of the constraints in this file
+X Modify all of the constraints in this file
 
 GenerateDataInputsProcedure.m
-Create loop for generating the RetrieveParameter commands for energy demands.
+X Create loop for generating the RetrieveParameter commands for energy demands.
 
 GenerateDataOutputsProcedure.m
-Adjust the commands for printing output energy of different types, for both single and multi-hub situations.
+X Adjust the commands for printing output energy of different types, for both single and multi-hub situations.
 
 GenerateMainExecutionProcedure.m
-Adjust the relaxation strings as necessary.  Are these necessary at all?
+X Adjust the relaxation strings as necessary.  Are these necessary at all?
 
 
 

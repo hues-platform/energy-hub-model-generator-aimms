@@ -23,9 +23,6 @@ apply_constraint_grid_capacity_violation2 = 0;
 apply_constraint_solar_export = 0;
 apply_constraint_nonsolar_export = 0;
 apply_constraint_solar_export_with_net_metering = 0;
-apply_constraint_output_ratio = 0;
-apply_constraint_input_ratio = 0;
-apply_constraint_multi_output_installation = 0;
 apply_constraint_energy_balance_storage = 0;
 apply_constraint_max_charging_rate_storage = 0;
 apply_constraint_max_discharging_rate_storage = 0;
@@ -107,21 +104,6 @@ if isempty(technologies.conversion_techs_names) == 0
         if sum(technologies.conversion_techs_min_capacity) > 0
             apply_constraint_min_capacity = 1;
         end
-    end
-
-    %only applicable if you're doing sizing & tech selection AND are considering multi-output techs
-    if isempty(technologies_with_multiple_outputs) == 0 && select_techs_and_do_sizing == 1
-        apply_constraint_multi_output_installation = 1;
-    end
-    
-    %only applicable if you're considering multi-output techs
-    if isempty(technologies_with_multiple_outputs) == 0
-        apply_constraint_output_ratio = 1;
-    end
-    
-    %only applicable if you're considering multi-input techs
-    if isempty(technologies_with_multiple_inputs) == 0
-        apply_constraint_input_ratio = 1;
     end
 end
 

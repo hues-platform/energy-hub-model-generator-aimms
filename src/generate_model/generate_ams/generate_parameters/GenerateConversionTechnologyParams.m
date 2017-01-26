@@ -153,51 +153,77 @@ end
 %only used if we're not doing technology selection and sizing; otherwise this is set by the capacity variable
 param_capacity = '';
 if create_param_capacity == 1
-    
-    installed_conversion_techs_with_single_output = installed_technologies.conversion_techs_names(find(isnan(installed_technologies.conversion_techs_outputs_2)));
-    installed_conversion_techs_with_multiple_outputs = installed_technologies.conversion_techs_names(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    
-    outputs_of_installed_techs_with_single_output = installed_technologies.conversion_techs_outputs_1(find(isnan(installed_technologies.conversion_techs_outputs_2)));
-    capacity_of_installed_techs_with_single_output = installed_technologies.conversion_techs_capacity(find(isnan(installed_technologies.conversion_techs_outputs_2)));
-    node_of_installed_techs_with_single_output = installed_technologies.conversion_techs_node(find(isnan(installed_technologies.conversion_techs_outputs_2)));
-    
-    output_1_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_outputs_1(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    output_2_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_outputs_2(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    capacity_1_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_capacity(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    output_ratio_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_output_ratio(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    capacity_2_of_installed_techs_with_multiple_outputs = capacity_1_of_installed_techs_with_multiple_outputs .* output_ratio_of_installed_techs_with_multiple_outputs;
-    node_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_node(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
-    
     definition_string = '';
     if multiple_hubs == 0
-        index_domain_string = '(x,conv)';
-        for t=1:length(energy_conversion_technologies_with_single_output)
+        index_domain_string = 'conv';
+        for t=1:length(energy_conversion_technologies)
             if t>1
                 definition_string = strcat(definition_string,', ');
             end
-            definition_string = strcat(definition_string,'(',char(outputs_of_installed_techs_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),'):',num2str(capacity_of_installed_techs_with_single_output(t)));
-        end
-        for t=1:length(energy_conversion_technologies_with_multiple_outputs)
-            definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
-            definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
+            definition_string = strcat(definition_string,char(energy_conversion_technologies(t)),':',num2str(installed_technologies.conversion_techs_capacity(t)));
         end
     else
-        index_domain_string = '(x,conv,h)';
-        for t=1:length(energy_conversion_technologies_with_single_output)
+        index_domain_string = '(conv,h)';
+        for t=1:length(energy_conversion_technologies)
             if t>1
                 definition_string = strcat(definition_string,', ');
             end
-            definition_string = strcat(definition_string,'(',char(outputs_of_installed_techs_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),',',num2str(node_of_installed_techs_with_single_output(t)),'):',num2str(capacity_of_installed_techs_with_single_output(t)));
-        end
-        for t=1:length(energy_conversion_technologies_with_multiple_outputs)
-            definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),',',num2str(node_of_installed_techs_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
-            definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),',',num2str(node_of_installed_techs_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
+            definition_string = strcat(definition_string,'(',char(energy_conversion_technologies(t)),num2str(installed_technologies.conversion_techs_node(t)),'):',num2str(installed_technologies.conversion_techs_capacity(t)));
         end
     end
     
     param_capacity = strcat('\n\t\tParameter Capacity {\n\t\t\tIndexDomain: ',index_domain_string,';\n\t\t\tDefinition: { data {',definition_string,'};\n\t\t\t}\n\t\t}');
-
 end
+
+% %param capacity
+% %only used if we're not doing technology selection and sizing; otherwise this is set by the capacity variable
+% param_capacity = '';
+% if create_param_capacity == 1
+%     
+%     installed_conversion_techs_with_single_output = installed_technologies.conversion_techs_names(find(isnan(installed_technologies.conversion_techs_outputs_2)));
+%     installed_conversion_techs_with_multiple_outputs = installed_technologies.conversion_techs_names(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     
+%     outputs_of_installed_techs_with_single_output = installed_technologies.conversion_techs_outputs_1(find(isnan(installed_technologies.conversion_techs_outputs_2)));
+%     capacity_of_installed_techs_with_single_output = installed_technologies.conversion_techs_capacity(find(isnan(installed_technologies.conversion_techs_outputs_2)));
+%     node_of_installed_techs_with_single_output = installed_technologies.conversion_techs_node(find(isnan(installed_technologies.conversion_techs_outputs_2)));
+%     
+%     output_1_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_outputs_1(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     output_2_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_outputs_2(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     capacity_1_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_capacity(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     output_ratio_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_output_ratio(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     capacity_2_of_installed_techs_with_multiple_outputs = capacity_1_of_installed_techs_with_multiple_outputs .* output_ratio_of_installed_techs_with_multiple_outputs;
+%     node_of_installed_techs_with_multiple_outputs = installed_technologies.conversion_techs_node(find(~isnan(installed_technologies.conversion_techs_outputs_2)));
+%     
+%     definition_string = '';
+%     if multiple_hubs == 0
+%         index_domain_string = '(x,conv)';
+%         for t=1:length(energy_conversion_technologies_with_single_output)
+%             if t>1
+%                 definition_string = strcat(definition_string,', ');
+%             end
+%             definition_string = strcat(definition_string,'(',char(outputs_of_installed_techs_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),'):',num2str(capacity_of_installed_techs_with_single_output(t)));
+%         end
+%         for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+%             definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
+%             definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
+%         end
+%     else
+%         index_domain_string = '(x,conv,h)';
+%         for t=1:length(energy_conversion_technologies_with_single_output)
+%             if t>1
+%                 definition_string = strcat(definition_string,', ');
+%             end
+%             definition_string = strcat(definition_string,'(',char(outputs_of_installed_techs_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),',',num2str(node_of_installed_techs_with_single_output(t)),'):',num2str(capacity_of_installed_techs_with_single_output(t)));
+%         end
+%         for t=1:length(energy_conversion_technologies_with_multiple_outputs)
+%             definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),',',num2str(node_of_installed_techs_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
+%             definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),',',num2str(node_of_installed_techs_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
+%         end
+%     end
+%     
+%     param_capacity = strcat('\n\t\tParameter Capacity {\n\t\t\tIndexDomain: ',index_domain_string,';\n\t\t\tDefinition: { data {',definition_string,'};\n\t\t\t}\n\t\t}');
+% 
+% end
 
 %param capacity grid
 %only used if we're not doing grid sizing; otherwise this is set by the capacity variable
@@ -276,9 +302,9 @@ if create_param_minimum_part_load == 1
         if t>1
             definition_string = strcat(definition_string,', ');
         end
-        definition_string = strcat(definition_string,'(',char(unique_technologies.conversion_techs_output_1(t)),',',char(energy_conversion_technologies(t)),'):',num2str(unique_technologies.conversion_techs_min_part_load(t)));
+        definition_string = strcat(definition_string,char(energy_conversion_technologies(t)),':',num2str(unique_technologies.conversion_techs_min_part_load(t)));
     end
-    param_minimum_part_load = strcat('\n\t\tParameter Minimum_part_load {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv);\n\t\t\tDefinition: { data { ',definition_string,'}\n\t\t\t;}\n\t\t}');
+    param_minimum_part_load = strcat('\n\t\tParameter Minimum_part_load {\n\t\t\tIndexDomain: conv ;\n\t\t\tDefinition: { data { ',definition_string,'}\n\t\t\t;}\n\t\t}');
 end
 
 %installation (for pre-installed technologies)

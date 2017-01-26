@@ -29,7 +29,7 @@ end
 for d = demand_types
     relevant_columns = find(demand_types == d);
     relevant_demands = demand_data(:,relevant_columns);
-    xlswrite(strcat('aimms_model\energy_hub\',d,'_demand.xlsx'),relevant_demands,'demand');
+    xlswrite(strcat('aimms_model\energy_hub\input_data\',d,'_demand.xlsx'),relevant_demands,'demand');
 end
 
 %% LOAD ENERGY INPUTS DATA
@@ -52,7 +52,7 @@ if sum(strcmp('Solar',inputs_types)) > 0
     end
     if sum(sum(solar_radiations)) > 0
         consider_solar_inputs = 1;
-        xlswrite('aimms_model\energy_hub\solar_inputs.xlsx',solar_radiations,'solar');
+        xlswrite('aimms_model\energy_hub\input_data\solar_inputs.xlsx',solar_radiations,'solar');
     end
 end
 
@@ -60,17 +60,17 @@ end
 
 if dynamic_electricity_price == 1
     grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
 end
 
 if dynamic_grid_feed_in_price_renewables == 1
     grid_electricity_feedin_price_renewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_renewables.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx',grid_electricity_feedin_price_renewables,'price');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_feed_in_price_renewables.xlsx',grid_electricity_feedin_price_renewables,'price');
 end
 
 if dynamic_grid_feed_in_price_nonrenewables == 1
     grid_electricity_feedin_price_nonrenewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_nonrenewables.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx',grid_electricity_feedin_price_nonrenewables,'price');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_feed_in_price_nonrenewables.xlsx',grid_electricity_feedin_price_nonrenewables,'price');
 end
 
 %% LOAD INSTALLED TECHNOLOGY DATA
