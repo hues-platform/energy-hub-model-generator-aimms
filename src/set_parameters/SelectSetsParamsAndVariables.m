@@ -55,7 +55,7 @@ create_param_link_losses = 0;
 create_param_link_capacity = 0;
 
 create_variable_input_streams = 0;
-create_variables_energy_output = 0;
+create_variable_energy_output = 0;
 create_variable_exported_energy_nonrenewable = 0;
 create_variable_exported_energy_renewable = 0;
 create_variable_technology_installation = 0;
@@ -285,7 +285,7 @@ end
 
 %these variables should always be created
 create_variable_input_streams = 1;
-create_variables_energy_output = 1;
+create_variable_energy_output = 1;
 create_objectivefn_operating_cost = 1;
 create_objectivefn_maintenance_cost = 1;
 create_objectivefn_maintenance_cost_per_timestep = 1;

@@ -40,14 +40,17 @@ if apply_constraint_capacity == 1
 end
 
 %min allowable capacity constraint
+%applies to non-solar techs, excluding grid, with single outputs
+%min capacityfor multi-output techs is enforced in a separate constraint
 constraint_min_capacity = '';
-non_solar_energy_conversion_technologies_excluding_chp = unique_technologies.conversion_techs_names(intersect(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),...
-    find(~ismember(unique_technologies.conversion_techs_outputs,{'"Heat,Elec"','"Elec,Heat"','"DHW,Elec"','"Elec,DHW"','"Anergy,Elec"','"Elec,Anergy"'}))),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
 if apply_constraint_min_capacity == 1
+    included_techs = unique_technologies.conversion_techs_names(intersect(...
+        intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))),...
+        find(isnan(unique_technologies.conversion_techs_outputs_2))));
     index_domain_string = '';
-    for t=1:length(non_solar_energy_conversion_technologies_excluding_chp)
-        index_domain_string = strcat(index_domain_string,'''',char(non_solar_energy_conversion_technologies_excluding_chp(t)),'''');
-        if t < length(non_solar_energy_conversion_technologies_excluding_chp)
+    for t=1:length(included_techs)
+        index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
+        if t < length(included_techs)
              index_domain_string = strcat(index_domain_string,' OR conv = '); 
         end
     end
@@ -60,13 +63,14 @@ end
 
 %max allowable capacity constraint
 constraint_max_capacity = '';
-non_solar_energy_conversion_technologies_excluding_chp = unique_technologies.conversion_techs_names(intersect(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),...
-    find(~ismember(unique_technologies.conversion_techs_outputs,{'"Heat,Elec"','"Elec,Heat"','"DHW,Elec"','"Elec,DHW"','"Anergy,Elec"','"Elec,Anergy"'}))),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
 if apply_constraint_max_capacity == 1
+    included_techs = unique_technologies.conversion_techs_names(intersect(...
+        intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))),...
+        find(isnan(unique_technologies.conversion_techs_outputs_2))));
     index_domain_string = '';
-    for t=1:length(non_solar_energy_conversion_technologies_excluding_chp)
-        index_domain_string = strcat(index_domain_string,'''',char(non_solar_energy_conversion_technologies_excluding_chp(t)),'''');
-        if t < length(non_solar_energy_conversion_technologies_excluding_chp)
+    for t=1:length(included_techs)
+        index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
+        if t < length(included_techs)
              index_domain_string = strcat(index_domain_string,' OR conv = '); 
         end
     end
@@ -141,54 +145,28 @@ if apply_constraint_solar_availability == 1
 end
 
 %roof area constraint
+%applies to solar techs with single outputs
+%max roof area for multi-output solar techs is enforced in a separate constraint
 constraint_roof_area = '';
-solar_technologies_with_electrical_output = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Elec','"Heat,Elec"','"Elec,Heat"'}))));
-solar_technologies_with_heat_output = unique_technologies.conversion_techs_names(intersect(find(ismember(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Heat','"Heat,Elec"','"Elec,Heat"'}))));
-solar_technologies_with_dhw_output = unique_technologies.conversion_techs_names(intersect(find(ismember(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'DHW','"DHW,Elec"','"Elec,DHW"'}))));
-solar_technologies_with_anergy_output = unique_technologies.conversion_techs_names(intersect(find(ismember(unique_technologies.conversion_techs_inputs,'Solar')),find(ismember(unique_technologies.conversion_techs_outputs,{'Anergy','"Anergy,Elec"','"Elec,Anergy"'}))));
 if apply_constraint_roof_area == 1
-    definition_string = '';
-        
+    included_techs = unique_technologies.conversion_techs_names(intersect(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(isnan(unique_technologies.conversion_techs_outputs_2))));  
+    index_domain_string = '';
     if multiple_hubs == 0
-        for t = 1:length(solar_technologies_with_electrical_output)
-            if t > 1
-                definition_string = strcat(definition_string,'+');
-            end
-            definition_string = strcat(definition_string,'Capacity(''Elec'',''',char(solar_technologies_with_electrical_output(t)),''')');        
+        for t=1:length(included_techs)
+            index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
+                if t < length(included_techs)
+                    index_domain_string = strcat(index_domain_string,' OR conv = '); 
+                end
         end
-        for t = 1:length(solar_technologies_with_heat_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''Heat'',''',char(solar_technologies_with_heat_output(t)),''')');
-        end
-        for t = 1:length(solar_technologies_with_dhw_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''DHW'',''',char(solar_technologies_with_dhw_output(t)),''')');
-        end
-        for t = 1:length(solar_technologies_with_anergy_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''Anergy'',''',char(solar_technologies_with_anergy_output(t)),''')');
-        end
-        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tDefinition: ',definition_string,' <= Building_roof_area;\n\t\t}');
+        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');;\n\t\t\tDefinition: Capacity(x,conv) <= Building_roof_area;\n\t\t}');
     else
-        for t = 1:length(solar_technologies_with_electrical_output)
-            if t > 1
-                definition_string = strcat(definition_string,'+');
-            end
-            definition_string = strcat(definition_string,'Capacity(''Elec'',''',char(solar_technologies_with_electrical_output(t)),''',h)');        
+        for t=1:length(included_techs)
+            index_domain_string = strcat(index_domain_string,'''',char(included_techs(t)),'''');
+                if t < length(included_techs)
+                    index_domain_string = strcat(index_domain_string,' OR conv = '); 
+                end
         end
-        for t = 1:length(solar_technologies_with_heat_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''Heat'',''',char(solar_technologies_with_heat_output(t)),''',h)');
-        end
-        for t = 1:length(solar_technologies_with_dhw_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''DHW'',''',char(solar_technologies_with_dhw_output(t)),''',h)');
-        end
-        for t = 1:length(solar_technologies_with_anergy_output)
-            definition_string = strcat(definition_string,'+');
-            definition_string = strcat(definition_string,'Capacity(''Anergy'',''',char(solar_technologies_with_anergy_output(t)),''',h)');
-        end
-        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: h;\n\t\t\tDefinition: ',definition_string,' <= Building_roof_area(h);\n\t\t}');
+        constraint_roof_area = strcat('\n\t\tConstraint Roof_area_constraint {\n\t\t\tIndexDomain: (x,conv,h) | Cmatrix(x,conv) > 0 AND (conv = ',index_domain_string,');;\n\t\t\tDefinition: Capacity(x,conv,h) <= Building_roof_area(h);\n\t\t}');
     end
 end
 

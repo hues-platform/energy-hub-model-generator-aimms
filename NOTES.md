@@ -7,6 +7,10 @@ Add your generic energy hub model to the model repository.
 
 Automatic identification and setting of energy carriers based on technology and case study input files. SEE NOTES BELOW FOR SPECIFIC TASKS TO DO THIS. Parameterize energy demands so you don't have to deal with heat, cooling, electricity, etc. separately in the code, but these are automatically set. This can be dealt with in the outputs the same way as multiple hubs are dealt with. Change the case study read-in code so you get the demand types from the input files and not manually. Energy outputs should be dealt with in the same way as multiple hubs, with automated printing routines that dynamically set the sheet names and variable names. This goes together with the CHP constraints -> CHP constraints should be more generic to deal with any type of technology with more than one type of input or output.  Probably you'll have to set the max inputs/outputs per tech to 2.
 
+If you have multiple inputs, you need to make the Input_energy variable dependent on x. You'll have to think through the wider implications of this and where to adjust further elements as necessary.  For heat pump, the output energy equals the input heat plus the work done.
+
+You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now.
+
 Add some further documentation of the code structure.
 
 Improve visualization code for single hub analyses.
@@ -92,11 +96,12 @@ X Adjust the S matrix param code.
 X Adjust the storage capacity param code, in both places.
 
 GenerateConversionTechnologyVariables.m
-Change the Output_energy_electricity, etc. variables. Create a loop to iterate through the different carriers.
+X Change the Output_energy_electricity, etc. variables. Create a loop to iterate through the different carriers.
 
 GenerateConversionTechnologyConstraints.m
-Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the way you exclude CHPs won't work anymore.
-Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
+X Change the Minimum_capacity_constraint and Maximum_capacity_constraint -> the way you exclude CHPs won't work anymore.
+X Change the Roof_area_constraint -> the way you determine the relevant solar technologies won't work anymore.  You'll have to iterate differently.
+Add roof area and min/max capacity constraints for multi-output techs. First check if you can integrate them into the existing constraint formulations.
 Modify Electricity_export_solar_constraint and Electricity_export_nonsolar_constraint, also the one with net metering
 Change your CHP_HTP_constraints 1&2, probably to iteratre through them automatically.
 Create a constraint for the input ratios
