@@ -136,17 +136,38 @@ if create_param_C_matrix == 1
     output_ratio_of_conversion_techs_with_multiple_outputs = unique_technologies.conversion_techs_output_ratio(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
     efficiency_2_of_conversion_technologies_with_multiple_outputs = efficiency_1_of_conversion_technologies_with_multiple_outputs .* output_ratio_of_conversion_techs_with_multiple_outputs;
     
+    %add the single-output technologies to the C-matrix
     for t=1:length(energy_conversion_technologies_with_single_output)
         if t>1
             definition_string = strcat(definition_string,', ');
         end
         definition_string = strcat(definition_string,'(',char(outputs_of_conversion_technologies_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),'):',num2str(efficiency_of_conversion_technologies_with_single_output(t)));
     end
+    
+    %add the multi-output technologies to the C-matrix
     for t=1:length(energy_conversion_technologies_with_multiple_outputs)
         definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
         definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
     end
+    
+    %add the inputs to the C-matrix where necessary (when the inputs correspond to the outputs of other technologies)
+    for o=1:length(energy_outputs)
+ 
+        %add for primary inputs of technologies
+        technologies_with_this_as_main_input = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs_1,energy_outputs(o))));
+        for t=1:length(technologies_with_this_as_main_input)
+            definition_string = strcat(definition_string,',(',char(energy_outputs(o)),',',char(technologies_with_this_as_main_input(t)),'):',num2str(-1.0));
+        end
+        
+        %add for secondary inputs of technologies (in cases of multiple inputs)
+        technologies_with_this_as_secondary_input = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs_2,energy_outputs(o))));
+        for t=1:length(technologies_with_this_as_secondary_input)
+            input_ratio = unique_technologies.conversion_techs_input_ratio(find(strcmp(technologies_with_multiple_inputs,technologies_with_this_as_secondary_input(t)))); 
+            definition_string = strcat(definition_string,',(',char(energy_outputs(o)),',',char(technologies_with_this_as_secondary_input(t)),'):',num2str(-1.0 * input_ratio));
+        end
+    end   
     param_C_matrix = strcat(C_matrix,definition_string,'}\n\t\t\t}\n\t\t}');
+    
 end
 
 %param capacity

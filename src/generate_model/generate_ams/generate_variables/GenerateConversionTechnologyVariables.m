@@ -1,6 +1,7 @@
 %% ENERGY CONVERSION TECHNOLOGY VARIABLES
 
 %variable denoting input energy streams of energy conversion devices
+%refers to the quantity of the primary input stream being used
 variable_input_streams = '';
 if create_variable_input_streams == 1
     if multiple_hubs == 0
