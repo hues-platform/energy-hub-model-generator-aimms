@@ -10,6 +10,8 @@
 NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
 NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
 
+* Merge (???) with main branch
+
 ## MULTI-HUB IMPROVEMENTS
 Implement possibility to optimize the size and structure of a network
 
