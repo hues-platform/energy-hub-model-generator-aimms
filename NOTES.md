@@ -1,26 +1,14 @@
 # TODO
 
 ## PRIORITY
-Check why you're getting the Aimms warnings.
 
-Add your generic energy hub model to the model repository.
+* Debug and verify the model after your changes, and modify the test scripts accordingly.
 
-If you have multiple inputs, you need to make the Input_energy variable dependent on x. You'll have to think through the wider implications of this and where to adjust further elements as necessary.  For heat pump, the output energy equals the input heat plus the work done.
-In GenerateConversionTechnologyParams.m, you need to add the multi-input ratio stuff to the C-matrix parameter.  Right now you're also not including consumed energy in the C-matrix (i.e. negative values), which is going to mess up the results, so you need to change this.  You also probably need to make the input energy variable dependent on x, which has wider implications, but probably this shouldn't be a problem.
+* You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?
 
-You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?
-
-Can the capacity variable/parameter be defined only with index domain conv, not x?  Can storage capacity also be defined this way? Installation?
-
-Add to documentation the following notes:
+* Add to documentation the following notes:
 NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
 NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
-
-Add some further documentation of the code structure.
-
-Improve visualization code for single hub analyses.
-
-Adding custom constraints. How can this be done?
 
 ## MULTI-HUB IMPROVEMENTS
 Implement possibility to optimize the size and structure of a network
@@ -32,6 +20,18 @@ Improve the manner in which network results are printed - right now it's just on
 Create visualization code for multi-hub analyses
 
 ## OTHER
+Check why you're getting the Aimms warnings.
+
+Add your generic energy hub model to the model repository.
+
+Add some further documentation of the code structure.
+
+Improve visualization code for single hub analyses.
+
+Adding custom constraints. How can this be done?
+
+It's assumed that operating costs and emissions can be incurred only by the first input for gas, but this may not necessarily be the case. They could also be incurred by a second input.
+
 Implement different ways for dealing with time, e.g. full year, typical days, rolling horizon, receding horizon, which can then be implemented for any model.
 
 Add on/off constraint for certain conversion technologies

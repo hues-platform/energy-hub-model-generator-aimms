@@ -2,9 +2,10 @@
 
 %% CLEAN UP THE INPUT FILES
 
-
-rmdir('aimms_model\energy_hub\input_files','s');
-mkdir('aimms_model\energy_hub\input_files');
+if exist('aimms_model\energy_hub\input_data\','dir')==7
+    rmdir('aimms_model\energy_hub\input_data\','s');
+end
+mkdir('aimms_model\energy_hub\input_data\');
 
 %% LOAD DEMAND DATA
 
@@ -27,9 +28,9 @@ end
 
 %create the demand files
 for d = demand_types
-    relevant_columns = find(demand_types == d);
+    relevant_columns = find(strcmp(demand_types,d));
     relevant_demands = demand_data(:,relevant_columns);
-    xlswrite(strcat('aimms_model\energy_hub\input_data\',d,'_demand.xlsx'),relevant_demands,'demand');
+    xlswrite(strcat('aimms_model\energy_hub\input_data\',char(d),'_demand.xlsx'),relevant_demands,'demand');
 end
 
 %% LOAD ENERGY INPUTS DATA
@@ -87,12 +88,12 @@ if include_installed_technologies == 1
         installed_technologies.conversion_techs_outputs_2 = raw(3,2:end);
         installed_technologies.conversion_techs_inputs_1 = raw(4,2:end);
         installed_technologies.conversion_techs_inputs_2 = raw(5,2:end);
-        installed_technologies.conversion_techs_efficiency = cell2mat(raw(6,1:end));
-        installed_technologies.conversion_techs_min_part_load = cell2mat(raw(7,1:end));
-        installed_technologies.conversion_techs_output_ratio = cell2mat(raw(8,1:end));
-        installed_technologies.conversion_techs_input_ratio = cell2mat(raw(9,1:end));
-        installed_technologies.conversion_techs_capacity = cell2mat(raw(10,1:end));
-        installed_technologies.conversion_techs_node = cell2mat(raw(11,1:end));
+        installed_technologies.conversion_techs_efficiency = cell2mat(raw(6,2:end));
+        installed_technologies.conversion_techs_min_part_load = cell2mat(raw(7,2:end));
+        installed_technologies.conversion_techs_output_ratio = cell2mat(raw(8,2:end));
+        installed_technologies.conversion_techs_input_ratio = cell2mat(raw(9,2:end));
+        installed_technologies.conversion_techs_capacity = cell2mat(raw(10,2:end));
+        installed_technologies.conversion_techs_node = cell2mat(raw(11,2:end));
     end
 
     %read the installed storage technology data

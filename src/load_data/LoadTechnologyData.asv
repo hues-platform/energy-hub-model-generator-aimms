@@ -151,9 +151,9 @@ if grid_connected_system == 1
 
         technologies.conversion_techs_names(end+1) = {'Grid'};
         technologies.conversion_techs_outputs_1(end+1) = {'Elec'};
-        technologies.conversion_techs_outputs_2(end+1) = {NaN};
+        technologies.conversion_techs_outputs_2(end+1) = {};
         technologies.conversion_techs_inputs_1(end+1) = {'Grid_electricity'};
-        technologies.conversion_techs_inputs_2(end+1) = {NaN};
+        technologies.conversion_techs_inputs_2(end+1) = {};
         technologies.conversion_techs_lifetime(end+1) = 0;
         technologies.conversion_techs_capital_cost_variable(end+1) = grid_initial_connection_cost_per_kW;
         technologies.conversion_techs_capital_cost_fixed(end+1) = grid_initial_connection_cost_fixed;
@@ -170,9 +170,9 @@ if grid_connected_system == 1
 
         technologies.conversion_techs_names(end+1) = {'Grid'};
         technologies.conversion_techs_outputs_1(end+1) = {'Elec'};
-        technologies.conversion_techs_outputs_2(end+1) = {NaN};
+        technologies.conversion_techs_outputs_2(end+1) = NaN;
         technologies.conversion_techs_inputs_1(end+1) = {'Grid_electricity'};
-        technologies.conversion_techs_inputs_2(end+1) = {NaN};
+        technologies.conversion_techs_inputs_2(end+1) = NaN;
         technologies.conversion_techs_lifetime(end+1) = 0;
         technologies.conversion_techs_capital_cost_variable(end+1) = 0;
         technologies.conversion_techs_capital_cost_fixed(end+1) = 0;
@@ -213,7 +213,7 @@ technologies.conversion_techs_operating_costs = [];
 for t=1:length(technologies.conversion_techs_names)
     if strcmp(technologies.conversion_techs_names(t),'Grid')
         technologies.conversion_techs_operating_costs(t) = 0; %this isn't used
-    elseif strcmp(technologies.conversion_techs_inputs_1(t),'Gas')
+    elseif strcmp(technologies.conversion_techs_inputs(t),'Gas')
         technologies.conversion_techs_operating_costs(t) = gas_price;
     else
         technologies.conversion_techs_operating_costs(t) = 0;
@@ -227,7 +227,7 @@ technologies.conversion_techs_carbon_factors = [];
 for t=1:length(technologies.conversion_techs_names)
     if strcmp(technologies.conversion_techs_names(t),'Grid')
         technologies.conversion_techs_carbon_factors(t) = electricity_grid_carbon_factor;
-    elseif strcmp(technologies.conversion_techs_inputs_1(t),'Gas')
+    elseif strcmp(technologies.conversion_techs_inputs(t),'Gas')
         technologies.conversion_techs_carbon_factors(t) = natural_gas_carbon_factor;
     else
         technologies.conversion_techs_carbon_factors(t) = 0;
