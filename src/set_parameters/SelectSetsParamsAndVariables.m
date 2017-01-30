@@ -55,11 +55,7 @@ create_param_link_losses = 0;
 create_param_link_capacity = 0;
 
 create_variable_input_streams = 0;
-create_variable_electricity_output = 0;
-create_variable_heat_output = 0;
-create_variable_cool_output = 0;
-create_variable_dhw_output = 0;
-create_variable_anergy_output = 0;
+create_variable_energy_output = 0;
 create_variable_exported_energy_nonrenewable = 0;
 create_variable_exported_energy_renewable = 0;
 create_variable_technology_installation = 0;
@@ -101,37 +97,45 @@ create_objectivefn_total_cost = 0;
 %determine whether to use a simplified storage representation
 % (this increases speed by representing storage technologies in terms of their energy carrier, rather than as individual technologies)
 if multiple_hubs == 0
-    if length(electricity_storage_technologies) > 1 || length(heat_storage_technologies) > 1 || length(cool_storage_technologies) > 1 || length(dhw_storage_technologies) > 1 || length(anergy_storage_technologies) > 1
-        simplified_storage_representation = 0;
-    else
-        simplified_storage_representation = 1;
+    
+    simplified_storage_representation = 1;
+    for x = energy_outputs
+        storage_techs_of_type_x = find(strcmp(unique_technologies.storage_techs_types,x));
+        if length(storage_techs_of_type_x) > 1
+            simplified_storage_representation = 0;
+        end
     end
+    
 else
     simplified_storage_representation = 1;
     
-    %check if there are multiple storage techs of the same type being considered for installation
-    electricity_storage_techs_not_installed = technologies_for_selection_and_sizing.storage_techs_names(find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,'Elec')));
-    heat_storage_techs_not_installed = technologies_for_selection_and_sizing.storage_techs_names(find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,'Heat')));
-    cool_storage_techs_not_installed = technologies_for_selection_and_sizing.storage_techs_names(find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,'Cool')));
-    dhw_storage_techs_not_installed = technologies_for_selection_and_sizing.storage_techs_names(find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,'DHW')));
-    anergy_storage_techs_not_installed = technologies_for_selection_and_sizing.storage_techs_names(find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,'Anergy')));
-    if length(electricity_storage_techs_not_installed) > 1 || length(heat_storage_techs_not_installed) > 1 || length(cool_storage_techs_not_installed) > 1 || length(dhw_storage_techs_not_installed) > 1 || length(anergy_storage_techs_not_installed) > 1
-        simplified_storage_representation = 0;
-    end
-    
-    %check if there are multiple storage techs of the same type already installed at any of the hubs
-    for h=1:number_of_hubs
+    for x = energy_outputs
+        
+        %check if there are multiple storage techs of the same type being considered for installation
+        storage_techs_not_installed_of_type_x = find(strcmp(technologies_for_selection_and_sizing.storage_techs_types,x));
+        if length(storage_techs_not_installed_of_type_x) > 1
+            simplified_storage_representation = 0;
+        end
+        
+        %check if there are multple storage techs of the same type being considered for installation while also already being installed at one or more of the hubs
         if include_installed_technologies == 1 && isempty(installed_technologies.storage_techs_names) == 0
-            electricity_storage_techs_this_hub = installed_technologies.storage_techs_names(find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Elec')) == h)));
-            heat_storage_techs_this_hub = installed_technologies.storage_techs_names(find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Heat')) == h)));
-            cool_storage_techs_this_hub = installed_technologies.storage_techs_names(find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Cool')) == h)));
-            dhw_storage_techs_this_hub = installed_technologies.storage_techs_names(find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'DHW')) == h)));
-            anergy_storage_techs_this_hub = installed_technologies.storage_techs_names(find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,'Anergy')) == h)));
-            if length(electricity_storage_techs_this_hub) > 1 || length(heat_storage_techs_this_hub) > 1 || length(cool_storage_techs_this_hub) > 1 || length(dhw_storage_techs_this_hub) > 1 || length(anergy_storage_techs_this_hub) > 1
+            storage_techs_installed_of_type_x = find(strcmp(installed_technologies.storage_techs_types,x));
+            if length(storage_techs_installed_of_type_x) > 0 && length(storage_techs_not_installed_of_type_x) > 0
                 simplified_storage_representation = 0;
             end
         end
+        
+        %check if there are multiple storage techs of the same type already installed at any of the hubs
+        for h=1:number_of_hubs
+            if include_installed_technologies == 1 && isempty(installed_technologies.storage_techs_names) == 0
+                storage_techs_installed_this_hub_of_type_x = find(installed_technologies.storage_techs_node(find(strcmp(installed_technologies.storage_techs_types,x)) == h));
+                if length(storage_techs_installed_this_hub_of_type_x) > 1
+                    simplified_storage_representation = 0;
+                end
+            end
+        end
     end
+    
 end
 
 %if we have net metering, we add an electrical storage, which in many cases
@@ -283,28 +287,12 @@ end
 
 %these variables should always be created
 create_variable_input_streams = 1;
+create_variable_energy_output = 1;
 create_objectivefn_operating_cost = 1;
 create_objectivefn_maintenance_cost = 1;
 create_objectivefn_maintenance_cost_per_timestep = 1;
 create_objectivefn_total_carbon = 1;
 create_objectivefn_total_cost = 1;
-
-%these variables should be created depending on the energy outputs
-if ismember('Elec',technologies.conversion_techs_outputs) == 1
-    create_variable_electricity_output = 1;
-end
-if ismember('Heat',technologies.conversion_techs_outputs) == 1
-    create_variable_heat_output = 1;
-end
-if ismember('Cool',technologies.conversion_techs_outputs) == 1
-    create_variable_cool_output = 1;
-end
-if ismember('DHW',technologies.conversion_techs_outputs) == 1
-    create_variable_dhw_output = 1;
-end
-if ismember('Anergy',technologies.conversion_techs_outputs) == 1
-    create_variable_anergy_output = 1;
-end
 
 %to be created if the system is grid connected
 if grid_connected_system == 1
@@ -318,16 +306,16 @@ if grid_connected_system == 1 && select_techs_and_do_sizing == 1 && enforce_capa
     create_variable_grid_capacity = 1;
 end
 
+%only applicable if the min part load of technologies > 0
+if sum(technologies.conversion_techs_min_part_load) > 0
+    create_variable_technology_operation = 1;
+end
+
 %to be created if there are multiple hubs
 if multiple_hubs == 1
     create_variable_link_flows = 1;
     create_variable_link_operation = 1;
     create_variable_link_losses = 1;
-end
-
-%to be created if there are dispatchable conversion techs
-if isempty(dispatchable_technologies) == 0
-    create_variable_technology_operation = 1;
 end
 
 %to be created if there are conversion techs and we're doing selection/sizing

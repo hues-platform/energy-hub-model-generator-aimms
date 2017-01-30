@@ -1,2 +1,12 @@
 Warning at line 3 in user-defined function section "Main_Execution".
-The row "Storage_minimum_SOC_constraint(1,Elec)" with type >= is made obsolete because of row "Storage_initialization_constraint_electricity1(1,Elec)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+The row "Storage_capacity_constraint(1,Cool,1)" with type <= is made obsolete because of row "Storage_initialization_1(1,Cool,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 3 in user-defined function section "Main_Execution".
+The row "Storage_minimum_SOC_constraint(1,Cool,2)" with type >= is made obsolete because of row "Storage_initialization_1(1,Cool,2)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 3 in user-defined function section "Main_Execution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initialization_1(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 3 in user-defined function section "Main_Execution".
+The row "Storage_minimum_SOC_constraint(1,Heat,2)" with type >= is made obsolete because of row "Storage_initialization_1(1,Heat,2)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 3 in user-defined function section "Main_Execution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_1(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 3 in user-defined function section "Main_Execution".
+The row "Storage_minimum_SOC_constraint(1,Elec,2)" with type >= is made obsolete because of row "Storage_initialization_1(1,Elec,2)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".

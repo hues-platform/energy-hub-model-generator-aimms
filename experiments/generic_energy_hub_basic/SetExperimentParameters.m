@@ -71,14 +71,10 @@ natural_gas_carbon_factor = 0.198;
 %storage initialization methods:
 % 1: initialize the storage SOC to the minimum SOC
 % 2: constrain the initial storage SOC to the same value as the end value
-electrical_storage_initialization_method = 1; 
-heat_storage_initialization_method = 2;
-cool_storage_initialization_method = 2;
-dhw_storage_initialization_method = 2;
-anergy_storage_initialization_method = 2;
+storage_initialization_method = 2; 
 
 %% RUN OPTIONS
 
 %set to 1 to execute the energy hub model automatically
 %set to 0 if you want to run the energy hub model manually
-execute_energy_hub_model = 1;
+execute_energy_hub_model = 0;

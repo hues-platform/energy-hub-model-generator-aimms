@@ -2,33 +2,10 @@
 
 %% CLEAN UP THE INPUT FILES
 
-if exist('aimms_model\energy_hub\electricity_demand.xlsx','file')==2
-  delete('aimms_model\energy_hub\electricity_demand.xlsx');
+if exist('aimms_model\energy_hub\input_data\','dir')==7
+    rmdir('aimms_model\energy_hub\input_data\','s');
 end
-if exist('aimms_model\energy_hub\heating_demand.xlsx','file')==2
-  delete('aimms_model\energy_hub\heating_demand.xlsx');
-end
-if exist('aimms_model\energy_hub\cooling_demand.xlsx','file')==2
-  delete('aimms_model\energy_hub\cooling_demand.xlsx');
-end
-if exist('aimms_model\energy_hub\dhw_demand.xlsx','file')==2
-  delete('aimms_model\energy_hub\dhw_demand.xlsx');
-end
-if exist('aimms_model\energy_hub\anergy_demand.xlsx','file')==2
-  delete('aimms_model\energy_hub\anergy_demand.xlsx');
-end
-if exist('aimms_model\energy_hub\solar_inputs.xlsx','file')==2
-  delete('aimms_model\energy_hub\solar_inputs.xlsx');
-end
-if exist('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx','file')==2
-  delete('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx');
-end
-if exist('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx','file')==2
-  delete('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx');
-end
-if exist('aimms_model\energy_hub\electricity_costs.xlsx','file')==2
-  delete('aimms_model\energy_hub\electricity_costs.xlsx');
-end
+mkdir('aimms_model\energy_hub\input_data\');
 
 %% LOAD DEMAND DATA
 
@@ -38,6 +15,7 @@ filename = strcat(experiment_path,'case_data\demand_data.csv');
 %extract the demand data
 demand_data = demand_data(11:end,:);
 demand_types = demand_types(3,2:end);
+unique_demand_types = unique(demand_types);
 
 %determine the number of hubs
 multiple_hubs = 0;
@@ -48,92 +26,11 @@ if number_of_hubs > 1
     multiple_hubs = 1;
 end
 
-%write the demand data files
-
-%get demand types, and save as a list (you may have to augment this list later with the technology inputs/outputs)
-%for each of the demand types, write a demand file
-%for d=demand_types
-%    relevant_demand_columns = find(strcmp(d,demand_types));
-%    for h = hub_list
-%        hub_columns = find(hubs == h);
-%        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-%        hub_demands = horzcat(hub_demands,hub_demand);
-%    end
-%    if sum(sum(hub_demands)) > 0
-%        xlswrite(strcat('aimms_model\energy_hub\',demand_types(d),'_demand.xlsx'),hub_demands,strcat('electricity_demand',demand_types(d)));
-%    end
-%end
-
-consider_electricity_demand = 0;
-consider_heating_demand = 0;
-consider_cooling_demand = 0;
-consider_dhw_demand = 0;
-consider_anergy_demand = 0;
-
-hub_demands = [];
-if sum(strcmp('Elec',demand_types)) > 0
-    relevant_demand_columns = find(strcmp('Elec',demand_types));
-    for h = hub_list
-        hub_columns = find(hubs == h);
-        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-        hub_demands = horzcat(hub_demands,hub_demand);
-    end
-    if sum(sum(hub_demands)) > 0
-        consider_electricity_demand = 1;
-        xlswrite('aimms_model\energy_hub\electricity_demand.xlsx',hub_demands,'electricity_demand');
-    end
-end
-hub_demands = [];
-if sum(strcmp('Heat',demand_types)) > 0
-    relevant_demand_columns = find(strcmp('Heat',demand_types));
-    for h = hub_list
-        hub_columns = find(hubs == h);
-        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-        hub_demands = horzcat(hub_demands,hub_demand);
-    end
-    if sum(sum(hub_demands)) > 0
-        consider_heating_demand = 1;
-        xlswrite('aimms_model\energy_hub\heating_demand.xlsx',hub_demands,'heating_demand');
-    end
-end
-hub_demands = [];
-if sum(strcmp('Cool',demand_types)) > 0
-    relevant_demand_columns = find(strcmp('Cool',demand_types));
-    for h = hub_list
-        hub_columns = find(hubs == h);
-        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-        hub_demands = horzcat(hub_demands,hub_demand);
-    end
-    if sum(sum(hub_demands)) > 0
-        consider_cooling_demand = 1;
-        xlswrite('aimms_model\energy_hub\cooling_demand.xlsx',hub_demands,'cooling_demand');
-    end
-end
-hub_demands = [];
-if sum(strcmp('DHW',demand_types)) > 0
-    relevant_demand_columns = find(strcmp('DHW',demand_types));
-    for h = hub_list
-        hub_columns = find(hubs == h);
-        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-        hub_demands = horzcat(hub_demands,hub_demand);
-    end
-    if sum(sum(hub_demands)) > 0
-        consider_dhw_demand = 1;
-        xlswrite('aimms_model\energy_hub\dhw_demand.xlsx',hub_demands,'dhw_demand');
-    end
-end
-hub_demands = [];
-if sum(strcmp('Anergy',demand_types)) > 0
-    relevant_demand_columns = find(strcmp('Anergy',demand_types));
-    for h = hub_list
-        hub_columns = find(hubs == h);
-        hub_demand = demand_data(:,intersect(relevant_demand_columns,hub_columns));
-        hub_demands = horzcat(hub_demands,hub_demand);
-    end
-    if sum(sum(hub_demands)) > 0
-        consider_anergy_demand = 1;
-        xlswrite('aimms_model\energy_hub\anergy_demand.xlsx',hub_demands,'anergy_demand');
-    end
+%create the demand files
+for d = demand_types
+    relevant_columns = find(strcmp(demand_types,d));
+    relevant_demands = demand_data(:,relevant_columns);
+    xlswrite(strcat('aimms_model\energy_hub\input_data\',char(d),'_demand.xlsx'),relevant_demands,'demand');
 end
 
 %% LOAD ENERGY INPUTS DATA
@@ -156,7 +53,7 @@ if sum(strcmp('Solar',inputs_types)) > 0
     end
     if sum(sum(solar_radiations)) > 0
         consider_solar_inputs = 1;
-        xlswrite('aimms_model\energy_hub\solar_inputs.xlsx',solar_radiations,'solar');
+        xlswrite('aimms_model\energy_hub\input_data\solar_inputs.xlsx',solar_radiations,'solar');
     end
 end
 
@@ -164,17 +61,17 @@ end
 
 if dynamic_electricity_price == 1
     grid_electricity_price = csvread(strcat(experiment_path,'price_time_series\electricity_costs.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_costs.xlsx',grid_electricity_price,'electricity_costs');
 end
 
 if dynamic_grid_feed_in_price_renewables == 1
     grid_electricity_feedin_price_renewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_renewables.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_renewables.xlsx',grid_electricity_feedin_price_renewables,'price');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_feed_in_price_renewables.xlsx',grid_electricity_feedin_price_renewables,'price');
 end
 
 if dynamic_grid_feed_in_price_nonrenewables == 1
     grid_electricity_feedin_price_nonrenewables = csvread(strcat(experiment_path,'price_time_series\electricity_feed_in_price_nonrenewables.csv'));
-    xlswrite('aimms_model\energy_hub\electricity_feed_in_price_nonrenewables.xlsx',grid_electricity_feedin_price_nonrenewables,'price');
+    xlswrite('aimms_model\energy_hub\input_data\electricity_feed_in_price_nonrenewables.xlsx',grid_electricity_feedin_price_nonrenewables,'price');
 end
 
 %% LOAD INSTALLED TECHNOLOGY DATA
@@ -187,13 +84,16 @@ if include_installed_technologies == 1
         [num,text,raw] = xlsread(filename);
 
         installed_technologies.conversion_techs_names = raw(1,2:end);
-        installed_technologies.conversion_techs_outputs = raw(2,2:end);
-        installed_technologies.conversion_techs_inputs = raw(3,2:end);
-        installed_technologies.conversion_techs_efficiency = num(1,1:end);
-        installed_technologies.conversion_techs_min_part_load = num(2,1:end);
-        installed_technologies.conversion_techs_HTP_ratio = num(3,1:end);
-        installed_technologies.conversion_techs_capacity = num(4,1:end);
-        installed_technologies.conversion_techs_node = num(5,1:end);
+        installed_technologies.conversion_techs_outputs_1 = raw(2,2:end);
+        installed_technologies.conversion_techs_outputs_2 = raw(3,2:end);
+        installed_technologies.conversion_techs_inputs_1 = raw(4,2:end);
+        installed_technologies.conversion_techs_inputs_2 = raw(5,2:end);
+        installed_technologies.conversion_techs_efficiency = cell2mat(raw(6,2:end));
+        installed_technologies.conversion_techs_min_part_load = cell2mat(raw(7,2:end));
+        installed_technologies.conversion_techs_output_ratio = cell2mat(raw(8,2:end));
+        installed_technologies.conversion_techs_input_ratio = cell2mat(raw(9,2:end));
+        installed_technologies.conversion_techs_capacity = cell2mat(raw(10,2:end));
+        installed_technologies.conversion_techs_node = cell2mat(raw(11,2:end));
     end
 
     %read the installed storage technology data

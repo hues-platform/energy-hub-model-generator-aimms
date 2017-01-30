@@ -75,11 +75,7 @@ natural_gas_carbon_factor = 0.198;
 %storage initialization methods:
 % 1: initialize the storage SOC to the minimum SOC
 % 2: constrain the initial storage SOC to the same value as the end value
-electrical_storage_initialization_method = 1; 
-heat_storage_initialization_method = 2;
-cool_storage_initialization_method = 2;
-dhw_storage_initialization_method = 2;
-anergy_storage_initialization_method = 2;
+storage_initialization_method = 1; 
 
 %% RUN OPTIONS
 

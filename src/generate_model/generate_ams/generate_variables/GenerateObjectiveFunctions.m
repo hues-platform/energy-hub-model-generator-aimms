@@ -49,19 +49,19 @@ if multiple_hubs == 0
     if create_objectivefn_capital_cost == 1
         if simplified_storage_representation == 0
             if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv)) + sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));\n\t\t}';
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv)) + sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv))';    
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv))';    
             end
         else
             if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv)) + sum(x,(Fixed_capital_costs_storage(x) * Installation_storage(x) + Linear_capital_costs_storage(x) * Storage_capacity(x)) * CRF_stor(x));\n\t\t}';
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv)) + sum(x,(Fixed_capital_costs_storage(x) * Installation_storage(x) + Linear_capital_costs_storage(x) * Storage_capacity(x)) * CRF_stor(x));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x,(Fixed_capital_costs_storage(x) * Installation_storage(x) + Linear_capital_costs_storage(x) * Storage_capacity(x)) * CRF_stor(x));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv))';    
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv))';    
             end
         end
     end
@@ -121,19 +121,19 @@ else
     if create_objectivefn_capital_cost == 1
         if simplified_storage_representation == 0
             if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(x,conv,h)) * CRF_tech(conv)) + sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(x,stor,h)) * CRF_stor(stor));\n\t\t}';
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv)) + sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(stor,h)) * CRF_stor(stor));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(x,stor,h)) * CRF_stor(stor));\n\t\t}';
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(stor,h)) * CRF_stor(stor));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(x,conv,h)) * CRF_tech(conv))';    
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv))';    
             end
         else
             if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(x,conv,h)) * CRF_tech(conv)) + sum((x,h),(Fixed_capital_costs_storage(x) * Installation_storage(x,h) + Linear_capital_costs_storage(x) * Storage_capacity(x,h)) * CRF_stor(x));\n\t\t}';
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv)) + sum((x,h),(Fixed_capital_costs_storage(x) * Installation_storage(x,h) + Linear_capital_costs_storage(x) * Storage_capacity(x,h)) * CRF_stor(x));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h),(Fixed_capital_costs_storage(x) * Installation_storage(x,h) + Linear_capital_costs_storage(x) * Storage_capacity(x,h)) * CRF_stor(x));\n\t\t}';
             elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
-                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(x,conv,h)) * CRF_tech(conv))';    
+                objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv))';    
             end
         end
     end
