@@ -118,9 +118,11 @@ else
         end
         
         %check if there are multple storage techs of the same type being considered for installation while also already being installed at one or more of the hubs
-        storage_techs_installed_of_type_x = find(strcmp(installed_technologies.storage_techs_types,x));
-        if length(storage_techs_installed_of_type_x) > 0 && length(storage_techs_not_installed_of_type_x) > 0
-            simplified_storage_representation = 0;
+        if include_installed_technologies == 1 && isempty(installed_technologies.storage_techs_names) == 0
+            storage_techs_installed_of_type_x = find(strcmp(installed_technologies.storage_techs_types,x));
+            if length(storage_techs_installed_of_type_x) > 0 && length(storage_techs_not_installed_of_type_x) > 0
+                simplified_storage_representation = 0;
+            end
         end
         
         %check if there are multiple storage techs of the same type already installed at any of the hubs
@@ -304,16 +306,16 @@ if grid_connected_system == 1 && select_techs_and_do_sizing == 1 && enforce_capa
     create_variable_grid_capacity = 1;
 end
 
+%only applicable if the min part load of technologies > 0
+if sum(technologies.conversion_techs_min_part_load) > 0
+    create_variable_technology_operation = 1;
+end
+
 %to be created if there are multiple hubs
 if multiple_hubs == 1
     create_variable_link_flows = 1;
     create_variable_link_operation = 1;
     create_variable_link_losses = 1;
-end
-
-%to be created if there are dispatchable conversion techs
-if isempty(dispatchable_technologies) == 0
-    create_variable_technology_operation = 1;
 end
 
 %to be created if there are conversion techs and we're doing selection/sizing

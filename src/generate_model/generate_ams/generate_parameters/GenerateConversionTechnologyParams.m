@@ -103,12 +103,13 @@ end
 %lifetimes
 param_lifetimes = '';
 if create_param_lifetimes == 1
+    tech_lifetimes = unique_technologies.conversion_techs_lifetime(find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
     definition_string = '';
-    for t=1:length(energy_conversion_technologies)
+    for t=1:length(technologies_excluding_grid)
         if t>1
             definition_string = strcat(definition_string,', ');
         end
-        definition_string = strcat(definition_string,char(energy_conversion_technologies(t)),':',num2str(unique_technologies.conversion_techs_lifetime(t)));
+        definition_string = strcat(definition_string,char(technologies_excluding_grid(t)),':',num2str(tech_lifetimes(t)));
     end
     param_lifetimes = strcat('\n\t\tParameter Lifetime {\n\t\t\tIndexDomain: conv | conv <> "Grid";\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
 end
@@ -128,26 +129,26 @@ if create_param_C_matrix == 1
     C_matrix = '\n\t\tParameter Cmatrix {\n\t\t\tIndexDomain: (x,conv);\n\t\t\tDefinition: { data { ';
     definition_string = '';
     
-    outputs_of_conversion_technologies_with_single_output = unique_technologies.conversion_techs_outputs_1(find(isnan(unique_technologies.conversion_techs_outputs_2)));
-    efficiency_of_conversion_technologies_with_single_output = unique_technologies.conversion_techs_efficiency(find(isnan(unique_technologies.conversion_techs_outputs_2)));
-    output_1_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_outputs_1(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
-    output_2_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_outputs_2(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
-    efficiency_1_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_efficiency(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
-    output_ratio_of_conversion_techs_with_multiple_outputs = unique_technologies.conversion_techs_output_ratio(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
+    outputs_of_conversion_technologies_with_single_output = unique_technologies.conversion_techs_outputs_1(cellfun(isnan_cell,unique_technologies.conversion_techs_outputs_2));
+    efficiency_of_conversion_technologies_with_single_output = unique_technologies.conversion_techs_efficiency(cellfun(isnan_cell,unique_technologies.conversion_techs_outputs_2));
+    output_1_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_outputs_1(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
+    output_2_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_outputs_2(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
+    efficiency_1_of_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_efficiency(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
+    output_ratio_of_conversion_techs_with_multiple_outputs = unique_technologies.conversion_techs_output_ratio(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
     efficiency_2_of_conversion_technologies_with_multiple_outputs = efficiency_1_of_conversion_technologies_with_multiple_outputs .* output_ratio_of_conversion_techs_with_multiple_outputs;
     
     %add the single-output technologies to the C-matrix
-    for t=1:length(energy_conversion_technologies_with_single_output)
+    for t=1:length(technologies_with_single_output)
         if t>1
             definition_string = strcat(definition_string,', ');
         end
-        definition_string = strcat(definition_string,'(',char(outputs_of_conversion_technologies_with_single_output(t)),',',char(energy_conversion_technologies_with_single_output(t)),'):',num2str(efficiency_of_conversion_technologies_with_single_output(t)));
+        definition_string = strcat(definition_string,'(',char(outputs_of_conversion_technologies_with_single_output(t)),',',char(technologies_with_single_output(t)),'):',num2str(efficiency_of_conversion_technologies_with_single_output(t)));
     end
     
     %add the multi-output technologies to the C-matrix
-    for t=1:length(energy_conversion_technologies_with_multiple_outputs)
-        definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
-        definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(energy_conversion_technologies_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
+    for t=1:length(technologies_with_multiple_outputs)
+        definition_string = strcat(definition_string,',(',char(output_1_of_conversion_technologies_with_multiple_outputs(t)),',',char(technologies_with_multiple_outputs(t)),'):',num2str(efficiency_1_of_conversion_technologies_with_multiple_outputs(t)));
+        definition_string = strcat(definition_string,',(',char(output_2_of_conversion_technologies_with_multiple_outputs(t)),',',char(technologies_with_multiple_outputs(t)),'):',num2str(efficiency_2_of_conversion_technologies_with_multiple_outputs(t)));
     end
     
     %add the inputs to the C-matrix where necessary (when the inputs correspond to the outputs of other technologies)
@@ -177,19 +178,19 @@ if create_param_capacity == 1
     definition_string = '';
     if multiple_hubs == 0
         index_domain_string = 'conv';
-        for t=1:length(energy_conversion_technologies)
+        for t=1:length(installed_technologies.conversion_techs_names)
             if t>1
                 definition_string = strcat(definition_string,', ');
             end
-            definition_string = strcat(definition_string,char(energy_conversion_technologies(t)),':',num2str(installed_technologies.conversion_techs_capacity(t)));
+            definition_string = strcat(definition_string,char(installed_technologies.conversion_techs_names(t)),':',num2str(installed_technologies.conversion_techs_capacity(t)));
         end
     else
         index_domain_string = '(conv,h)';
-        for t=1:length(energy_conversion_technologies)
+        for t=1:length(installed_technologies.conversion_techs_names)
             if t>1
                 definition_string = strcat(definition_string,', ');
             end
-            definition_string = strcat(definition_string,'(',char(energy_conversion_technologies(t)),num2str(installed_technologies.conversion_techs_node(t)),'):',num2str(installed_technologies.conversion_techs_capacity(t)));
+            definition_string = strcat(definition_string,'(',char(installed_technologies.conversion_techs_names(t)),',',num2str(installed_technologies.conversion_techs_node(t)),'):',num2str(installed_technologies.conversion_techs_capacity(t)));
         end
     end
     
@@ -256,8 +257,8 @@ end
 
 %minimum allowable capacities
 param_minimum_capacities = '';
-technology_min_capacities_non_solar = unique_technologies.conversion_techs_min_capacity(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
-non_solar_energy_conversion_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+technology_min_capacities_non_solar = unique_technologies.conversion_techs_min_capacity(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+non_solar_energy_conversion_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
 if create_param_minimum_capacities == 1
     definition_string = '';
     for t=1:length(non_solar_energy_conversion_technologies)
@@ -279,8 +280,8 @@ end
 
 %maximum allowable capacities
 param_maximum_capacities = '';
-technology_max_capacities_non_solar = unique_technologies.conversion_techs_max_capacity(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
-non_solar_energy_conversion_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+technology_max_capacities_non_solar = unique_technologies.conversion_techs_max_capacity(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+non_solar_energy_conversion_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
 if create_param_maximum_capacities == 1
     definition_string = '';
     for t=1:length(non_solar_energy_conversion_technologies)

@@ -45,17 +45,10 @@ end
 %binary variable denoting the operation or not of a dispatchable technology
 variable_technology_operation = '';
 if create_variable_technology_operation == 1
-    index_domain_string = '';
-    for t=1:length(technologies_excluding_grid)
-        index_domain_string = strcat(index_domain_string,'''',char(technologies_excluding_grid(t)),'''');
-        if t < length(technologies_excluding_grid)
-             index_domain_string = strcat(index_domain_string,' OR conv = '); 
-        end
-    end
     if multiple_hubs == 0
-        variable_technology_operation = strcat('\n\t\tVariable Operation {\n\t\t\tIndexDomain: (t,conv) | (conv = ',index_domain_string,');\n\t\t\tRange: binary;\n\t\t}');
+        variable_technology_operation = strcat('\n\t\tVariable Operation {\n\t\t\tIndexDomain: (t,conv);\n\t\t\tRange: binary;\n\t\t}');
     else
-        variable_technology_operation = strcat('\n\t\tVariable Operation {\n\t\t\tIndexDomain: (t,conv,h) | (conv = ',index_domain_string,');\n\t\t\tRange: binary;\n\t\t}');
+        variable_technology_operation = strcat('\n\t\tVariable Operation {\n\t\t\tIndexDomain: (t,conv,h);\n\t\t\tRange: binary;\n\t\t}');
     end 
 end
 
@@ -106,9 +99,9 @@ end
 variable_capital_cost_per_technology = '';
 if create_variable_capital_cost_per_technology
     if multiple_hubs == 0
-        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x, (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv));\n\t\t}';
+        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x, (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv));\n\t\t}';
     else
-        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h), (Fixed_capital_costs(x,conv) * Installation(x,conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv));\n\t\t}';
+        variable_capital_cost_per_technology = '\n\t\tVariable Capital_cost_per_technology {\n\t\t\tIndexDomain: conv;\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv));\n\t\t}';
     end
 end
 

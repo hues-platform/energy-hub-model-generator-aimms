@@ -52,12 +52,11 @@ else
     param_linear_storage_costs = '';
     if create_param_linear_storage_costs == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            technology_linear_storage_costs = unique_technologies.storage_techs_capital_cost_variable(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(technology_linear_storage_costs));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_capital_cost_variable(t)));
         end
         param_linear_storage_costs = strcat('\n\t\tParameter Linear_capital_costs_storage {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -66,12 +65,11 @@ else
     param_fixed_storage_costs = '';
     if create_param_fixed_storage_costs == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            technology_fixed_storage_costs2 = unique_technologies.storage_techs_capital_cost_fixed(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(technology_fixed_storage_costs2));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_capital_cost_fixed(t)));
         end
         param_fixed_storage_costs = strcat('\n\t\tParameter Fixed_capital_costs_storage {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -80,19 +78,25 @@ else
     param_storage_lifetimes = '';
     if create_param_storage_lifetimes == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            energy_storage_technology_lifetimes = unique_technologies.storage_techs_lifetime(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(energy_storage_technology_lifetimes));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_lifetime(t)));
         end
         param_storage_lifetimes = strcat('\n\t\tParameter Lifetime_storage {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
 
     param_storage_CRF = '';
     if create_param_storage_CRF == 1
-        param_storage_CRF = '\n\t\tParameter CRF_stor {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: Interest_rate/(1-(1/((1+Interest_rate)^(Lifetime_storage(x)))));\n\t\t}';
+        index_domain_string = '';
+        for t=1:length(unique_technologies.storage_techs_types)
+            index_domain_string = strcat(index_domain_string,'''',char(unique_technologies.storage_techs_types(t)),'''');
+            if t < length(unique_technologies.storage_techs_types)
+                index_domain_string = strcat(index_domain_string,' OR x = '); 
+            end
+        end
+        param_storage_CRF = strcat('\n\t\tParameter CRF_stor {\n\t\t\tIndexDomain: x | x = ',index_domain_string,';\n\t\t\tDefinition: Interest_rate/(1-(1/((1+Interest_rate)^(Lifetime_storage(x)))));\n\t\t}');
     end
     
 end
@@ -342,12 +346,11 @@ else
     param_max_charge_rate = '';
     if create_param_max_charge_rate == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_max_charge_rate = unique_technologies.storage_techs_max_charging_rate(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_max_charge_rate));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_max_charging_rate(t)));
         end
         param_max_charge_rate = strcat('\n\t\tParameter Storage_max_charge_rate {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -356,12 +359,11 @@ else
     param_max_discharge_rate = '';
     if create_param_max_discharge_rate == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_max_discharge_rate = unique_technologies.storage_techs_max_discharging_rate(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_max_discharge_rate));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_max_discharging_rate(t)));
         end
         param_max_discharge_rate = strcat('\n\t\tParameter Storage_max_discharge_rate {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -370,12 +372,11 @@ else
     param_standing_losses = '';
     if create_param_standing_losses == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_standing_losses = unique_technologies.storage_techs_decay(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_standing_losses));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_decay(t)));
         end
         param_standing_losses = strcat('\n\t\tParameter Storage_standing_losses {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -384,12 +385,11 @@ else
     param_charging_efficiency = '';
     if create_param_charging_efficiency == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_charging_efficiency = unique_technologies.storage_techs_charging_efficiency(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_charging_efficiency));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_charging_efficiency(t)));
         end
         param_charging_efficiency = strcat('\n\t\tParameter Storage_charging_efficiency {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -398,12 +398,11 @@ else
     param_discharging_efficiency = '';
     if create_param_discharging_efficiency == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_discharging_efficiency = unique_technologies.storage_techs_discharging_efficiency(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_discharging_efficiency));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_discharging_efficiency(t)));
         end
         param_discharging_efficiency = strcat('\n\t\tParameter Storage_discharging_efficiency {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -412,12 +411,11 @@ else
     param_min_soc = '';
     if create_param_min_soc == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_min_soc = unique_technologies.storage_techs_min_state_of_charge(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_min_soc));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_min_state_of_charge(t)));
         end
         param_min_soc = strcat('\n\t\tParameter Storage_min_SOC {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -453,12 +451,11 @@ else
     param_min_capacity_storage = '';
     if create_param_min_capacity_storage == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_min_capacity = unique_technologies.storage_techs_min_capacity(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_min_capacity));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_min_capacity(t)));
         end
         param_min_capacity_storage = strcat('\n\t\tParameter Storage_minimum_capacity {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end
@@ -467,12 +464,11 @@ else
     param_max_capacity_storage = '';
     if create_param_max_capacity_storage == 1
         definition_string = '';
-        for t=1:length(energy_outputs)
-            storage_max_capacity = unique_technologies.storage_techs_max_capacity(find(strcmp(unique_technologies.storage_techs_types,energy_outputs(t))));
+        for t=1:length(unique_technologies.storage_techs_types)
             if t>1
                 definition_string = strcat(definition_string,',');
             end
-            definition_string = strcat(definition_string,char(energy_outputs(t)),':',num2str(storage_max_capacity));
+            definition_string = strcat(definition_string,char(unique_technologies.storage_techs_types(t)),':',num2str(unique_technologies.storage_techs_max_capacity(t)));
         end
         param_max_capacity_storage = strcat('\n\t\tParameter Storage_maximum_capacity {\n\t\t\tIndexDomain: x;\n\t\t\tDefinition: data { ',definition_string,' };\n\t\t}');
     end

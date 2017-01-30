@@ -6,7 +6,7 @@ load_solar_data = '';
 if multiple_hubs == 0
 
     for d = demand_types
-        load_demand_data = strcat(load_demand_data,'\n\t\t\tSpreadsheet::RetrieveParameter( "input_data/',char(d),'_demand.xlsx", Loads(t,''',char(d),'''),"A1:A',num2str(number_of_timesteps),'","',char(d),'_demand");');
+        load_demand_data = strcat(load_demand_data,'\n\t\t\tSpreadsheet::RetrieveParameter( "input_data/',char(d),'_demand.xlsx", Loads(t,''',char(d),'''),"A1:A',num2str(number_of_timesteps),'","demand");');
     end
 
     if isempty(solar_technologies) == 0
@@ -16,7 +16,7 @@ if multiple_hubs == 0
 else
     
     for d = demand_types
-        load_demand_data = strcat(load_demand_data,'\n\t\t\tSpreadsheet::RetrieveParameter( "input_data/',char(d),'_demand.xlsx", Loads(t,''',char(d),''',h),"A1:',char('A' + number_of_hubs - 1),num2str(number_of_timesteps),'","',char(d),'_demand");');
+        load_demand_data = strcat(load_demand_data,'\n\t\t\tSpreadsheet::RetrieveParameter( "input_data/',char(d),'_demand.xlsx", Loads(t,''',char(d),''',h),"A1:',char('A' + number_of_hubs - 1),num2str(number_of_timesteps),'","demand");');
     end
     
     if isempty(solar_technologies) == 0

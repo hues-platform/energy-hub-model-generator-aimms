@@ -4,7 +4,7 @@ if simplified_storage_representation == 0
 
     %initialize storage to min soc
     constraint_storage_initialization_to_min_soc = '';
-    if apply_constraint_electrical_storage_initialization_to_min_soc == 1
+    if apply_constraint_storage_initialization_to_min_soc == 1
         if multiple_hubs == 0
             constraint_storage_initialization_to_min_soc = strcat('\n\t\tConstraint Storage_initialization_1 {\n\t\t\tIndexDomain: (t,stor) | t = first(Time);\n\t\t\tDefinition: Storage_SOC(t,stor) = Storage_capacity(stor) * Storage_min_SOC(stor);\n\t\t}');
         else
@@ -24,7 +24,7 @@ if simplified_storage_representation == 0
 
     %constraint disallowing discharging from storage in the first hour of the year
     constraint_storage_1st_hour = '';
-    if apply_constraint_electrical_storage_1st_hour == 1
+    if apply_constraint_storage_1st_hour == 1
         if multiple_hubs == 0
             constraint_storage_1st_hour = strcat('\n\t\tConstraint Storage_initialization_3 {\n\t\t\tIndexDomain: (t,stor) | t = first(Time);\n\t\t\tDefinition: Storage_output_energy(t,stor) = 0;\n\t\t}');
         else
@@ -36,7 +36,7 @@ else
     
     %initialize storage to min soc
     constraint_storage_initialization_to_min_soc = '';
-    if apply_constraint_electrical_storage_initialization_to_min_soc == 1
+    if apply_constraint_storage_initialization_to_min_soc == 1
         if multiple_hubs == 0
             constraint_storage_initialization_to_min_soc = strcat('\n\t\tConstraint Storage_initialization_1 {\n\t\t\tIndexDomain: (t,x) | t = first(Time);\n\t\t\tDefinition: Storage_SOC(t,x) = Storage_capacity(x) * Storage_min_SOC(x);\n\t\t}');
         else
@@ -56,7 +56,7 @@ else
 
     %constraint disallowing discharging from storage in the first hour of the year
     constraint_storage_1st_hour = '';
-    if apply_constraint_electrical_storage_1st_hour == 1
+    if apply_constraint_storage_1st_hour == 1
         if multiple_hubs == 0
             constraint_storage_1st_hour = strcat('\n\t\tConstraint Storage_initialization_3 {\n\t\t\tIndexDomain: (t,x) | t = first(Time);\n\t\t\tDefinition: Storage_output_energy(t,x) = 0;\n\t\t}');
         else

@@ -238,30 +238,19 @@ end
 
 %remove spaces from the names/properties of the conversion and storage technologies
 technologies.conversion_techs_names = strrep(technologies.conversion_techs_names,' ','_');
-technologies.conversion_techs_outputs_1 = strrep(technologies.conversion_techs_outputs_1,' ','_');
-technologies.conversion_techs_outputs_2 = strrep(technologies.conversion_techs_outputs_2,' ','_');
-technologies.conversion_techs_inputs_1 = strrep(technologies.conversion_techs_inputs_1,' ','_');
-technologies.conversion_techs_inputs_2 = strrep(technologies.conversion_techs_inputs_2,' ','_');
 technologies.storage_techs_names = strrep(technologies.storage_techs_names,' ','_');
-technologies.storage_techs_types = strrep(technologies.storage_techs_types,' ','_');
 
 %remove spaces from the names/properties of the installed conversion and storage technologies
-
 if include_installed_technologies == 1
     
     %if there are installed conversion technologies
     if exist(strcat(experiment_path,'case_data\installed_conversion_technologies.csv'),'file')==2
         installed_technologies.conversion_techs_names = strrep(installed_technologies.conversion_techs_names,' ','_');
-        installed_technologies.conversion_techs_outputs_1 = strrep(installed_technologies.conversion_techs_outputs_1,' ','_');
-        installed_technologies.conversion_techs_outputs_2 = strrep(installed_technologies.conversion_techs_outputs_2,' ','_');
-        installed_technologies.conversion_techs_inputs_1 = strrep(installed_technologies.conversion_techs_inputs_1,' ','_');
-        installed_technologies.conversion_techs_inputs_2 = strrep(installed_technologies.conversion_techs_inputs_2,' ','_');
     end
 
     %if there are installed storage technologies
     if exist(strcat(experiment_path,'case_data\installed_storage_technologies.csv'),'file')==2
         installed_technologies.storage_techs_names = strrep(installed_technologies.storage_techs_names,' ','_');
-        installed_technologies.storage_techs_types = strrep(installed_technologies.storage_techs_types,' ','_');
     end
 end
 
@@ -307,20 +296,23 @@ unique_technologies.storage_techs_max_capacity = technologies.storage_techs_max_
 
 %% SET SOME VARIABLE VALUES FOR LATER USE
 
+notnan_cell = @(V) any(~isnan(V(:))); %for extracting the non-NaN values from a cell array
+isnan_cell = @(V) any(isnan(V(:))); %for extracting the NaN values from a cell array
+
 %get a list of the energy outputs
-energy_outputs = union(unique_technologies.conversion_techs_outputs_1,unique_technologies.conversion_techs_outputs_2);
+nonnan_conversion_techs_outputs_2 = unique_technologies.conversion_techs_outputs_2(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
+energy_outputs = union(unique_technologies.conversion_techs_outputs_1,nonnan_conversion_techs_outputs_2);
+energy_outputs = union(energy_outputs,demand_types);
 
 %get lists of different groupings of conversion technologies
 energy_conversion_technologies = unique_technologies.conversion_techs_names;
 energy_storage_technologies = unique_technologies.storage_techs_names;
-energy_conversion_technologies_with_single_output = unique_technologies.conversion_techs_names(find(isnan(unique_technologies.conversion_techs_outputs_2)));
-energy_conversion_technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
-energy_conversion_technologies_with_single_input = unique_technologies.conversion_techs_names(find(isnan(unique_technologies.conversion_techs_inputs_2)));
-energy_conversion_technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_inputs_2)));
-solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs,'Solar')));
+technologies_with_single_output = unique_technologies.conversion_techs_names(cellfun(isnan_cell,unique_technologies.conversion_techs_outputs_2));
+technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(cellfun(notnan_cell,unique_technologies.conversion_techs_outputs_2));
+technologies_with_single_input = unique_technologies.conversion_techs_names(cellfun(isnan_cell,unique_technologies.conversion_techs_inputs_2));
+technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(cellfun(notnan_cell,unique_technologies.conversion_techs_inputs_2));
+solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
 technologies_excluding_grid = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
-technologies_with_multiple_outputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_outputs_2)));
-technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(find(~isnan(unique_technologies.conversion_techs_inputs_2)));
 if exist('technologies.storage_techs_min_temperature','var')
     storages_with_temperature_constraints = unique_technologies.storage_techs_names(find(~isnan(unique_technologies.storage_techs_min_temperature)));
 else

@@ -50,11 +50,11 @@ apply_constraint_link_flow_direction = 0;
 if isempty(technologies.conversion_techs_names) == 0
     apply_constraint_energy_balance = 1;
     apply_constraint_capacity = 1;
-    apply_constraint_dispatch = 1;
     
     %only applicable if the min part load of technologies > 0
     if sum(technologies.conversion_techs_min_part_load) > 0
         apply_constraint_min_part_load = 1;
+        apply_constraint_dispatch = 1;
     end
     
     %only applicable if the system is grid connected
@@ -98,7 +98,11 @@ if isempty(technologies.conversion_techs_names) == 0
     if select_techs_and_do_sizing == 1
         apply_constraint_max_capacity = 1;
         apply_constraint_installation = 1;
-        apply_constraint_operation = 1;
+        
+        %only applicable if the min part load of technologies > 0
+        if sum(technologies.conversion_techs_min_part_load) > 0
+            apply_constraint_operation = 1;
+        end
         
         %only applicable if there are conversion techs with nonzero minimum capacities
         if sum(technologies.conversion_techs_min_capacity) > 0
