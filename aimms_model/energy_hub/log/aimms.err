@@ -1,2 +1,0 @@
-Warning at line 3 in user-defined function section "Main_Execution".
-The row "Storage_minimum_SOC_constraint(1,Elec)" with type >= is made obsolete because of row "Storage_initialization_constraint_electricity1(1,Elec)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
