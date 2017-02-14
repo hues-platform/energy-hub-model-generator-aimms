@@ -30,6 +30,7 @@ number_of_timesteps = length(timesteps);
 grid_connected_system = 1;
 size_grid_connection = 0;
 enforce_capacity_constraints_of_grid_connection = 0;
+allow_grid_exports_from_storage = 1;
 
 %only used if the grid connection is not being sized
 grid_connection_capacity = 1000000;

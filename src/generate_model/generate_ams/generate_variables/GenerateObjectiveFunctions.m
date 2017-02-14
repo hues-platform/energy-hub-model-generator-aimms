@@ -33,14 +33,36 @@ if multiple_hubs == 0
     %equation for income via exports
     objectivefn_income_via_exports = '';
     if create_objectivefn_income_via_exports == 1
-        if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x) + Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
-        elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + sum(t, Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
-        elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)) + sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x)));\n\t\t}';
-        else
-            objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)));\n\t\t}';
+        if isempty(technologies.conversion_techs_names) == 0 && (isempty(technologies.storage_techs_names) == 1 || allow_grid_exports_from_storage == 0)
+            if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x) + Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + sum(t, Electricity_feedin_price_nonrenewables(t) * Exported_energy_nonrenewable(t,x)));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)) + sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x)));\n\t\t}';
+            else
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)));\n\t\t}';
+            end
+        elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0 && allow_grid_exports_from_storage == 1
+            if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x) + Electricity_feedin_price_nonrenewables(t) * (Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x))));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + sum(t, Electricity_feedin_price_nonrenewables(t) * (Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x))));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x)) + sum(t, Electricity_feedin_price_renewables(t) * Exported_energy_renewable(t,x)));\n\t\t}';
+            else
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x)));\n\t\t}';
+            end
+        elseif isempty(technologies.conversion_techs_names) == 1
+            if length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_nonrenewables(t) * Exported_energy_storage(t,x)));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) <= 1 && length(grid_electricity_feedin_price_nonrenewables) > 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', sum(t, Electricity_feedin_price_nonrenewables(t) * Exported_energy_storage(t,x)));\n\t\t}';
+            elseif length(grid_electricity_feedin_price_renewables) > 1 && length(grid_electricity_feedin_price_nonrenewables) <= 1
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_storage(t,x)));\n\t\t}';
+            else
+                objectivefn_income_via_exports = '\n\t\tVariable Income_via_exports {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x | x = ''Elec'', Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_storage(t,x)));\n\t\t}';
+            end
         end
     end
 
@@ -48,19 +70,19 @@ if multiple_hubs == 0
     objectivefn_capital_cost = '';
     if create_objectivefn_capital_cost == 1
         if simplified_storage_representation == 0
-            if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
+            if conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv)) + sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
+            elseif conversion_techs_for_selection_and_sizing == 0 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
+            elseif conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv))';    
             end
         else
-            if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
+            if conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv)) + sum(x,(Fixed_capital_costs_storage(x) * Installation_storage(x) + Linear_capital_costs_storage(x) * Storage_capacity(x)) * CRF_stor(x));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
+            elseif conversion_techs_for_selection_and_sizing == 0 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum(x,(Fixed_capital_costs_storage(x) * Installation_storage(x) + Linear_capital_costs_storage(x) * Storage_capacity(x)) * CRF_stor(x));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
+            elseif conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(conv) + Linear_capital_costs(x,conv) * Capacity(conv)) * CRF_tech(conv))';    
             end
         end
@@ -120,19 +142,19 @@ else
     objectivefn_capital_cost = '';
     if create_objectivefn_capital_cost == 1
         if simplified_storage_representation == 0
-            if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
+            if conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv)) + sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(stor,h)) * CRF_stor(stor));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
+            elseif conversion_techs_for_selection_and_sizing == 0 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,stor,h),(Fixed_capital_costs_storage(stor) * Installation_storage(stor,h) + Linear_capital_costs_storage(stor) * Storage_capacity(stor,h)) * CRF_stor(stor));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
+            elseif conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv))';    
             end
         else
-            if isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 0
+            if conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv)) + sum((x,h),(Fixed_capital_costs_storage(x) * Installation_storage(x,h) + Linear_capital_costs_storage(x) * Storage_capacity(x,h)) * CRF_stor(x));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 1 && isempty(technologies.storage_techs_names) == 0
+            elseif conversion_techs_for_selection_and_sizing == 0 && storage_techs_for_selection_and_sizing == 1
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,h),(Fixed_capital_costs_storage(x) * Installation_storage(x,h) + Linear_capital_costs_storage(x) * Storage_capacity(x,h)) * CRF_stor(x));\n\t\t}';
-            elseif isempty(technologies.conversion_techs_names) == 0 && isempty(technologies.storage_techs_names) == 1
+            elseif conversion_techs_for_selection_and_sizing == 1 && storage_techs_for_selection_and_sizing == 0
                 objectivefn_capital_cost = '\n\t\tVariable Capital_cost {\n\t\t\tRange: nonnegative;\n\t\t\tDefinition: sum((x,conv,h), (Fixed_capital_costs(x,conv) * Installation(conv,h) + Linear_capital_costs(x,conv) * Capacity(conv,h)) * CRF_tech(conv))';    
             end
         end
@@ -149,11 +171,11 @@ end
 %equation for total cost
 objectivefn_total_cost = '';
 if create_objectivefn_total_cost == 1
-    if select_techs_and_do_sizing == 1 && grid_connected_system == 1
+    if (conversion_techs_for_selection_and_sizing == 1 || storage_techs_for_selection_and_sizing == 1) && grid_connected_system == 1
         objectivefn_total_cost = '\n\t\tVariable Total_cost {\n\t\t\tRange: free;\n\t\t\tDefinition: Capital_cost + Operating_cost + Operating_cost_grid + Maintenance_cost - Income_via_exports;\n\t\t}';
-    elseif select_techs_and_do_sizing == 0 && grid_connected_system == 1
+    elseif (conversion_techs_for_selection_and_sizing == 0 && storage_techs_for_selection_and_sizing == 0) && grid_connected_system == 1
         objectivefn_total_cost = '\n\t\tVariable Total_cost {\n\t\t\tRange: free;\n\t\t\tDefinition: Operating_cost + Operating_cost_grid + Maintenance_cost + Income_via_exports;\n\t\t}';
-    elseif select_techs_and_do_sizing == 1 && grid_connected_system == 0
+    elseif (conversion_techs_for_selection_and_sizing == 1 || storage_techs_for_selection_and_sizing == 1) && grid_connected_system == 0
         objectivefn_total_cost = '\n\t\tVariable Total_cost {\n\t\t\tRange: free;\n\t\t\tDefinition: Capital_cost + Operating_cost + Maintenance_cost;\n\t\t}';
     else
         objectivefn_total_cost = '\n\t\tVariable Total_cost {\n\t\t\tRange: free;\n\t\t\tDefinition: Operating_cost + Maintenance_cost;\n\t\t}';

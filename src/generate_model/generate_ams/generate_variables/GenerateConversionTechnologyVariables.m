@@ -32,6 +32,16 @@ if create_variable_exported_energy_renewable == 1
     end
 end
 
+%variable denoting exported energy storage
+variable_exported_energy_storage = '';
+if create_variable_exported_energy_storage == 1
+    if multiple_hubs == 0
+        variable_exported_energy_storage = '\n\t\tVariable Exported_energy_storage {\n\t\t\tIndexDomain: (t,x) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+    else
+        variable_exported_energy_storage = '\n\t\tVariable Exported_energy_storage {\n\t\t\tIndexDomain: (t,x,h) | x = "Elec";\n\t\t\tRange: nonnegative;\n\t\t}';
+    end
+end
+
 %binary variable denoting the installation of a technology
 variable_technology_installation = '';
 if create_variable_technology_installation == 1
@@ -125,6 +135,7 @@ if create_variable_total_cost_grid_without_capital_costs
     variable_total_cost_grid_without_capital_costs = '\n\t\tVariable Total_cost_grid {\n\t\t\tRange: free;\n\t\t\tDefinition: sum(conv | conv = ''Grid'', Operating_cost_grid + Maintenance_cost_per_technology(conv));\n\t\t}';
 end
 
-variables_section = strcat(variables_section,variable_input_streams,variable_exported_energy_nonrenewable,variable_exported_energy_renewable,variable_technology_installation,variable_technology_operation,...
+variables_section = strcat(variables_section,variable_input_streams,variable_exported_energy_nonrenewable,variable_exported_energy_renewable,variable_exported_energy_storage,...
+    variable_technology_installation,variable_technology_operation,...
     variable_technology_capacity,variable_grid_capacity,variable_energy_output,variable_operating_cost_per_technology,variable_maintenance_cost_per_technology,variable_capital_cost_per_technology,...
     variable_total_cost_per_technology,variable_total_cost_per_technology_without_capital_costs,variable_total_cost_grid,variable_total_cost_grid_without_capital_costs);

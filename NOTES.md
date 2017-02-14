@@ -2,6 +2,10 @@
 
 ## PRIORITY
 
+* Based on the current setup, the storage cannot charge/discharge from the grid.  This should possibly be changed. Add electricity export storage constraint or similar.
+
+* Min and max capacity of solar techs should not be set, or you should take away the setting of this in the node csv.
+
 * Debug and verify the model after your changes, and modify the test scripts accordingly.
 
 * You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?

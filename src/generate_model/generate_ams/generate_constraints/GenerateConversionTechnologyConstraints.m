@@ -1,24 +1,96 @@
 %% GENERATE CONVERSION TECHNOLOGY CONSTRAINTS
 
-%% OPERATION CONSTRAINTS
+%% ENERGY BALANCE CONSTRAINT
 
-%energy balance constraint
+conversion_tech_string = '';
+storage_tech_string = '';
+exported_energy_string = '';
+exported_energy_storage_string = '';
+
 constraint_energy_balance = '';
 if apply_constraint_energy_balance == 1
     if multiple_hubs == 0
-        if simplified_storage_representation == 0
-            constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor) - Storage_input_energy(t,stor)) * Smatrix(x,stor)) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x);\n\t\t}';
-        else
-            constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x);\n\t\t}';
+        if isempty(technologies.conversion_techs_names) == 0
+            conversion_tech_string = 'sum(conv, Input_energy(t,conv) * Cmatrix(x,conv))';
         end
+
+        if isempty(technologies.storage_techs_names) == 0 && simplified_storage_representation == 0
+            if isempty(technologies.conversion_techs_names) == 0
+                storage_tech_string = ' + sum(stor, (Storage_output_energy(t,stor) - Storage_input_energy(t,stor)) * Smatrix(x,stor))';
+            else
+                storage_tech_string = 'sum(stor, (Storage_output_energy(t,stor) - Storage_input_energy(t,stor)) * Smatrix(x,stor))';
+            end
+        end
+
+        if isempty(technologies.storage_techs_names) == 0 && simplified_storage_representation == 1
+            if isempty(technologies.conversion_techs_names) == 0
+                storage_tech_string = ' + Storage_output_energy(t,x) - Storage_input_energy(t,x)';
+            else
+                storage_tech_string = 'Storage_output_energy(t,x) - Storage_input_energy(t,x)';
+            end
+        end
+
+        if grid_connected_system == 1 && isempty(technologies.conversion_techs_names) == 0
+            exported_energy_string = ' + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x)';
+        end
+
+        if grid_connected_system == 1 && isempty(technologies.storage_techs_names) == 0 && allow_grid_exports_from_storage == 1
+            exported_energy_storage_string = ' + Exported_energy_storage(t,x)';
+        end
+
+        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x)',exported_energy_string,exported_energy_storage_string,';\n\t\t}');
     else
-        if simplified_storage_representation == 0
-            constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x,h) + Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}';
-        else
-            constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + Storage_output_energy(t,x,h) - Storage_input_energy(t,x,h) = Loads(t,x,h) + Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}';
+        if isempty(technologies.conversion_techs_names) == 0
+            conversion_tech_string = 'sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv))';
         end
+
+        if isempty(technologies.storage_techs_names) == 0 && simplified_storage_representation == 0
+            if isempty(technologies.conversion_techs_names) == 0
+                storage_tech_string = ' + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor))';
+            else
+                storage_tech_string = 'sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor))';
+            end
+        end
+
+        if isempty(technologies.storage_techs_names) == 0 && simplified_storage_representation == 1
+            if isempty(technologies.conversion_techs_names) == 0
+                storage_tech_string = ' + Storage_output_energy(t,x,h) - Storage_input_energy(t,x,h)';
+            else
+                storage_tech_string = 'Storage_output_energy(t,x,h) - Storage_input_energy(t,x,h)';
+            end
+        end
+
+        if grid_connected_system == 1 && isempty(technologies.conversion_techs_names) == 0
+            exported_energy_string = '+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h)';
+        end
+
+        if grid_connected_system == 1 && isempty(technologies.storage_techs_names) == 0 && allow_grid_exports_from_storage == 1
+            exported_energy_storage_string = ' + Exported_energy_storage(t,x,h)';
+        end
+
+        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x)',exported_energy_string,exported_energy_storage_string,' + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}');
     end
 end
+    
+%energy balance constraint
+% constraint_energy_balance = '';
+% if apply_constraint_energy_balance == 1
+%     if multiple_hubs == 0
+%         if simplified_storage_representation == 0
+%             constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor) - Storage_input_energy(t,stor)) * Smatrix(x,stor)) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x);\n\t\t}';
+%         else
+%             constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x);\n\t\t}';
+%         end
+%     else
+%         if simplified_storage_representation == 0
+%             constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x,h) + Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}';
+%         else
+%             constraint_energy_balance = '\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + Storage_output_energy(t,x,h) - Storage_input_energy(t,x,h) = Loads(t,x,h) + Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}';
+%         end
+%     end
+% end
+
+%% OPERATION CONSTRAINTS
 
 %dispatch constraint
 constraint_dispatch = '';
@@ -85,9 +157,9 @@ end
 constraint_installed_conversion_techs = '';
 if apply_constraint_installed_conversion_techs == 1
     if multiple_hubs == 0
-        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (conv) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Installation(conv) = Installed_conversion_techs(conv);\n\t\t}';
+        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: conv;\n\t\t\tDefinition: Installation(conv) = Installed_conversion_techs(conv);\n\t\t}';
     else
-        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (conv,h) | Cmatrix(x,conv) > 0;\n\t\t\tDefinition: Installation(conv,h) = Installed_conversion_techs(conv,h);\n\t\t}';
+        constraint_installed_conversion_techs = '\n\t\tConstraint Installed_conversion_techs_constraint {\n\t\t\tIndexDomain: (conv,h);\n\t\t\tDefinition: Installation(conv,h) = Installed_conversion_techs(conv,h);\n\t\t}';
     end
 end
 
@@ -239,6 +311,32 @@ if apply_constraint_nonsolar_export == 1
     end
 end
 
+%storage export constraint
+constraint_storage_export = '';
+if apply_constraint_storage_export == 1
+    if simplified_storage_representation == 1
+        if multiple_hubs == 0
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_storage(t,x) <= Storage_output_energy(t,x);\n\t\t}');
+        else
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h));\n\t\t}');
+        end
+    else
+        included_techs = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Elec')));
+        definition_string = '';
+        for t=1:length(included_techs)
+            definition_string = strcat(definition_string,'''',char(included_techs(t)),'''');
+            if t < length(included_techs)
+                 definition_string = strcat(definition_string,' OR stor = '); 
+            end
+        end   
+        if multiple_hubs == 0
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_storage(t,x) <= sum(stor | (stor = ',definition_string,'), (Storage_output_energy(t,stor));\n\t\t}');
+        else
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor = ',definition_string,'), (Storage_output_energy(t,stor,h));\n\t\t}');
+        end
+    end
+end
+
 %solar export constraint with net metering
 constraint_solar_export_with_net_metering = '';
 if apply_constraint_solar_export_with_net_metering == 1
@@ -265,4 +363,4 @@ constraints_section = strcat(constraint_energy_balance,constraint_dispatch,const
     constraint_capacity,constraint_installation,constraint_installed_conversion_techs,constraint_min_capacity,constraint_max_capacity,...
     constraint_roof_area,constraint_solar_availability,...
     constraint_min_capacity_grid,constraint_max_capacity_grid,constraint_grid_capacity_violation1,constraint_grid_capacity_violation2,...
-    constraint_solar_export,constraint_nonsolar_export,constraint_solar_export_with_net_metering);
+    constraint_solar_export,constraint_nonsolar_export,constraint_storage_export,constraint_solar_export_with_net_metering);

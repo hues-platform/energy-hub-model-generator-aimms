@@ -48,6 +48,24 @@ if select_techs_and_do_sizing == 1
         technologies.storage_techs_specific_heat = cell2mat(raw(16,2:end));
     end
     
+    %deterimine if there are actually conversion and storage techs to be sized
+    conversion_techs_for_selection_and_sizing = 1;
+    solar_techs_for_selection_and_sizing = 1;
+    nonsolar_techs_for_selection_and_sizing = 1;
+    storage_techs_for_selection_and_sizing = 1;
+    if isempty(technologies.conversion_techs_names)
+        conversion_techs_for_selection_and_sizing = 0;
+    end
+    if sum(strcmp(technologies.conversion_techs_inputs_1,'Solar')) == 0
+        solar_techs_for_selection_and_sizing = 0;
+    end
+    if sum(~strcmp(technologies.conversion_techs_inputs_1,'Solar')) == 0
+        nonsolar_techs_for_selection_and_sizing = 0;
+    end
+    if isempty(technologies.storage_techs_names)
+        storage_techs_for_selection_and_sizing = 0;
+    end
+    
 else
     
     %create empty conversion technology variables
@@ -82,6 +100,12 @@ else
     technologies.storage_techs_min_state_of_charge = [];
     technologies.storage_techs_min_capacity = [];
     technologies.storage_techs_max_capacity = [];
+    
+    %deterimine if there are actually conversion and storage techs to be sized
+    conversion_techs_for_selection_and_sizing = 0;
+    solar_techs_for_selection_and_sizing = 0;
+    nonsolar_techs_for_selection_and_sizing = 0;
+    storage_techs_for_selection_and_sizing = 0;
     
 end
 
@@ -313,6 +337,7 @@ technologies_with_single_input = unique_technologies.conversion_techs_names(cell
 technologies_with_multiple_inputs = unique_technologies.conversion_techs_names(cellfun(notnan_cell,unique_technologies.conversion_techs_inputs_2));
 solar_technologies = unique_technologies.conversion_techs_names(find(strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
 technologies_excluding_grid = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
+nonsolar_nongrid_technologies = unique_technologies.conversion_techs_names(intersect(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')),find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
 if exist('technologies.storage_techs_min_temperature','var')
     storages_with_temperature_constraints = unique_technologies.storage_techs_names(find(~isnan(unique_technologies.storage_techs_min_temperature)));
 else

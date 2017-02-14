@@ -58,6 +58,7 @@ create_variable_input_streams = 0;
 create_variable_energy_output = 0;
 create_variable_exported_energy_nonrenewable = 0;
 create_variable_exported_energy_renewable = 0;
+create_variable_exported_energy_storage = 0;
 create_variable_technology_installation = 0;
 create_variable_technology_operation = 0;
 create_variable_technology_capacity = 0;
@@ -149,8 +150,12 @@ end
 
 %these sets should always be created
 create_time_set = 1;
-create_conversion_techs_set = 1;
 create_energy_carriers_set = 1;
+
+%to be created if there are conversion technologies
+if isempty(technologies.conversion_techs_names) == 0
+    create_conversion_techs_set = 1;
+end
 
 %to be created if there are storage technologies
 if isempty(energy_storage_technologies) == 0 && simplified_storage_representation == 0
@@ -164,7 +169,6 @@ end
 %% SELECT PARAMS
 %these params should always be created
 create_param_loads = 1;
-create_param_C_matrix = 1;
 create_param_big_M = 1;
 
 %to be created if the system is grid connected
@@ -191,6 +195,7 @@ if isempty(technologies.conversion_techs_names) == 0
     create_param_OMV_costs = 1;
     create_param_carbon_factors = 1;
     create_param_operating_costs = 1;
+    create_param_C_matrix = 1;
     
     %only applicable if the min part load of technologies > 0
     if sum(technologies.conversion_techs_min_part_load) > 0
@@ -198,27 +203,31 @@ if isempty(technologies.conversion_techs_names) == 0
     end
 
     %to be created if there are pre-installed conversion techs & you're doing selection/sizing
-    if include_installed_technologies == 1 && isempty(installed_technologies.conversion_techs_names) == 0 && select_techs_and_do_sizing == 1
+    if include_installed_technologies == 1 && isempty(installed_technologies.conversion_techs_names) == 0 && conversion_techs_for_selection_and_sizing == 1
         create_param_installed_conversion_technologies = 1;
     end
         
     %to be created if there are conversion techs and we're not doing selection/sizing
-    if select_techs_and_do_sizing == 0
+    if conversion_techs_for_selection_and_sizing == 0
         create_param_capacity = 1;
     end
     
     %to be created if there are conversion techs and we're doing selection/sizing
-    if select_techs_and_do_sizing == 1
+    if conversion_techs_for_selection_and_sizing == 1
         create_param_linear_capital_costs = 1;
         create_param_fixed_capital_costs = 1;
         create_param_technology_CRF = 1;
         create_param_int_rate = 1;
         create_param_lifetimes = 1;
-        create_param_maximum_capacities = 1;
         
-        %only applicable if there are conversion techs with nonzero minimum capacities
-        if sum(technologies.conversion_techs_min_capacity) > 0
-            create_param_minimum_capacities = 1;
+        %only applicable if there are nonsolar conversion techs for selection/sizing
+        if nonsolar_techs_for_selection_and_sizing == 1
+            create_param_maximum_capacities = 1;
+        
+            %only applicable if there are nonsolar conversion techs with nonzero minimum capacities
+            if sum(technologies.conversion_techs_min_capacity) > 0
+                create_param_minimum_capacities = 1;
+            end
         end
     end
 end
@@ -241,17 +250,17 @@ if isempty(technologies.storage_techs_names) == 0
     end
 
     %to be created if there are pre-installed storage techs and we're doing selection/sizing
-    if include_installed_technologies == 1 && isempty(installed_technologies.storage_techs_names) == 0 && select_techs_and_do_sizing == 1
+    if include_installed_technologies == 1 && isempty(installed_technologies.storage_techs_names) == 0 && storage_techs_for_selection_and_sizing == 1
         create_param_installed_storage_technologies = 1;
     end
 
     %to be created if there are storage techs and we're not doing selection/sizing
-    if select_techs_and_do_sizing == 0
+    if storage_techs_for_selection_and_sizing == 0
         create_param_storage_capacity = 1;
     end
     
     %to be created if there are storage techs and we're doing selection/sizing
-    if select_techs_and_do_sizing == 1
+    if storage_techs_for_selection_and_sizing == 1
         create_param_linear_storage_costs = 1;
         create_param_fixed_storage_costs = 1;
         create_param_storage_lifetimes = 1;
@@ -265,12 +274,12 @@ end
 %to be created if there are solar techs
 if isempty(solar_technologies) == 0
     create_param_solar_radiation = 1;
-    if select_techs_and_do_sizing == 1
+    if solar_techs_for_selection_and_sizing  == 1
         create_param_roof_area = 1;
     end
 end
 
-%to be created if therea re multiple hubs
+%to be created if there are multiple hubs
 if multiple_hubs == 1
     create_param_link_installation = 1;
     create_param_link_lengths = 1;
@@ -288,17 +297,30 @@ end
 %these variables should always be created
 create_variable_input_streams = 1;
 create_variable_energy_output = 1;
-create_objectivefn_operating_cost = 1;
-create_objectivefn_maintenance_cost = 1;
-create_objectivefn_maintenance_cost_per_timestep = 1;
 create_objectivefn_total_carbon = 1;
 create_objectivefn_total_cost = 1;
 
+%to be created if there are energy conversion techs
+if isempty(technologies.conversion_techs_names) == 0
+    create_objectivefn_operating_cost = 1;
+    create_objectivefn_maintenance_cost = 1;
+    create_objectivefn_maintenance_cost_per_timestep = 1;
+end
+
 %to be created if the system is grid connected
 if grid_connected_system == 1
+    create_objectivefn_income_via_exports = 1;
+end
+
+%to be created if the system is grid connected and there are conversion techs
+if grid_connected_system == 1 && isempty(technologies.conversion_techs_names) == 0
     create_variable_exported_energy_nonrenewable = 1;
     create_variable_exported_energy_renewable = 1;
-    create_objectivefn_income_via_exports = 1;
+end
+
+%to be created if the system is grid connected and there are storage techs that can export to the grid
+if grid_connected_system == 1 && isempty(technologies.storage_techs_names) == 0 && allow_grid_exports_from_storage == 1
+    create_variable_exported_energy_storage = 1;
 end
 
 %to be created if the system is grid connected and we're doing selection/sizing
@@ -318,11 +340,15 @@ if multiple_hubs == 1
     create_variable_link_losses = 1;
 end
 
+%to be created if there are conversion or storage techs for selection/sizing
+if conversion_techs_for_selection_and_sizing == 1 || storage_techs_for_selection_and_sizing == 1
+    create_objectivefn_capital_cost = 1;
+end
+
 %to be created if there are conversion techs and we're doing selection/sizing
-if isempty(technologies.conversion_techs_names) == 0 && select_techs_and_do_sizing == 1
+if conversion_techs_for_selection_and_sizing == 1
     create_variable_technology_installation = 1;
     create_variable_technology_capacity = 1;
-    create_objectivefn_capital_cost = 1;
 end
 
 %to be created if there are storage techs
@@ -337,7 +363,7 @@ if isempty(technologies.storage_techs_names) == 0
     end
 
     %to be created if there are storage techs and we're doing selection/sizing
-    if select_techs_and_do_sizing == 1
+    if storage_techs_for_selection_and_sizing == 1
         create_variable_storage_capacity = 1;
         create_variable_storage_installation = 1;
     end
@@ -357,24 +383,24 @@ if print_cost_data == 1
     end
     
     if grid_connected_system == 1
-        if select_techs_and_do_sizing == 1
+        if size_grid_connection == 1
             create_variable_total_cost_grid = 1;
         else
             create_variable_total_cost_grid_without_capital_costs = 1;
         end
     end
     
-    if select_techs_and_do_sizing == 1
+    if conversion_techs_for_selection_and_sizing == 1
         create_variable_capital_cost_per_technology = 1;
         create_variable_total_cost_per_technology = 1;
-        
-        if isempty(technologies.storage_techs_names) == 0
-            create_variable_capital_cost_per_storage = 1;
-            create_variable_total_cost_per_storage = 1;
-        end
     else
         create_variable_total_cost_per_technology_without_capital_costs = 1;
-    end   
+    end
+    
+    if storage_techs_for_selection_and_sizing == 1
+        create_variable_capital_cost_per_storage = 1;
+        create_variable_total_cost_per_storage = 1;
+    end  
 end
 
 if print_emissions_data == 1
