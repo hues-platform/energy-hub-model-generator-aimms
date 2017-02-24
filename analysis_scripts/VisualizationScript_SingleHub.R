@@ -40,44 +40,44 @@ for(experiment in experiments) {
   
   ##### EXTRACT PRODUCTION CAPACITY DATA #####
   
-  filename = paste(experiment,"\\results_capacities.xlsx",sep='')
-  data = read.xlsx(filename,"Capacity")
-  
-  row.names(data) <- data$X1
-  data$X1 <- NULL 
-  data <- data.frame(t(data))
-  data_elec <- data.frame(data$Elec)
-  data_elec[,2] = rownames(data)
-  
-  newcol <- rep(experiment,length(data_elec[,1]))
-  data_elec <- cbind(data_elec,newcol)
-  colnames(data_elec) <- c("value","technology","experiment")
-  
-  results_capacity_electricity = rbind(results_capacity_electricity,data_elec)
-  
-  data_heat <- data.frame(data$Heat)
-  data_heat[,2] <- row.names(data)
-  
-  newcol <- rep(experiment,length(data_heat[,1]))
-  data_heat <- cbind(data_heat,newcol)
-  colnames(data_heat) <- c("value","technology","experiment")
-  results_capacity_heat = rbind(results_capacity_heat,data_heat)
-  
-  ##### EXTRACT STORAGE CAPACITY DATA #####
-  
-  filename = paste(experiment,"\\results_capacities.xlsx",sep='')
-  data = read.xlsx(filename,"Storage_capacity",colNames=FALSE,rowNames=FALSE)
-  
-  if (experiment == "NetMetering") {
-    data$X1 <- gsub("Battery","Elec",data$X1)
-    data$X1 <- gsub("Hot_water_tank","Heat",data$X1)
-    data <- data[-grep("Net_meter",data$X1),]
-  }
-  
-  newcol <- rep(experiment,length(data[,1]))
-  data <- cbind(data,newcol)
-  colnames(data) <- c("technology","value","experiment")
-  results_storage_capacity = rbind(results_storage_capacity,data)
+  # filename = paste(experiment,"\\results_capacities.xlsx",sep='')
+  # data = read.xlsx(filename,"Capacity")
+  # 
+  # row.names(data) <- data$X1
+  # data$X1 <- NULL 
+  # data <- data.frame(t(data))
+  # data_elec <- data.frame(data$Elec)
+  # data_elec[,2] = rownames(data)
+  # 
+  # newcol <- rep(experiment,length(data_elec[,1]))
+  # data_elec <- cbind(data_elec,newcol)
+  # colnames(data_elec) <- c("value","technology","experiment")
+  # 
+  # results_capacity_electricity = rbind(results_capacity_electricity,data_elec)
+  # 
+  # data_heat <- data.frame(data$Heat)
+  # data_heat[,2] <- row.names(data)
+  # 
+  # newcol <- rep(experiment,length(data_heat[,1]))
+  # data_heat <- cbind(data_heat,newcol)
+  # colnames(data_heat) <- c("value","technology","experiment")
+  # results_capacity_heat = rbind(results_capacity_heat,data_heat)
+  # 
+  # ##### EXTRACT STORAGE CAPACITY DATA #####
+  # 
+  # filename = paste(experiment,"\\results_capacities.xlsx",sep='')
+  # data = read.xlsx(filename,"Storage_capacity",colNames=FALSE,rowNames=FALSE)
+  # 
+  # if (experiment == "NetMetering") {
+  #   data$X1 <- gsub("Battery","Elec",data$X1)
+  #   data$X1 <- gsub("Hot_water_tank","Heat",data$X1)
+  #   data <- data[-grep("Net_meter",data$X1),]
+  # }
+  # 
+  # newcol <- rep(experiment,length(data[,1]))
+  # data <- cbind(data,newcol)
+  # colnames(data) <- c("technology","value","experiment")
+  # results_storage_capacity = rbind(results_storage_capacity,data)
   
   ##### EXTRACT PRODUCTION DATA #####
   
