@@ -1,0 +1,13 @@
+﻿* AIMMS
+* AOA
+* CBC 2.8.0
+* CONOPT 3.14V
+* CPLEX 12.6
+"CPLEX 12.6".mps 1
+* CPOptimizer 12.6
+* IPOPT 3.11
+* MINOS
+* SNOPT 7.2
+* XA 15
+* NETSOL
+* Environment
