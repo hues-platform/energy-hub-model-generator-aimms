@@ -20,10 +20,11 @@ library(sqldf)
 options(stringsAsFactors = FALSE)
 
 # set the working directory - the path to the directory where the results are stored
-setwd("C:\\Users\\boa\\Documents\\Repositories_Github\\energy-hub-model-generator-aimms\\aimms_model\\energy_hub\\results")
+setwd("C:\\Users\\boa\\Documents\\Repositories_Github\\energy-hub-model-generator-aimms\\analysis_scripts\\test_data")
 
 #set the experiments - list the names of the directories containing the XLSX results files from AIMMS
-experiments = c("Generic_energy_hub_experiment_with_sizing")
+experiments = c("experiment1","experiment2","experiment3")
+#experiment = "experiment1"
 
 #create some dataframes for saving data
 results_capacity_heat <- data.frame(value=numeric(),technology=character(),experiment=character())
@@ -166,12 +167,6 @@ for(experiment in experiments) {
   colnames(data5) <- c("technology","value","experiment")
   results_total_cost <- rbind(results_total_cost,data5)
   
-  total_income = as.numeric(data4$X1)
-  total_income2 <- data.frame(cbind(total_income,experiment))
-  colnames(total_income2) <- c("value","experiment")
-  results_total_income <- rbind(results_total_income,total_income2)
-  results_total_income$value <- as.numeric(results_total_income$value) 
-  
   #EXTRACT THE CARBON EMISSIONS
   filename = paste(experiment,"\\results_emissions.xlsx",sep='')
   data = read.xlsx(filename,"Total_carbon_per_technology",colNames=FALSE)
@@ -198,10 +193,6 @@ ggsave("comparison_storage_capacity.png")
 ggplot(results_total_cost,aes(x=experiment,y=value,fill=technology)) + geom_bar(stat="identity") +
   labs(title="Total cost",x="Experiment", y="Cost (CHF)")
 ggsave("comparison_total_cost.png")
-
-ggplot(results_total_income,aes(x=experiment,y=value)) + geom_bar(stat="identity") +
-  labs(title="Total income",x="Experiment", y="Cost (CHF)")
-ggsave("comparison_total_income.png")
 
 ggplot(results_emissions,aes(x=experiment,y=value,fill=technology)) + geom_bar(stat="identity") +
   labs(title="Total emissions",x="Experiment", y="Emissions (CO2-eq)")

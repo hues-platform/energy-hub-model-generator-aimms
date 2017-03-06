@@ -130,9 +130,14 @@ end
 %capacity violation constraint
 constraint_capacity = '';
 if apply_constraint_capacity == 1
-    relevant_technologies = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
-    relevant_technologies = intersect(relevant_technologies,unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
-    relevant_techs_output_1 = unique_technologies.conversion_techs_outputs_1(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
+    %relevant_technologies = unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
+    %relevant_technologies = intersect(relevant_technologies,unique_technologies.conversion_techs_names(find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+    %relevant_techs_output_1 = unique_technologies.conversion_techs_outputs_1(find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar')));
+    %relevant_techs_output_1 = intersect(relevant_techs_output_1,unique_technologies.conversion_techs_outputs_1(find(~strcmp(unique_technologies.conversion_techs_names,'Grid'))));
+    relevant_technologies_indices = find(~strcmp(unique_technologies.conversion_techs_inputs_1,'Solar'));
+    relevant_technologies_indices = intersect(relevant_technologies_indices,find(~strcmp(unique_technologies.conversion_techs_names,'Grid')));
+    relevant_technologies = unique_technologies.conversion_techs_names(relevant_technologies_indices);
+    relevant_techs_output_1 = unique_technologies.conversion_techs_outputs_1(relevant_technologies_indices);
     index_domain_string = '';
     for t=1:length(relevant_technologies)
         if multiple_hubs == 0
