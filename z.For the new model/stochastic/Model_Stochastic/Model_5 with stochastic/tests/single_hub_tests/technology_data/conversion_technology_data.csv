@@ -1,0 +1,13 @@
+Technology name,Heat pump,Gas boiler,Gas CHP,Solar PV,Solar thermal
+Output type,Heat,Heat,"""Heat,Elec""",Elec,Heat
+Input type,Elec,Gas,Gas,Solar,Solar
+Lifetime,20,30,20,20,35
+Capital cost per kW,1000,200,1500,3500,2900
+Capital cost fixed,0,0,0,0,0
+OM cost per kWh,0.1,0.01,0.021,0.06,0.12
+OM cost fixed,0,0,0,0,0
+Efficiency,3.2,0.94,0.3,0.14,0.46
+Minimum part load,0,0,0.5,0,0
+Heat to power ratio,0,0,1.73,0,0
+Minimum capacity,0,0,50,0,0
+Maximum capacity,100,100,50,0,0

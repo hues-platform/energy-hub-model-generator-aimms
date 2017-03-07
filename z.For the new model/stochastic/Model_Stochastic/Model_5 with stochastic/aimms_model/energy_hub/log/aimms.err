@@ -1,0 +1,73 @@
+Domain violation at line 270, column 9.
+The element '100' is not in the domain set "Scenarios".
+Domain violation at line 313, column 1.
+The number of arguments in the variable "Input_energy" is not correct.
+Domain violation at line 314, column 1.
+The number of arguments in the variable "Input_energy" is not correct.
+Warning at line 373.
+The element 'Gas_CHP1' is not an element in domain set "Energy_conversion_technologies" with respect to the current case.
+Domain violation at line 378, column 21.
+The scope of index "s" has not been specified.
+Domain violation at line 383, column 21.
+The scope of index "s" has not been specified.
+Execution error at line 411.
+The element '2' is not in the domain set "Scenarios".
+Execution error at line 415.
+The element '100' is not in the domain set "Scenarios".
+Domain violation at line 552, column 1.
+The number of arguments in the parameter "pr_E_W_TRLplus" is not correct.
+Domain violation at line 559, column 1.
+The number of arguments in the parameter "pr_E_D_TRLplus" is not correct.
+Domain violation at line 566, column 1.
+The number of arguments in the parameter "pr_P_W_TRLplus" is not correct.
+Domain violation at line 573, column 1.
+The number of arguments in the parameter "pr_P_D_TRLplus" is not correct.
+Domain violation at line 708, column 193.
+The number of arguments in the parameter "pr_P_W_TRLplus" is not correct.
+Domain violation at line 814, column 1.
+The number of arguments in the parameter "pr_E_W_TRLplus" is not correct.
+Domain violation at line 815, column 1.
+The number of arguments in the parameter "pr_E_D_TRLplus" is not correct.
+Domain violation at line 816, column 1.
+The number of arguments in the parameter "pr_P_W_TRLplus" is not correct.
+Domain violation at line 817, column 1.
+The number of arguments in the parameter "pr_P_D_TRLplus" is not correct.
+Domain violation at line 818, column 193.
+The number of arguments in the parameter "pr_P_W_TRLplus" is not correct.
+Semantic error at line 5 in user-defined function section "Load_Input_Data", column 115.
+The dimension of parameter "a_TRLplus" cannot be changed from 2 to 1.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Semantic error at line 5 in user-defined function section "Load_Input_Data", column 115.
+The dimension of parameter "a_TRLplus" cannot be changed from 2 to 1.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 144.
+The scope of index "s" has not been specified.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Domain violation at line 34 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Total_cost_grid" is not correct.
+Domain violation at line 34 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Total_cost_grid" is not correct.
+Domain violation at line 34 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Total_cost_grid" is not correct.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Domain violation at line 33 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Operating_cost_grid" is not correct.
+Domain violation at line 35 in user-defined function section "Write_Output_Data", column 124.
+The number of arguments in the variable "Income_via_exports" is not correct.
+spreadsheet::RetrieveParameter(electricity_demand.xlsx, Loads(t,'Elec'), A1:A8760, electricity_demand, 0) failed: Actual cardinality (168) of domain #1 is smaller than specified cardinality (8760).
+Warning at line 3 in user-defined function section "MainExecution".
+The element 'Gas_CHP1' is not an element in domain set "Energy_conversion_technologies" with respect to the current case.
+Warning at line 3 in user-defined function section "MainExecution".
+The parameter "Storage_Init" is not initialized (default values are used).
+Warning at line 3 in user-defined function section "MainExecution".
+After zero iterations CPLEX 12.6 concluded that an integer solution to Cost_minimization does not exist.
+spreadsheet::AssignTable(results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx, Input_energy(t,conv,s), B2:I8761, A2:A8761, B1:I1, Input_energy, 0, 1, 1) failed: width of the row array (1) + height of column array (1) does not match the dimension (3) of the identifier.
+Warning at line 3 in user-defined function section "MainExecution".
+After zero iterations CPLEX 12.6 concluded that an integer solution to Cost_minimization does not exist.
+spreadsheet::CreateWorkbook(results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx,Input_energy) failed: A workbook with the name "C:\Users\Raphaela\Dropbox\MASTER THESIS\Model\Model_Stochastic\Model_5 with stochastic\aimms_model\energy_hub\results\Generic_energy_hub_experiment_without_sizing\results_conversion.xlsx" already exists.

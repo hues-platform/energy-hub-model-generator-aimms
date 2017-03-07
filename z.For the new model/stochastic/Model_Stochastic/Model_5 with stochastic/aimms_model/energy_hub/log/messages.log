@@ -1,0 +1,22 @@
+﻿Domain violation at line 270, column 9.
+The element '100' is not in the domain set "Scenarios".
+
+Domain violation at line 313, column 1.
+The number of arguments in the variable "Input_energy" is not correct.
+
+Domain violation at line 314, column 1.
+The number of arguments in the variable "Input_energy" is not correct.
+
+There is 65.844 Mb in use.
+Execution error at line 411.
+The element '2' is not in the domain set "Scenarios".
+
+Execution error at line 415.
+The element '100' is not in the domain set "Scenarios".
+
+spreadsheet::RetrieveParameter(electricity_demand.xlsx, Loads(t,'Elec'), A1:A8760, electricity_demand, 0) failed: Actual cardinality (168) of domain #1 is smaller than specified cardinality (8760).
+Warning: The parameter "Storage_Init" is not initialized (default values are used).
+Warning: After zero iterations CPLEX 12.6 concluded that an integer solution to Cost_minimization does not exist.
+spreadsheet::AssignTable(results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx, Input_energy(t,conv,s), B2:I8761, A2:A8761, B1:I1, Input_energy, 0, 1, 1) failed: width of the row array (1) + height of column array (1) does not match the dimension (3) of the identifier.
+Warning: After zero iterations CPLEX 12.6 concluded that an integer solution to Cost_minimization does not exist.
+spreadsheet::CreateWorkbook(results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx,Input_energy) failed: A workbook with the name "C:\Users\Raphaela\Dropbox\MASTER THESIS\Model\Model_Stochastic\Model_5 with stochastic\aimms_model\energy_hub\results\Generic_energy_hub_experiment_without_sizing\results_conversion.xlsx" already exists.
