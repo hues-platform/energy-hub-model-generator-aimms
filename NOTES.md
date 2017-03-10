@@ -2,17 +2,25 @@
 
 ## PRIORITY
 
-* Based on the current setup, the storage cannot charge/discharge from the grid.  This should possibly be changed. Add electricity export storage constraint or similar.
-
-* Min and max capacity of solar techs should not be set, or you should take away the setting of this in the node csv.
-
-* Debug and verify the model after your changes, and modify the test scripts accordingly.
-
-* You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?
+* Verify the current setup. Do some checks to make sure the results make sense.
 
 * Add to documentation the following notes:
 NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
 NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
+
+## RAPHAELA'S BRANCH
+
+* Check if you're getting the same weird results for the base case.
+
+* Implement Raphaela's equations for bidding.
+
+## UPDATES WITH CO2 INTENSITY PAPER
+
+* Implementation of simplified version of the Suurstoffi case (maybe you can get some additional data from Chris now).
+
+* Min and max capacity of solar techs should not be set, or you should take away the setting of this in the node csv.
+
+* You can't actually calculate temperature levels without taking into account massflows.  How are you accounting for this now?
 
 * Merge (???) with main branch
 
@@ -26,6 +34,8 @@ Improve the manner in which network results are printed - right now it's just on
 Create visualization code for multi-hub analyses
 
 ## OTHER
+With simplified storage representation, the XLSX results sometimes don't label the storage types properly, particularly when you have a demand type (e.g. cooling) not associated with a storage.
+
 Check why you're getting the Aimms warnings.
 
 Add your generic energy hub model to the model repository.

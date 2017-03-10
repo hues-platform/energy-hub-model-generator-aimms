@@ -200,8 +200,8 @@ if print_cost_data == 1
 	end
     if isempty(unique_technologies.storage_techs_names) == 0
         if storage_techs_for_selection_and_sizing == 1
-            cost_data_for_printing = strcat(cost_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_costs.xlsx",Capital_cost_per_storage,"B1:B',num2str(number_of_storage_techs + 1),'","A1:A',num2str(number_of_storage_techs + 1),'","","Capital_cost_per_storage",0,1,3);');
-            cost_data_for_printing = strcat(cost_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_costs.xlsx",Total_cost_per_storage,"B1:B',num2str(number_of_storage_techs + 1),'","A1:A',num2str(number_of_storage_techs + 1),'","","Total_cost_per_storage",0,1,3);');
+            cost_data_for_printing = strcat(cost_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_costs.xlsx",Capital_cost_per_storage,"B1:B',num2str(number_of_storage_techs),'","A1:A',num2str(number_of_storage_techs),'","","Capital_cost_per_storage",0,1,3);');
+            cost_data_for_printing = strcat(cost_data_for_printing,'\n\t\t\tSpreadsheet::AssignTable("results/',experiment_name,'/results_costs.xlsx",Total_cost_per_storage,"B1:B',num2str(number_of_storage_techs),'","A1:A',num2str(number_of_storage_techs),'","","Total_cost_per_storage",0,1,3);');
         end
     end
 	cost_data_for_printing = strcat(cost_data_for_printing,'\n\t\t\tSpreadsheet::CloseWorkbook("results/',experiment_name,'/results_costs.xlsx",1);');

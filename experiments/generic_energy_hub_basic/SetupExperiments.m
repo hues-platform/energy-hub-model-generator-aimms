@@ -8,7 +8,7 @@
 clear
 clc
 
-%% SET THE PATH
+%% SET THE DIRECTORIES
 
 %set this to the path of the experiment folder
 experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\generic_energy_hub_basic\';
@@ -16,10 +16,12 @@ experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-g
 %set this path to the root of the project
 project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
 
-%add some paths
+cd(project_root_path);
+
+%% ADD DIRECTORIES TO THE MATLAB SEARCH PATH
+
 addpath(genpath(strcat(project_root_path,'src')));
 addpath(genpath(experiment_path));
-cd(project_root_path);
 
 %% DEFINE AND RUN THE EXPERIMENTS
 %% Experiment 1 - with technology selection and sizing
