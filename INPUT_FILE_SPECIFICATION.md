@@ -1,6 +1,6 @@
 #Formatting of input data files
 
-The sections below describe in detail how the case study and technology input data files must be formatted.
+The sections below describe in detail how the case study and technology input data files must be formatted. These files should be located in the folders "case_data" and "technology_data" in your experiment folder.  See for an example: case_study_data\generic_energy_hub_basic\
 
 ##Formatting of case study input files
 
