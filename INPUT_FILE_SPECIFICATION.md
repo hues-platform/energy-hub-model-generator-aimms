@@ -10,9 +10,9 @@ _This file is required._
 
 This file consists of energy demand time series for the system.  It should be structured according to the HUES data specification for time series data: https://hues.empa.ch/index.php/HUESdata_v1.0_Time_series_data_specification.
 
-Important note: Possible values for demand type (row 3) are currently limited to: Elec, Heat Cool, DHW and Anergy.  The value Heat may be used to represent space heating demand.
+Important note: In row 3, use the keyword "Elec" (without quotes) to denote electricity demand. All other energy streams may be named freely by the user. 
 
-Example file: case_study_data\testing_case_single_hub\demand_data.csv
+Example file: case_study_data\generic_energy_hub_basic\case_data\demand_data.csv
 
 ###energy_inputs_data.csv
 
@@ -20,9 +20,9 @@ _This file is required._
 
 This file consists of energy inputs time series, e.g. solar insolation values.  It should be structured according to the HUES data specification for time series data: https://hues.empa.ch/index.php/HUESdata_v1.0_Time_series_data_specification.
 
-Important note: Possible values for supply type (row 3) are currently limited to: Solar.  
+Important note: In row 3, use the keyword "Solar" (without quotes) to denote solar energy inputs.
 
-Example file: case_study_data\testing_case_single_hub\energy_inputs_data.csv
+Example file: case_study_data\generic_energy_hub_basic\case_data\energy_inputs_data.csv
 
 ###node_data.csv
 
@@ -36,37 +36,47 @@ Row 2: Node name (optional)
 
 Row 3: Usable roof area (required if installation/sizing of solar technologies is to be considered)
 
-Example file: case_study_data\testing_case_single_hub\node_data.csv
+Example file: case_study_data\generic_energy_hub_basic\case_data\node_data.csv
 
 ###installed_conversion_technologies.csv
 
 _This file is required if the system includes pre-installed conversion technologies._
 
-This file consits of data describing the installed energy conversion technologies.  It should be structured as follows:
+This file consits of data describing the installed energy conversion technologies.  It is necessary if the system has pre-installed technologies, or if you are doing only an optimization of system operation.  The file should be structured as follows:
 
 Row 1: Technology name (required)
 
-Row 2: Output type (required, see important note below)
+Row 2: Output type 1 (required)
 
-Row 3: Input type (required, see important note below)
+Row 3: Output type 2 (optional, leave blank if only a single output type)
 
-Row 4: Efficiency (required)
+Row 4: Input type 1 (required, see important note below)
 
-Row 5: Minimum part load (required)
+Row 5: Input type 2 (optional, leave blank if only a single input type)
 
-Row 6: Heat to power ratio (optional, set to zero if inapplicable)
+Row 6: Efficiency (required)
 
-Row 7: Capacity (required)
+Row 7: Minimum part load (required)
 
-Row 8: Node (required)
+Row 8: Output ratio (optional, refers to the ratio of output 2 to output 1, set to zero if only a single output)
 
-Important note: The values of rows 2 are limited to Heat, Elec, Cool, DHW and Anergy. For technologies with multiple outputs, enclose a comma-separated list of the outputs in double quotes (e.g. "Heat,Elec"). For technologies with multiple outputs, the possible values are currently limited to "Heat,Elec","DHW,Elec" and "Anergy,Elec"
+Row 9: Input ratio (optional, refers to the ratio of input 2 to input 1, set to zero if only a single input)
 
-Important note: For row 3, in case of multiple inputs for a single technology, enclose a comma-separated list of the inputs in double quotes (e.g. "Anergy,Elec").
+Row 10: Capacity (required)
 
-Important note: The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the scenario file.
+Row 11: Node (required, set to 1 if the system has only a single node)
 
-Example file: case_study_data\testing_case_single_hub\installed_conversion_technologies.csv
+Important note: Output ratio refers to the ratio of Output 2 to Output 1. Input ratio refers to the ratio of Input 2 to Input 1. 
+
+Important note: The values for efficiency and capacity are defined with respect to Output 1.  
+
+Important note: To implement a CHP unit, set Output type 1 to "Elec" and Output type 2 to "Heat" (or whatever your heat stream is named). Then set the Output ratio to the heat-to-power ratio of the unit. The values for Efficiency and Capacity are defined with respect to the first output, in this case "Elec".  
+
+Important note: For a heat pump, set Input type 1 to "Elec" and Input type 2 to the name of your low-temperature heat stream.  The Input ratio is the ratio of Input type 2 to Input type 1. The efficiency should be set to the value of the unit's CoP.
+
+Important note: The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the SetExperimentParameters.m file.
+
+Example file: case_study_data\generic_energy_hub_basic\case_data\installed_conversion_technologies.csv
 
 ###installed_storage_technologies.csv
 
@@ -76,7 +86,7 @@ This file consists of data describing the installed energy storage technologies.
 
 Row 1: Technology name (required)
 
-Row 2: Type of energy stored (required, see important note below)
+Row 2: Type of energy stored (required)
 
 Row 3: Charging efficiency (required)
 
@@ -100,9 +110,9 @@ Row 12: Capacity (required)
 
 Row 13: Node (required)
 
-Important note: The values of rows 2 are limited to Heat, Elec, Cool, DHW and Anergy.
+Important note: The model functionalities associated with Minimum temperature, Maximum Temperature and Specific heat are still experimental, and not fully implemented,  It is currently recommended not to use these.
 
-Example file: case_study_data\testing_case_single_hub\installed_storage_technologies.csv
+Example file: case_study_data\generic_energy_hub_basic\case_data\installed_storage_technologies.csv
 
 ##network_data.csv
 
@@ -118,7 +128,7 @@ Row 3: Node 2 (required)
 
 Row 4: Length (m) (required)
 
-Example file: case_study_data\testing_case_multihub\network_data.csv
+Example file: case_study_data\testing_case_multihub\case_data\network_data.csv
 
 ###installed_network_technologies.csv
 
@@ -136,7 +146,7 @@ Row 3: Losses (fraction per m) (required)
 
 Row 4: Link ID (required)
 
-Example file: case_study_data\testing_case_multihub\installed_network_technologies.csv
+Example file: case_study_data\testing_case_multihub\case_data\installed_network_technologies.csv
 
 
 ##Formatting of technology input files
@@ -149,35 +159,47 @@ This file consists of data describing the energy conversion technologies that ar
 
 Row 1: Technology name (required)
 
-Row 2: Output type (required, see important note below)
+Row 2: Output type 1 (required)
 
-Row 3: Input type (required, see important note below)
+Row 3: Output type 2 (optional, leave blank if only a single output type)
 
-Row 4: Lifetime (required)
+Row 4: Input type 1 (required)
 
-Row 5: Capital cost per kW (required)
+Row 5: Input type 2 (optional, leave blank if only a single input type)
 
-Row 6: Capital cost fixed (required)
+Row 6: Lifetime (required)
 
-Row 7: OM cost per kWh (required)
+Row 7: Capital cost per kW (required)
 
-Row 8: OM cost fixed (required)
+Row 8: Capital cost fixed (required)
 
-Row 9: Efficiency (required)
+Row 9: OM cost per kWh (required)
 
-Row 10: Minimum part load (required)
+Row 10: OM cost fixed (required)
 
-Row 11: Heat to power ratio (optional, set to zero if inapplicable)
+Row 11: Efficiency (required)
 
-Row 12: Minimum capacity (required)
+Row 12: Minimum part load (required)
 
-Row 13: Maximum capacity (required)
+Row 13: Output ratio (optional, refers to the ratio of output 2 to output 1, set to zero if only a single output)
 
-Important note: The values of rows 2 are limited to Heat, Elec, Cool, DHW and Anergy. For technologies with multiple outputs, enclose a comma-separated list of the outputs in double quotes (e.g. "Heat,Elec"). For technologies with multiple outputs, the possible values are currently limited to "Heat,Elec","DHW,Elec" and "Anergy,Elec"
+Row 14: Input ratio (optional, refers to the ratio of input 2 to input 1, set to zero if only a single input)
 
-Important note: For row 3, in case of multiple inputs for a single technology, enclose a comma-separated list of the inputs in double quotes (e.g. "Anergy,Elec").
+Row 15: Minimum capacity (required)
 
-Important note: The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the scenario file.  
+Row 16: Maximum capacity (required)
+
+__Important note:__ Output ratio refers to the ratio of Output 2 to Output 1. Input ratio refers to the ratio of Input 2 to Input 1. 
+
+Important note: The values for efficiency and capacity are defined with respect to Output 1.  
+
+Important note: To implement a CHP unit, set Output type 1 to "Elec" and Output type 2 to "Heat" (or whatever your heat stream is named). Then set the Output ratio to the heat-to-power ratio of the unit. The values for Efficiency and Capacity are defined with respect to the first output, in this case "Elec".  
+
+Important note: For a heat pump, set Input type 1 to "Elec" and Input type 2 to the name of your low-temperature heat stream.  The Input ratio is the ratio of Input type 2 to Input type 1. The efficiency should be set to the value of the unit's CoP.
+
+Important note: The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the SetExperimentParameters.m file.
+
+Example file: case_study_data\generic_energy_hub_basic\case_data\conversion_technology_data.csv
 
 ###storage_technology_data.csv
 
@@ -216,5 +238,7 @@ Row 14: Minimum temperature (thermal storage) (optional, leave blank if inapplic
 Row 15: Maximum temperature (thermal storage) (optional, leave blank if inapplicable)
 
 Row 16: Specific heat (thermal storage) (optional, leave blank if inapplicable)
+
+Example file: case_study_data\generic_energy_hub_basic\case_data\storage_technology_data.csv
 
 
