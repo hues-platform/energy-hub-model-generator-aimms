@@ -1,8 +1,10 @@
 #Formatting of input data files
 
-The sections below describe in detail how the case study and technology input data files must be formatted. These files should be located in the folders "case_data" and "technology_data" in your experiment folder.  See for an example: case_study_data\generic_energy_hub_basic\
+The sections below describe in detail how the case study and technology input data files must be formatted. These files should be located in the folders "case_data" and "technology_data" in your experiment folder.  See for an example: experiments\generic_energy_hub_basic\.
 
 ##Formatting of case study input files
+
+**The files below should be located in the case_data folder of your experiment folder**
 
 ###demand_data.csv
 
@@ -12,7 +14,7 @@ This file consists of energy demand time series for the system.  It should be st
 
 **Important note:** In row 3, use the keyword "Elec" (without quotes) to denote electricity demand. All other energy streams may be named freely by the user. 
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\demand_data.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\demand_data.csv
 
 ###energy_inputs_data.csv
 
@@ -22,7 +24,7 @@ This file consists of energy inputs time series, e.g. solar insolation values.  
 
 **Important note:** In row 3, use the keyword "Solar" (without quotes) to denote solar energy inputs.
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\energy_inputs_data.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\energy_inputs_data.csv
 
 ###node_data.csv
 
@@ -36,7 +38,7 @@ Row 2: Node name (optional)
 
 Row 3: Usable roof area (required if installation/sizing of solar technologies is to be considered)
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\node_data.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\node_data.csv
 
 ###installed_conversion_technologies.csv
 
@@ -76,7 +78,7 @@ Row 11: Node (required, set to 1 if the system has only a single node)
 
 **Important note:** The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the SetExperimentParameters.m file.
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\installed_conversion_technologies.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\installed_conversion_technologies.csv
 
 ###installed_storage_technologies.csv
 
@@ -112,7 +114,7 @@ Row 13: Node (required)
 
 **Important note:** The model functionalities associated with Minimum temperature, Maximum Temperature and Specific heat are still experimental, and not fully implemented,  It is currently recommended not to use these.
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\installed_storage_technologies.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\installed_storage_technologies.csv
 
 ##network_data.csv
 
@@ -128,7 +130,7 @@ Row 3: Node 2 (required)
 
 Row 4: Length (m) (required)
 
-**Example file:** case_study_data\testing_case_multihub\case_data\network_data.csv
+**Example file:** tests\testing_case_multihub\case_data\network_data.csv
 
 ###installed_network_technologies.csv
 
@@ -146,10 +148,12 @@ Row 3: Losses (fraction per m) (required)
 
 Row 4: Link ID (required)
 
-**Example file:** case_study_data\testing_case_multihub\case_data\installed_network_technologies.csv
+**Example file:** tests\testing_case_multihub\case_data\installed_network_technologies.csv
 
 
 ##Formatting of technology input files
+
+**The files below should be located in the technology_data folder of your experiment folder**
 
 ###conversion_technology_data.csv
 
@@ -199,7 +203,7 @@ Row 16: Maximum capacity (required)
 
 **Important note:** The electricity grid connection should not be included in this file.  The properties of the electricity grid connection should be defined in the SetExperimentParameters.m file.
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\conversion_technology_data.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\conversion_technology_data.csv
 
 ###storage_technology_data.csv
 
@@ -239,6 +243,6 @@ Row 15: Maximum temperature (thermal storage) (optional, leave blank if inapplic
 
 Row 16: Specific heat (thermal storage) (optional, leave blank if inapplicable)
 
-**Example file:** case_study_data\generic_energy_hub_basic\case_data\storage_technology_data.csv
+**Example file:** experiments\generic_energy_hub_basic\case_data\storage_technology_data.csv
 
 
