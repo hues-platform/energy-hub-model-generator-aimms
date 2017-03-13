@@ -31,6 +31,7 @@ The Ehub Modeling Tool automates the creation of code for an energy hub model fo
 
 ###Current limitations of the Ehub Modeling Tool:
 
+* Part-load efficiencies are not yet enabled
 * Not yet able to generate models for optimizing selection, sizing or routing of thermal or electrical networks.
 * Visualization code is still a bit buggy  and is currently limited to analyzing single-node systems (optimization of multi-node systems is possible).
 

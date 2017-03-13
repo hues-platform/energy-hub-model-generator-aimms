@@ -14,6 +14,8 @@ This file consists of energy demand time series for the system.  It should be st
 
 **Important note:** In row 3, use the keyword "Elec" (without quotes) to denote electricity demand. All other energy streams may be named freely by the user. 
 
+**Important note:** If you have a system with multiple nodes, each node in the input files has to have all the demands listed, and the nodes should be ordered chronologically across the columns.
+
 **Example file:** experiments\generic_energy_hub_basic\case_data\demand_data.csv
 
 ###energy_inputs_data.csv
@@ -71,6 +73,8 @@ Row 11: Node (required, set to 1 if the system has only a single node)
 **Important note:** Output ratio refers to the ratio of Output 2 to Output 1. Input ratio refers to the ratio of Input 2 to Input 1. 
 
 **Important note:** The values for efficiency and capacity are defined with respect to Output 1.  
+
+**Important note:** Inputs of natural gas should be set as "Gas" so that appropriate pricing may be applied.
 
 **Important note:** To implement a CHP unit, set Output type 1 to "Elec" and Output type 2 to "Heat" (or whatever your heat stream is named). Then set the Output ratio to the heat-to-power ratio of the unit. The values for Efficiency and Capacity are defined with respect to the first output, in this case "Elec".  
 
@@ -196,6 +200,8 @@ Row 16: Maximum capacity (required)
 **Important note:** Output ratio refers to the ratio of Output 2 to Output 1. Input ratio refers to the ratio of Input 2 to Input 1. 
 
 **Important note:** The values for efficiency and capacity are defined with respect to Output 1.  
+
+**Important note:** Inputs of natural gas should be set as "Gas" so that appropriate pricing may be applied.
 
 **Important note:** To implement a CHP unit, set Output type 1 to "Elec" and Output type 2 to "Heat" (or whatever your heat stream is named). Then set the Output ratio to the heat-to-power ratio of the unit. The values for Efficiency and Capacity are defined with respect to the first output, in this case "Elec".  
 
