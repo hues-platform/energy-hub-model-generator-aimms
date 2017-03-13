@@ -2,8 +2,6 @@
 
 ## PRIORITY
 
-* Verify the current setup. Do some checks to make sure the results make sense.
-
 * Add to documentation the following notes:
 NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
 NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
