@@ -115,7 +115,7 @@ In both of these cases, the results from your experiments will be printed to a s
 
 ##7. Visualize your results
 
-'''NOTE: The visualization script is no longer up-to-date and will not work properly in most cases.'''
+*NOTE: The visualization script is no longer up-to-date and will not work properly in most cases.*
 
 The R script for visualizing the results of your experiments can be found in the "analysis_scripts" folder of the project's root directory.  Open this script (VisualizationScript_SingleHub.R) in your R editor (RStudio is recommended), and set the working directory and experiment names. The working directory corresponds to the directory where your results are stored (aimms_model\energy_hub\results), and the experiment names to the names of your experiments as defined in "SetupExperiments.m". Then simply execute the script.  For the visualization script to execute properly, the R packages openxlsx, ggplot2, sqldf and reshape2 are required.  These can be installed via the install.packages() command.
 
