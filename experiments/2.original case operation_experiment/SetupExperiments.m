@@ -8,18 +8,22 @@
 clear
 clc
 
-%% SET THE PATH
+%% DEFINE THE PATHS
 
 %set this to the path of the experiment folder
-experiment_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\experiments\2.original case operation_experiment\';
+%experiment_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\experiments\2.original case operation_experiment\';
+experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\2.original case operation_experiment\';
 
 %set this path to the root of the project
-project_root_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\';
+%project_root_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\';
+project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
 
-%add some paths
+cd(project_root_path);
+
+%% ADD THE PATHS
+
 addpath(genpath(strcat(project_root_path,'src')));
 addpath(genpath(experiment_path));
-cd(project_root_path);
 
 %% DEFINE AND RUN THE EXPERIMENTS
 %% Experiment 1 - with technology selection and sizing

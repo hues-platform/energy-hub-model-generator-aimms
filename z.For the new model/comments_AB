@@ -1,0 +1,11 @@
+Regarding the PV issue, the "missing demand" can be acccounted for by a combination of the heat pump's electricity demand (this was the main cause) and the storage.  As far as I can tell, there are no problems with the model - it's just that the electricity demand of the heat pump is not listed in the output files.
+
+There's an issue with the storage being labelled as "Cool" instead of "Heat" in the output files. This seems to be a problem with the output printing, as the results are correctly indicated in Aimms.  To fix this, I just removed the cooling demand column from demand_data.csv in the case_data folder, which was set to zero anyway.
+
+I'm not sure what data the scenarios set should ultimately contain. Right now it is hardcoded in the Ehub Modelling Tool with '1', but I assume this should be changed.
+
+Changed the index of the scenarios set to "z" instead of "s", because s is already used as a secondary index for the time set.
+
+The parameter "Storage_init" is undefined
+
+The new code is being added in a single M file located at: src\generate_model\augment_ams\enable_ancillary_services 

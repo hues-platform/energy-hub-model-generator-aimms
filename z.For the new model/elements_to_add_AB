@@ -1,0 +1,141 @@
+Model Energy_Hub_Model {
+    DeclarationSection sets {
+        Set Scenarios {
+            SubsetOf: Integers;
+            Index: s;
+            Definition: data{1};
+        }
+    }
+    DeclarationSection parameters {
+        Parameter Prob {
+            IndexDomain: s;
+            Definition: 100;
+        }
+        Parameter Storage_Init;
+        Parameter pr_P_W_TRLplus {
+            IndexDomain: (t);
+            Range: nonnegative;
+        }
+        Parameter pr_P_D_TRLplus {
+            IndexDomain: (t);
+            Range: nonnegative;
+        }
+        Parameter pr_E_W_TRLplus {
+            Range: nonnegative;
+            Definition: 0.06;
+        }
+        Parameter pr_E_D_TRLplus {
+            Range: nonnegative;
+            Definition: 0.06;
+        }
+        Parameter a_TRLplus {
+            IndexDomain: (t,s);
+            Range: binary;
+        }
+    }
+    DeclarationSection variables {
+        Variable Income_E_W_TRLplus {
+            IndexDomain: (t,x,s)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_E_W_TRLplus*a_TRLplus(t,s)*P_W_TRLplus(t,x);
+        }
+        Variable Income_E_D_TRLplus {
+            IndexDomain: (t,x,s)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_E_D_TRLplus*a_TRLplus(t,s)*P_D_TRLplus(t,x);
+        }
+        Variable Income_P_W_TRLplus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_W_TRLplus(t)*P_W_TRLplus(t,x)/168;
+        }
+        Variable Income_P_D_TRLplus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_D_TRLplus(t)*P_D_TRLplus(t,x)/4;
+        }
+        Variable P_TRLplus_storage {
+            IndexDomain: (t,x,s)| x="Elec";
+            Range: nonnegative;
+        }
+        Variable P_W_TRLplus {
+            IndexDomain: (t,x) | x="Elec";
+            Range: nonnegative;
+        }
+        Variable P_D_TRLplus {
+            IndexDomain: (t,x) | x="Elec";
+            Range: nonnegative;
+        }
+    }
+    DeclarationSection Objective_functions {
+        Variable IncomeAvail {
+            Range: nonnegative;
+            Definition: sum(t, pr_P_W_TRLplus(t)*P_W_TRLplus(t,'Elec'))/168 +  sum(t, pr_P_D_TRLplus(t)*P_D_TRLplus(t,'Elec'))/4;
+        }
+        Variable Income_via_exports {
+            IndexDomain: s;
+            Range: nonnegative;
+            Definition: sum(x | x = 'Elec', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x))) + pr_E_W_TRLplus*sum(t,a_TRLplus(t,s)*P_W_TRLplus(t,'Elec'))*4/4 +  pr_E_D_TRLplus*sum(t,a_TRLplus(t,s)*P_D_TRLplus(t,'Elec'))*4/4;
+        }
+        Variable Total_cost {
+            Range: free;
+            Definition: {
+                -IncomeAvail + sum(s,Prob(s)*(Operating_cost(s) + Operating_cost_grid(s) + Maintenance_cost(s) - Income_via_exports(s)))/1
+                !1 = number of scenarios which here is one.
+            }
+        }
+    }
+    DeclarationSection constraints {
+        Constraint P_TRLplus_bid_constraint {
+            IndexDomain: (t,x,s);
+            Definition: P_W_TRLplus(t,x) + P_D_TRLplus(t,x) <= sum(conv, Capacity('Elec',conv)) - Loads(t,x) - Exported_energy_renewable(t,'Elec') - Exported_energy_nonrenewable(t,'Elec') + P_TRLplus_storage(t,'Elec',s);
+        }
+        Constraint P_W_TRLplus_week_constraint {
+            IndexDomain: (t,x) | mod(t,168) <> 0 AND t<>first(Time) AND x="Elec";
+            Definition: P_W_TRLplus(t,x) = P_W_TRLplus(t-1,x);
+        }
+        Constraint P_D_TRLplus_4h_constraint {
+            IndexDomain: (t,x) | mod(mod(t,24),4) <> 0 AND x="Elec";
+            Definition: P_D_TRLplus(t,x) = P_D_TRLplus(t+1,x);
+        }
+        Constraint Pstorage_TRLplus_energy_constraint {
+            IndexDomain: (t,x,s) | x="Elec";
+            Definition: P_TRLplus_storage(t,x,s) <= Storage_SOC(t,x,s) - (Storage_capacity(x) * Storage_min_SOC(x));
+        }
+        Constraint Pstorage_TRLplus_discharge_constraint {
+            IndexDomain: (t,x,s) | x="Elec";
+            Definition: P_TRLplus_storage(t,x,s) <= Storage_max_discharge_rate(x)*Storage_capacity(x);
+        }
+        Constraint Load_balance_constraint {
+            IndexDomain: (t,x,s);
+            Definition: sum(conv, Input_energy(t,conv,s) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x,s) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x)+ a_TRLplus(t,s)*P_W_TRLplus(t,x) + a_TRLplus(t,s)*P_D_TRLplus(t,x);
+        }
+    }
+    Procedure Load_Input_Data {
+        Body: {
+            			Spreadsheet::RetrieveParameter( "Hourly TRLplus activation 2016 binary.xlsx", a_TRLplus(t,s),"A1:A168","hour of activation");
+            			Spreadsheet::RetrieveParameter( "TRL+ weekly prices over hour.xlsx", pr_P_W_TRLplus(t),"A1:A168","TRL+week price");
+            			Spreadsheet::RetrieveParameter( "TRL+ 4h capacity prices over hour.xlsx", pr_P_D_TRLplus(t),"A1:A168","TRL+ P_4h price");
+        }
+    }
+    Procedure Write_Output_Data {
+        Body: {
+            			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx","P_TRLplus");
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",P_W_TRLplus,"B2:C8761","A2:A8761","B1:C1","P_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",P_D_TRLplus,"E2:F8761","D2:D8761","E1:F1","P_TRLplus",0,1,1);
+                                   ! Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",E_LM_TRLplus,"H2:I8761","G2:G8761","H1:I1","P_TRLplus",0,1,1);
+            			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx","P_TRLplus_storage");
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",P_TRLplus_storage,"B2:C8761","A2:A8761","B1:C1","P_TRLplus_storage",0,1,1);
+            			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx","Income_E_TRLplus");
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",Income_E_W_TRLplus,"B2:C8761","A2:A8761","B1:C1","Income_E_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",Income_E_D_TRLplus,"E2:F8761","D2:D8761","E1:F1","Income_E_TRLplus",0,1,1);
+            			!Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",Income_E_LM_TRLplus,"H2:I8761","G2:G8761","H1:I1","Income_E_TRLplus",0,1,1);
+            			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx","Income_P_TRLplus");
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",Income_P_W_TRLplus,"B2:C8761","A2:A8761","B1:C1","Income_P_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",Income_P_D_TRLplus,"E2:F8761","D2:D8761","E1:F1","Income_P_TRLplus",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_TRLplus.xlsx",1);
+        }
+    }
+
+}
+

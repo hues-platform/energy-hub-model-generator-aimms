@@ -39,8 +39,6 @@ if create_hubs_set == 1
     hubs_string(end)=[];
     hubs_set = strcat('\n\t\tSet Hubs {\n\t\t\tIndex: h,hh;\n\t\t\tDefinition: data {',hubs_string,'};\n\t\t}');
 end    
-    
-footer_sets = '\n\t}';
 
 %compile sets section elements to string
 sets_section = strcat(header_sets,time_set,conversion_techs_set,storage_techs_set,energy_carriers_set,hubs_set,footer_sets);

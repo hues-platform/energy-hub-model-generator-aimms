@@ -11,10 +11,12 @@ clc
 %% SET THE PATH
 
 %set this to the path of the experiment folder
-experiment_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\experiments\1.original case dimensioning_experiment\';
+%experiment_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\experiments\1.original case dimensioning_experiment\';
+experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\1.original case dimensioning_experiment\';
 
 %set this path to the root of the project
-project_root_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\';
+%project_root_path = 'C:\Users\Raphaela\Documents\GitHub\ehub-modeling-tool\';
+project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
 
 %add some paths
 addpath(genpath(strcat(project_root_path,'src')));
