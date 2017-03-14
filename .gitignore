@@ -14,3 +14,4 @@ aimms_model/energy_hub/results/Multi_hub_test_with_sizing/results_storage.xlsx
 aimms_model/energy_hub/results/Single_hub_test_no_sizing/results_demands.xlsx
 aimms_model/energy_hub/results/Single_hub_test_with_sizing/results_conversion.xlsx
 aimms_model/energy_hub/results/Single_hub_test_with_sizing/results_emissions.xlsx
+analysis_scripts/test_data/.Rhistory
