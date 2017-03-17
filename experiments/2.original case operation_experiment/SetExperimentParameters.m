@@ -22,7 +22,7 @@ include_installed_technologies = experiment_include_installed_technologies;
 %% TIME VARIABLES
 
 timestep = 'hours';
-timesteps = 1:8760;
+timesteps = 1:168;
 number_of_timesteps = length(timesteps);
 
 %% ELECTRICITY GRID PARAMETERS
@@ -59,6 +59,14 @@ grid_electricity_feedin_price_renewables = 0.14;
 grid_electricity_feedin_price_nonrenewables = 0.14;
 
 implement_net_metering = 0;
+
+%% MARKET PARAMETERS
+
+balancing_market_participation = 1;
+number_of_scenarios = 2;
+scenario_probabilities = [50,50];
+pr_E_W_TRLplus = 0.06;
+pr_E_D_TRLplus = 0.06;
 
 %% CARBON PARAMETERS
 

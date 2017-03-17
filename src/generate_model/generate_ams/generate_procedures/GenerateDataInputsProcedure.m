@@ -40,4 +40,4 @@ if length(grid_electricity_feedin_price_nonrenewables) > 1
     load_electricity_feedin_price_data_nonrenewables = strcat('\n\t\t\tSpreadsheet::RetrieveParameter( "input_data/electricity_feed_in_price_nonrenewables.xlsx", Electricity_feedin_price_nonrenewables(t),"A1:A',num2str(number_of_timesteps),'","price");');
 end
 
-data_inputs_procedure = strcat(load_demand_data,load_solar_data,load_electricity_price_data,load_electricity_feedin_price_data_renewables,load_electricity_feedin_price_data_nonrenewables);
+data_inputs_procedure = strcat(data_inputs_procedure,load_demand_data,load_solar_data,load_electricity_price_data,load_electricity_feedin_price_data_renewables,load_electricity_feedin_price_data_nonrenewables);

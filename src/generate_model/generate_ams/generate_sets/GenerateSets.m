@@ -1,7 +1,5 @@
 %% GENERATE SETS FOR AMS FILE
 
-header_sets = '\n\tDeclarationSection Sets {';
-
 %generate time set
 time_set = '';
 if create_time_set == 1
@@ -41,4 +39,4 @@ if create_hubs_set == 1
 end    
 
 %compile sets section elements to string
-sets_section = strcat(header_sets,time_set,conversion_techs_set,storage_techs_set,energy_carriers_set,hubs_set,footer_sets);
+sets_section = strcat(time_set,conversion_techs_set,storage_techs_set,energy_carriers_set,hubs_set,sets_section);

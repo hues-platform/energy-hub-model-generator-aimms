@@ -60,6 +60,10 @@ grid_electricity_feedin_price_nonrenewables = 0.14;
 
 implement_net_metering = 0;
 
+%% MARKET PARAMETERS
+
+balancing_market_participation = 0;
+
 %% CARBON PARAMETERS
 
 carbon_limit_boolean = 0;
