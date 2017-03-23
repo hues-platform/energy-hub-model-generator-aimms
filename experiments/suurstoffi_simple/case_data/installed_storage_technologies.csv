@@ -1,0 +1,13 @@
+Technology name,Boreholes
+Type of energy stored,Anergy
+Charging efficiency,0.95
+Discharging efficiency,0.95
+Decay,0
+Maximum charging rate,0.0027
+Maximum discharging rate,0.002
+Minimum state of charge,0
+Minimum temperature (thermal storage),
+Maximum temperature (thermal storage),
+Specific heat (thermal storage),
+Capacity,666666
+Node,1

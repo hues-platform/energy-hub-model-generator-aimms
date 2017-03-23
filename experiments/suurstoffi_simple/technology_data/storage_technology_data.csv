@@ -1,0 +1,16 @@
+Technology name,Battery,Hot water tank
+Type of energy stored,Elec,Heat
+Lifetime,20,17
+Capital cost per kWh,100,100
+Capital cost fixed,0,0
+Charging efficiency,0.9,0.9
+Discharging efficiency,0.9,0.9
+Decay,0.001,0.01
+Maximum charging rate,0.3,0.25
+Maximum discharging rate,0.3,0.25
+Minimum state of charge,0.3,0
+Minimum capacity,0,0
+Maximum capacity,100,100
+Minimum temperature (thermal storage),,
+Maximum temperature (thermal storage),,
+Specific heat (thermal storage),,

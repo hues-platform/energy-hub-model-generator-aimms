@@ -2,16 +2,6 @@
 
 ## PRIORITY
 
-* Add to documentation the following notes:
-NOTE: By convention, electricity has to be called "Elec" in the input files, solar "Solar", and natural gas "Gas"
-NOTE: By convention, each hub in the input files has to have all the demands listed, and the hubs should be ordered chronologically across the columns.
-
-## RAPHAELA'S BRANCH
-
-* Check if you're getting the same weird results for the base case.
-
-* Implement Raphaela's equations for bidding.
-
 ## UPDATES WITH CO2 INTENSITY PAPER
 
 * Implementation of simplified version of the Suurstoffi case (maybe you can get some additional data from Chris now).

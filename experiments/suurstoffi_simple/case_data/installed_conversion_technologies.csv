@@ -1,0 +1,11 @@
+Technology name,Heat pumps,PV panels
+Output type 1,Heat,Elec
+Output type 2,,
+Input type 1,Elec,Solar
+Input type 2,Anergy,
+Efficiency,,
+Minimum part load,,
+Output ratio,,
+Input ratio,,
+Capacity,,
+Node,,
