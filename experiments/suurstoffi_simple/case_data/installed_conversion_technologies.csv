@@ -3,9 +3,9 @@ Output type 1,Heat,Elec
 Output type 2,,
 Input type 1,Elec,Solar
 Input type 2,Anergy,
-Efficiency,,
-Minimum part load,,
-Output ratio,,
-Input ratio,,
-Capacity,,
-Node,,
+Efficiency,4,0.18
+Minimum part load,0,0
+Output ratio,0,0
+Input ratio,3,0
+Capacity,400,2129
+Node,1,1
