@@ -33,7 +33,7 @@ Model Energy_Hub_Model {
 		Parameter Linear_capital_costs {
 			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0;
 			Definition: {
-			data {(Elec,Gas_CHP):1500,(Heat,Gas_boiler):200,(Elec,Grid):0,(Heat,Heat_pump):1000,(Elec,Solar_PV):10,(Heat,Solar_thermal):2900}
+			data {(Elec,Gas_CHP):1500,(Heat,Gas_boiler):200,(Elec,Grid):0,(Heat,Heat_pump):1000,(Elec,Solar_PV):3500,(Heat,Solar_thermal):2900}
 			};
 		}
 		Parameter Fixed_capital_costs {

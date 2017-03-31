@@ -1,11 +1,11 @@
-Technology name,Heat pumps,PV panels
-Output type 1,Heat,Elec
-Output type 2,,
-Input type 1,Elec,Solar
-Input type 2,Anergy,
-Efficiency,4,0.18
-Minimum part load,0,0
-Output ratio,0,0
-Input ratio,3,0
-Capacity,400,2129
-Node,1,1
+Technology name,Heat pumps,PVT panels,Gas boiler
+Output type 1,Heat,Elec,Anergy
+Output type 2,,Heat,
+Input type 1,Elec,Solar,Gas
+Input type 2,Anergy,,
+Efficiency,4,0.18,0.94
+Minimum part load,0,0,0
+Output ratio,0,0,0
+Input ratio,3,0,0
+Capacity,400,2129,100
+Node,1,1,1
