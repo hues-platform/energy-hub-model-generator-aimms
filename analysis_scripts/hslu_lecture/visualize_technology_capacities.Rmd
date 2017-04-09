@@ -1,0 +1,122 @@
+---
+title: "Technology installation and capacities"
+output: html_document
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.height=1, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+library(knitr)
+library(openxlsx)
+
+#PRINT TECHNOLOGY INSTALLATION
+data1 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Installation",colNames=TRUE,rowNames=TRUE)
+data1 = data.frame(colSums(data1))
+data1 = data.frame(t(data1))
+rownames(data1) <- NULL
+
+#PRINT STORAGE INSTALLATION
+data2 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Installation_storage",colNames=FALSE,rowNames=TRUE)
+data2 = data.frame(t(data2))
+rownames(data2) <- NULL
+
+data <- cbind(data1,data2)
+  
+kable(data, caption='Installation of energy conversion & storage technologies')
+
+```
+
+
+```{r, echo=FALSE}
+#PLOT TECHNOLOGY INSTALLATION
+# library(openxlsx)
+# library(reshape)
+# library(ggplot2)
+
+# data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Installation")
+# data[,1] <- NULL
+# data_summed = data.frame(colSums(data.matrix(data)))
+# data_summed <- cbind(data_summed,row.names(data_summed))
+# row.names(data_summed) <- NULL
+# colnames(data_summed) <- c("Installation","Technology")
+# 
+# ggplot(data_summed,aes(x=Technology,y="",fill=Installation)) + geom_tile(colour="white") + scale_fill_gradient(low ="white",high="firebrick") + guides(fill=FALSE) + theme(panel.border = element_blank(), panel.grid=element_blank()) +
+#   labs(title="Installed technologies",x="Technology", y="")
+
+```
+
+```{r, echo=FALSE}
+#PLOT STORAGE INSTALLATION
+# library(openxlsx)
+# library(reshape)
+# library(ggplot2)
+# 
+# data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Installation_storage",colNames=FALSE)
+# 
+# ggplot(data,aes(x=X1,y="",fill=X2)) + geom_tile(colour="white") + scale_fill_gradient(low ="white",high="firebrick") + guides(fill=FALSE) + theme(panel.border = element_blank(), panel.grid=element_blank()) +
+#   labs(title="Installed storage technologies",x="Technology", y="")
+
+```
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=3, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+#PLOT TECHNOLOGY CAPACITY ELECTRICITY
+library(openxlsx)
+library(reshape)
+library(ggplot2)
+
+data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Capacity")
+row.names(data) <- data$X1
+data$X1 <- NULL 
+data <- data.frame(t(data))
+data_elec <- data.frame(data$Elec)
+data_elec[,2] <- row.names(data)
+
+ggplot(data_elec,aes(x=V2,y=data.Elec)) + geom_bar(stat = "identity") +
+  labs(title="Electricity output capacity of conversion technologies",x="Technology", y="Capacity (kW)", legend.title="Technology")
+
+```
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=3, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+#PLOT TECHNOLOGY CAPACITY HEAT
+library(openxlsx)
+library(reshape)
+library(ggplot2)
+
+data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Capacity")
+row.names(data) <- data$X1
+data$X1 <- NULL 
+data <- data.frame(t(data))
+data_heat <- data.frame(data$Heat)
+data_heat[,2] <- row.names(data)
+
+ggplot(data_heat,aes(x=V2,y=data.Heat)) + geom_bar(stat = "identity") +
+  labs(title="Heat output capacity of conversion technologies",x="Technology", y="Capacity (kW)", legend.title="Technology")
+
+```
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=3, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+#PLOT STORAGE TECHNOLOGY CAPACITIES
+library(openxlsx)
+library(reshape)
+library(ggplot2)
+
+data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_capacities.xlsx","Storage_capacity",colNames=FALSE)
+
+ggplot(data,aes(x=X1,y=X2)) + geom_bar(stat = "identity") +
+  labs(title="Capacity of storage technologies",x="Technology", y="Capacity (kWh)", legend.title="Storage technology")
+
+```

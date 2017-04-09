@@ -1,0 +1,57 @@
+---
+title: "Carbon emissions"
+output: html_document
+---
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=5, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+#PLOT CARBON EMISSIONS PER TECHNOLOGY
+
+library(openxlsx)
+library(reshape)
+library(ggplot2)
+
+data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_emissions.xlsx","Total_carbon_per_technology",colNames=FALSE)
+total_emissions <- sum(data$X2)
+
+
+blank_theme <- theme_minimal()+
+  theme(
+  axis.title.x = element_blank(),
+  axis.title.y = element_blank(),
+  panel.border = element_blank(),
+  panel.grid=element_blank(),
+  axis.ticks = element_blank(),
+  plot.title=element_text(size=14, face="bold")
+  )
+
+plot_title = paste('Breakdown of carbon emissions per technology \n Total emissions = ',round(total_emissions),' kg')
+ggplot(data, aes(x="", y=X2, fill=X1)) + geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0) + 
+  blank_theme + theme(axis.text.x=element_blank())  +
+  labs(title=plot_title) +
+  theme(legend.title = element_blank())
+
+rm(list=ls(all=TRUE))
+```
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=5, warning=FALSE, message=FALSE)
+```
+
+```{r, echo=FALSE}
+#PLOT CARBON EMISSIONS PER HOUR
+
+library(openxlsx)
+library(reshape)
+library(ggplot2)
+
+data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_emissions.xlsx","Total_carbon_per_timestep",colNames=FALSE)
+
+#plot per hour
+ggplot(data,aes(x=X1,y=X2)) + geom_bar(stat = "identity") +
+  labs(title="Carbon emissions (hourly)",x="Hour", y="Emissions (kg CO2)")
+
+rm(list=ls(all=TRUE))
+```

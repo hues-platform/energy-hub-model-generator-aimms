@@ -16,8 +16,8 @@ scenario_name = experiment_name;
 objective = 1;
 
 %select technologies and do sizing?
-select_techs_and_do_sizing = experiment_select_techs_and_do_sizing;
-include_installed_technologies = experiment_include_installed_technologies;
+select_techs_and_do_sizing = 0;
+include_installed_technologies = 1;
 
 %% TIME VARIABLES
 
