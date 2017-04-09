@@ -1,3 +1,5 @@
+#to run on command line Rscript generate_plots.R
+#to do: add visualizations of technology capacities.
 
 library(openxlsx)
 library(reshape)

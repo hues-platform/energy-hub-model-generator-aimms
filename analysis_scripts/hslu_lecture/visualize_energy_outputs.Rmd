@@ -25,7 +25,7 @@ data_melted <- melt(data, id=c("X1"))
 #plot per hour
 ggplot(data_melted,aes(x=X1,y=value,fill=variable)) + geom_bar(stat = "identity") +
   labs(title="Electricity supplied per technology (hourly)",x="Hour", y="Energy supplied (kWh)", legend.title="Technology") +
-  theme(legend.title = element_blank()))
+  theme(legend.title = element_blank())
 
 rm(list=ls(all=TRUE))
 ```

@@ -15,9 +15,10 @@ library(reshape)
 library(ggplot2)
 library(sqldf)
 
-data1 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_per_technology",colNames=FALSE)
-data2 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_grid",colNames=FALSE)
-data3 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_per_storage",colNames=FALSE)
+setwd("C://Users//boa//Documents//Repositories_Github//energy-hub-model-generator-aimms//analysis_scripts//hslu_lecture//Exercise_1")
+data1 = read.xlsx("results_costs.xlsx","Total_cost_per_technology",colNames=FALSE)
+data2 = read.xlsx("results_costs.xlsx","Total_cost_grid",colNames=FALSE)
+data3 = read.xlsx("results_costs.xlsx","Total_cost_per_storage",colNames=FALSE)
 
 data2b <- data.frame()
 data2b[1,1] = 'Grid'
@@ -51,70 +52,17 @@ knitr::opts_chunk$set(fig.width=12, fig.height=5, warning=FALSE, message=FALSE)
 ```
 
 ```{r, echo=FALSE}
-#PLOT COST BREAKDOWN PER CATEGORY
-
-library(openxlsx)
-library(reshape)
-library(ggplot2)
-
-data1 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Operating_cost_per_technology",colNames=FALSE)
-data2 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Maintenance_cost_per_technology",colNames=FALSE)
-data3 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Capital_cost_per_technology",colNames=FALSE)
-data4 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Operating_cost_grid",colNames=FALSE)
-data5 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Capital_cost_per_storage",colNames=FALSE)
-
-data4b <- data.frame()
-data4b[1,1] = 'Grid'
-data4b[1,2] = data4[1,1]
-colnames(data4b) <- c('X1','X2')
-data1b <- rbind(data1,data4b)
-
-data3b <- rbind(data3,data5)
-
-operating_costs = sum(data1b$X2)
-maintenance_costs = sum(data2$X2)
-capital_costs = sum(data3b$X2)
-
-data <- data.frame(c(operating_costs,maintenance_costs,capital_costs))
-data[,2] <- c('Operating_costs','Maintenance_costs','Capital_costs')
-colnames(data) <- c('value','variable')
-total_cost <- sum(data$value)
-
-
-blank_theme <- theme_minimal()+
-  theme(
-  axis.title.x = element_blank(),
-  axis.title.y = element_blank(),
-  panel.border = element_blank(),
-  panel.grid=element_blank(),
-  axis.ticks = element_blank(),
-  plot.title=element_text(size=14, face="bold")
-  )
-
-plot_title = paste('Cost breakdown per category \n Total cost = CHF ',round(total_cost))
-ggplot(data, aes(x="", y=value, fill=variable)) + geom_bar(width = 1, stat = "identity") + coord_polar("y", start=0) +
-  blank_theme + theme(axis.text.x=element_blank())  +
-  labs(title=plot_title) +
-  theme(legend.title = element_blank())
-
-rm(list=ls(all=TRUE))
-```
-
-```{r, echo=FALSE}
-knitr::opts_chunk$set(fig.width=12, fig.height=5, warning=FALSE, message=FALSE)
-```
-
-```{r, echo=FALSE}
 #PLOT COST VS. INCOME
 
 library(openxlsx)
 library(reshape)
 library(ggplot2)
 
-data1 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_per_technology",colNames=FALSE)
-data2 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_grid",colNames=FALSE)
-data3 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Total_cost_per_storage",colNames=FALSE)
-data4 = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_costs.xlsx","Income_via_exports",colNames=FALSE)
+setwd("C://Users//boa//Documents//Repositories_Github//energy-hub-model-generator-aimms//analysis_scripts//hslu_lecture//Exercise_1")
+data1 = read.xlsx("results_costs.xlsx","Total_cost_per_technology",colNames=FALSE)
+data2 = read.xlsx("results_costs.xlsx","Total_cost_grid",colNames=FALSE)
+data3 = read.xlsx("results_costs.xlsx","Total_cost_per_storage",colNames=FALSE)
+data4 = read.xlsx("results_costs.xlsx","Income_via_exports",colNames=FALSE)
 
 total_cost = sum(data1$X2) + sum(data2$X1) + sum(data3$X2)
 total_income = sum(data4$X1)

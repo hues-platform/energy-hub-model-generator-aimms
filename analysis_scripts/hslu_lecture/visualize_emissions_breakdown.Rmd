@@ -13,7 +13,8 @@ library(openxlsx)
 library(reshape)
 library(ggplot2)
 
-data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_emissions.xlsx","Total_carbon_per_technology",colNames=FALSE)
+setwd("C://Users//boa//Documents//Repositories_Github//energy-hub-model-generator-aimms//analysis_scripts//hslu_lecture//Exercise_1")
+data = read.xlsx("results_emissions.xlsx","Total_carbon_per_technology",colNames=FALSE)
 total_emissions <- sum(data$X2)
 
 
@@ -47,7 +48,8 @@ library(openxlsx)
 library(reshape)
 library(ggplot2)
 
-data = read.xlsx("H:\\projects\\ModularEnergyHub\\aimms_model\\energy_hub\\results_emissions.xlsx","Total_carbon_per_timestep",colNames=FALSE)
+setwd("C://Users//boa//Documents//Repositories_Github//energy-hub-model-generator-aimms//analysis_scripts//hslu_lecture//Exercise_1")
+data = read.xlsx("results_emissions.xlsx","Total_carbon_per_timestep",colNames=FALSE)
 
 #plot per hour
 ggplot(data,aes(x=X1,y=X2)) + geom_bar(stat = "identity") +
