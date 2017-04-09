@@ -9,7 +9,7 @@
 
 clear
 clc
-experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\generic_energy_hub_basic\';
+experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\hslu_lecture\';
 project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
 cd(project_root_path);
 

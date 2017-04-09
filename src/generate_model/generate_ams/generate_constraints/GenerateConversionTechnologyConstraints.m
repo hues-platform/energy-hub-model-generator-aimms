@@ -290,7 +290,11 @@ if apply_constraint_solar_export == 1
         end
     end   
     if multiple_hubs == 0
-        constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+        if length(included_techs) > 0
+            constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+        else
+            constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_renewable(t,x) <= 0;\n\t\t}');
+        end
     else
         constraint_solar_export = strcat('\n\t\tConstraint Electricity_export_solar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_renewable(t,x,h)) <= sum((h,conv) | (conv = ',definition_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
     end
@@ -310,7 +314,11 @@ if apply_constraint_nonsolar_export == 1
         end
     end   
     if multiple_hubs == 0
-        constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+        if length(included_techs) > 0
+            constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv = ',definition_string,'), Input_energy(t,conv) * Cmatrix(x,conv));\n\t\t}');
+        else
+            constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_nonrenewable(t,x) <= 0;\n\t\t}');            
+        end
     else
         constraint_nonsolar_export = strcat('\n\t\tConstraint Electricity_export_nonsolar_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv) | (conv = ',definition_string,'), Input_energy(t,conv,h) * Cmatrix(x,conv));\n\t\t}');
     end
