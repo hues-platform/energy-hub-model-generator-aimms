@@ -9,7 +9,10 @@
 
 clear
 clc
+
 experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\hslu_lecture\';
+analysis_scripts_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\analysis_scripts\hslu_lecture\';
+aimms_executable_path = 'C:\Program Files\AIMMS\AIMMS 4\Bin\aimms.exe';
 project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
 cd(project_root_path);
 
@@ -21,7 +24,7 @@ addpath(genpath(experiment_path));
 %% EXERCISE 1
 
 % Directions: 
-% 1. Set the "experiment_path" and "project_root_path" variables in section 1 to the correct paths on your machine.
+% 1. Set the "experiment_path", "analysis_scripts_path", "aimms_executable path", and "project_root_path" variables in section 1 to the correct paths on your machine.
 % 2. Run the code in sections 1 and 2 above (put cursor in the respective section and click "Run Section" in the toolbar at the top of the screen).
 % 3. Run the code in this section.
 

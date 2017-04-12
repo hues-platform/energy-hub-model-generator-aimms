@@ -1,12 +1,11 @@
-#to run on command line Rscript generate_plots.R
-#to do: add visualizations of technology capacities.
-
 library(openxlsx)
 library(reshape)
 library(ggplot2)
 library(sqldf)
 
-setwd("C://Users//boa//Documents//Repositories_Github//energy-hub-model-generator-aimms//analysis_scripts//hslu_lecture//Exercise_1")
+#set working directing using input args
+path = commandArgs(trailingOnly=TRUE)
+setwd(path)
 
 
 #PLOT ELECTRICITY OUTPUT OF TECHNOLOGIES PER HOUR
