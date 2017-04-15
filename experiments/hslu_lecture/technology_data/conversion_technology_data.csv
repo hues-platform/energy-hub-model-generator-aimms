@@ -1,16 +1,16 @@
-Technology name,Heat pump,Gas boiler,Solar PV
-Output type 1,Heat,Heat,Elec
-Output type 2,,,
-Input type 1,Elec,Gas,Solar
-Input type 2,,,
-Lifetime,20,30,25
-Capital cost (per kW or m2 for solar),2270,730,325
-Capital cost fixed,0,0,0
-OM cost per kWh,0.1,0.01,0.06
-OM cost fixed,0,0,0
-Efficiency,3.2,0.94,0.17
-Minimum part load,0,0,0
-Output ratio,0,0,0
-Input ratio,0,0,0
-Minimum capacity,0,0,0
-Maximum capacity,100000,100,0
+Technology name,Heat pump,Gas boiler,Solar PV,CHP engine
+Output type 1,Heat,Heat,Elec,Elec
+Output type 2,,,,Heat
+Input type 1,Elec,Gas,Solar,Gas
+Input type 2,,,,
+Lifetime,20,30,25,20
+Capital cost (per kW or m2 for solar),2270,730,325,2870
+Capital cost fixed,0,0,0,0
+OM cost per kWh,0.1,0.01,0.06,0.021
+OM cost fixed,0,0,0,0
+Efficiency,3.2,0.94,0.17,0.3
+Minimum part load,0,0,0,0
+Output ratio,0,0,0,1.73
+Input ratio,0,0,0,0
+Minimum capacity,0,0,0,0
+Maximum capacity,100000,100000,12500,100000

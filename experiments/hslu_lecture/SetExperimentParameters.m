@@ -55,8 +55,8 @@ dynamic_grid_feed_in_price_renewables = 0;
 dynamic_grid_feed_in_price_nonrenewables = 0;
 
 grid_electricity_price = 0.24;
-grid_electricity_feedin_price_renewables = 0.14;
-grid_electricity_feedin_price_nonrenewables = 0.14;
+grid_electricity_feedin_price_renewables = 0;
+grid_electricity_feedin_price_nonrenewables = 0;
 
 implement_net_metering = 0;
 

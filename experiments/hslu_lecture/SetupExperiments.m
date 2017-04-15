@@ -97,7 +97,7 @@ RunExperiment
 
 % Directions:
 % 1. Open the file experiments/hslu_lecture/SetExperimentParameters.m
-% 2. Change the value of the variable "grid_electricity_feedin_price_renewables" to ..., and save the file.
+% 2. Change the value of the variable "grid_electricity_feedin_price_renewables" to 0.20, and save the file.
 % 3. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_7';
@@ -108,9 +108,20 @@ RunExperiment
 
 % Directions:
 % 1. Open the file experiments/hslu_lecture/SetExperimentParameters.m
-% 2. Change the value of the variable "objective" to 2, and save the file.
+% 2. Change the value of the variable "grid_electricity_price" to 0.10, and save the file.
 % 3. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_8';
+SetExperimentParameters
+RunExperiment
+
+%% EXERCISE 9
+
+% Directions:
+% 1. Open the file experiments/hslu_lecture/SetExperimentParameters.m
+% 2. Change the value of the variable "objective" to 2, and save the file.
+% 3. Run the code in section 1 above, then run the code in this section.
+
+experiment_name = 'Exercise_9';
 SetExperimentParameters
 RunExperiment
