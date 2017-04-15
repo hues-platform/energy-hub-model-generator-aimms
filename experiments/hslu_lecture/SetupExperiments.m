@@ -36,7 +36,7 @@ RunExperiment
 
 % Directions:
 % 1. Open the file experiments/hslu_lecture/case_data/installed_conversion_technologies.csv in Excel
-% 2. Change the capacity of the gas boiler to ..., save and close.
+% 2. Change the capacity of the solar PV installation to 12500 m2, save and close.
 % 3. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_2';
@@ -47,7 +47,8 @@ RunExperiment
 
 % Directions:
 % 1. Open the file experiments/hslu_lecture/case_data/installed_conversion_technologies.csv in Excel
-% 2. Add a new technology called "CHP engine", with the following properties: 
+% 2. Add a new technology called "CHP engine", with the following properties, save and close: 
+%    Output type 1: Elec; Output type 2: Heat; Input type 1: Gas, Efficiency: 0.3, Minimum part-load: 0, Output ratio: 1.73, Input ratio: 0, Capacity: 4000 kW, Node: 1
 % 3. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_3';
@@ -57,8 +58,8 @@ RunExperiment
 %% EXERCISE 4
 
 % Directions:
-% 1. Open the file experiments/hslu_lecture/SetExperimentParameters.m
-% 2. Change the value of the variable "grid_electricity_price" to 0.10, and save the file.
+% 1. Open the file experiments/hslu_lecture/installed_conversion_technologies.csv in Excel
+% 2. Change the "Capacity" values of your technologies to reduce the value of your system's carbon emissions as much as possible.
 % 3. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_4';
@@ -68,9 +69,12 @@ RunExperiment
 %% EXERCISE 5
 
 % Directions:
-% 1. Open the file experiments/hslu_lecture/SetExperimentParameters.m
-% 2. Change the value of the variable "objective" to 2, and save the file.
-% 3. Run the code in section 1 above, then run the code in this section.
+% 1. Open the file experiments/hslu_lecture/installed_conversion_technologies.csv in Excel
+% 2. Reset the capacity values of the technologies to their previous values:
+%    Heat pump: 5000 kW, Gas boiler: 2000 kW, Solar PV: 12500 m2, CHP: 4000 kW
+% 3. Open the file experiments/hslu_lecture/SetExperimentParameters.m
+% 4. Change the value of the variable "objective" to 2, and save the file.
+% 5. Run the code in section 1 above, then run the code in this section.
 
 experiment_name = 'Exercise_5';
 SetExperimentParameters
