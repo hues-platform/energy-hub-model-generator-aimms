@@ -166,10 +166,11 @@ ggsave(filename="Carbon_emissions_per_technology.png",width=12,height=5)
 
 #PLOT CARBON EMISSIONS PER HOUR
 data = read.xlsx("results_emissions.xlsx","Total_carbon_per_timestep",colNames=FALSE)
+total_co2 = sum(data$X2)
 
 #plot per hour
 ggplot(data,aes(x=X1,y=X2)) + geom_bar(stat = "identity") +
-  labs(title="Carbon emissions (hourly)",x="Hour", y="Emissions (kg CO2)")
+  labs(title=paste("Carbon emissions (hourly)\nTotal annual emissions = ",round(total_co2/1000)," tonnes CO2",sep=""),x="Hour", y="Emissions (kg CO2)")
 ggsave(filename="Carbon_emissions_per_hour.png",width=12,height=5)
 
 
