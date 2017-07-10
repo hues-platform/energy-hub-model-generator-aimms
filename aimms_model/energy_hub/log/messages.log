@@ -1,2 +1,22 @@
-﻿There is 67.285 Mb in use.
-Warning: The row "Storage_discharging_rate_constraint(1,Cool)" with type <= is made obsolete because of row "Storage_initialization_3(1,Cool)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+﻿Syntax error at line 270, column 17.
+The symbol "}" is not expected.
+
+Semantic error at line 311, column 1.
+The identifier "pr_P_W_TRLplus" has not been declared.
+
+Semantic error at line 330, column 8.
+The identifier "pr_P_W_TRLplus" has not been declared.
+
+Domain violation at line 333, column 63.
+The number of arguments in the variable "Operating_cost" is not correct.
+
+Domain violation at line 344, column 50.
+The number of arguments in the parameter "Capacity" is not correct.
+
+Domain violation at line 349, column 29.
+The number of arguments in the variable "Storage_SOC" is not correct.
+
+Domain violation at line 352, column 11.
+The number of arguments in the variable "Input_energy" is not correct.
+
+There is 65.656 Mb in use.

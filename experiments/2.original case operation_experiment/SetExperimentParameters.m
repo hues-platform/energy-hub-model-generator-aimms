@@ -62,7 +62,7 @@ implement_net_metering = 0;
 
 %% MARKET PARAMETERS
 
-balancing_market_participation = 1;
+balancing_market_participation = 0;
 number_of_scenarios = 2;
 scenario_probabilities = [50,50];
 pr_E_W_TRLplus = 0.06;
