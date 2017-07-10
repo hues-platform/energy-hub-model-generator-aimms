@@ -1,0 +1,14 @@
+
+%% LOAD THE RELVANT TECHNOLOGY AND CASE DATA
+
+LoadCaseData
+LoadTechnologyData
+
+%% SELECT THE SETS, PARAMS, VARIABLES AND CONSTRAINTS TO APPLY
+
+SelectSetsParamsAndVariables
+SelectConstraints
+
+%% COMPILE THE MODEL
+
+CompileAMS

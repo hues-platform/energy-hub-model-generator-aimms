@@ -1,0 +1,1080 @@
+## ams_version=1.0
+
+Model Energy_Hub_Model {
+    DeclarationSection sets {
+        Set technologies_num {
+            SubsetOf: Integers;
+            Index: tn;
+            Definition: data {1.. 6};
+        }
+        Set Week {
+            SubsetOf: Integers;
+            Index: w;
+            Definition: data{1 ..52};
+        }
+        Set Time {
+            SubsetOf: Integers;
+            Index: t, s;
+            InitialData: data{1 ..168};
+        }
+        Set Energy_conversion_technologies {
+            Index: conv;
+            Definition: data {Gas_CHP,Gas_boiler,Grid,Heat_pump,Solar_PV,Solar_thermal};
+        }
+        Set Energy_carriers {
+            Index: x;
+            Definition: data {Elec,Heat};
+        }
+        Set Scenarios {
+            SubsetOf: Integers;
+            Index: z;
+            Definition: data{1};
+        }
+    }
+    DeclarationSection parameters {
+        Parameter CHPElec_TechlMin {
+            InitialData: 0.10;
+        }
+        Parameter pr_m_E_TRLminus {
+            IndexDomain: (t,z);
+        }
+        Parameter pr_P_D_TRLminus {
+            IndexDomain: t;
+        }
+        Parameter pr_P_W_TRLminus {
+            IndexDomain: t;
+        }
+        Parameter pr_E_W_TRLminus {
+            Range: free;
+            Definition: 0.08;
+        }
+        Parameter pr_E_D_TRLminus {
+            Range: free;
+            Definition: 0.08;
+        }
+        Parameter HeatStorInit {
+            IndexDomain: z;
+        }
+        StringParameter Technologies {
+            IndexDomain: tn;
+        }
+        StringParameter Alphabet {
+            IndexDomain: z;
+        }
+        Parameter NoSce {
+            Definition: Last(z);
+        }
+        Parameter P_min_limit {
+            Definition: 5000;
+        }
+        Parameter P_max_limit {
+            Definition: 1000000;
+        }
+        Parameter Storage_Init {
+            IndexDomain: z;
+        }
+        Parameter Prob {
+            IndexDomain: z;
+            Range: nonnegative;
+            Definition: data {1:0.5};
+        }
+        Parameter pr_m_E_TRLplus {
+            IndexDomain: (t,z);
+        }
+        Parameter pr_P_D_TRLplus {
+            IndexDomain: t;
+            Range: nonnegative;
+        }
+        Parameter pr_P_W_TRLplus {
+            IndexDomain: t;
+        }
+        Parameter pr_E_W_TRLplus {
+            Range: nonnegative;
+            Definition: 0.06;
+        }
+        Parameter pr_E_D_TRLplus {
+            Range: nonnegative;
+            Definition: 0.06;
+        }
+        Parameter Loads {
+            IndexDomain: (t,x);
+        }
+        Parameter Operating_costs {
+            IndexDomain: conv | conv <> 'Grid';
+            Definition: data {Gas_CHP:0.09,Gas_boiler:0.09,Heat_pump:0,Solar_PV:0,Solar_thermal:0};
+        }
+        Parameter Operating_costs_grid {
+            Definition: 0.24;
+        }
+        Parameter OMV_costs {
+            IndexDomain: conv;
+            Definition: data {Gas_CHP:0,Gas_boiler:0,Grid:0,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
+        }
+        Parameter Electricity_feedin_price_renewables {
+            Definition: 0.14;
+        }
+        Parameter Electricity_feedin_price_nonrenewables {
+            Definition: 0.14;
+        }
+        Parameter Cmatrix {
+            IndexDomain: (x,conv);
+            Definition: data {(Heat,Gas_boiler):0.94,(Elec,Grid):1,(Heat,Heat_pump):3.2,(Elec,Solar_PV):0.14,(Heat,Solar_thermal):0.46,(Elec,Gas_CHP):0.3,(Heat,Gas_CHP):0.519,(Elec,Heat_pump):-1};
+        }
+        Parameter Capacity {
+            IndexDomain: conv;
+            Definition: {
+                data {Heat_pump:2200,Gas_boiler:0,Gas_CHP:1100,Solar_PV:4890,Solar_thermal:0};
+            }
+        }
+        Parameter Storage_max_charge_rate {
+            IndexDomain: x;
+            Definition: data {Elec:0.3,Heat:0.25 };
+        }
+        Parameter Storage_max_discharge_rate {
+            IndexDomain: x;
+            Definition: data {Elec:0.3,Heat:0.25 };
+        }
+        Parameter Storage_standing_losses {
+            IndexDomain: x;
+            Definition: data {Elec:0.001,Heat:0.01 };
+        }
+        Parameter Storage_charging_efficiency {
+            IndexDomain: x;
+            Definition: data {Elec:0.9,Heat:0.9 };
+        }
+        Parameter Storage_discharging_efficiency {
+            IndexDomain: x;
+            Definition: data {Elec:0.9,Heat:0.9 };
+        }
+        Parameter Storage_min_SOC {
+            IndexDomain: x;
+            Definition: data {Elec:0.3,Heat:0 };
+        }
+        Parameter Storage_capacity {
+            IndexDomain: (x);
+            Definition: {
+                data {Elec:500,Heat:1000};
+            }
+        }
+        Parameter Technology_carbon_factors {
+            IndexDomain: (conv);
+            Definition: data {Gas_CHP:0.198,Gas_boiler:0.198,Grid:0.137,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
+        }
+        Parameter Solar_radiation {
+            IndexDomain: t;
+        }
+        Parameter Big_M {
+            Definition: 100000;
+        }
+    }
+    DeclarationSection variables {
+        Variable y3 {
+            IndexDomain: (t,z,x) |x='Elec';
+            Range: nonnegative;
+        }
+        Variable y4 {
+            IndexDomain: (t,z,x)|x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_TRLminus_gen {
+            IndexDomain: (t,x);
+            Range: nonnegative;
+            Definition: 0;
+        }
+        Variable a_minbid_minus_d {
+            IndexDomain: t;
+            Range: binary;
+        }
+        Variable a_minbid_minus_w {
+            IndexDomain: t;
+            Range: binary;
+        }
+        Variable a_W_TRLminus {
+            IndexDomain: (t,z);
+            Range: binary;
+        }
+        Variable a_D_TRLminus {
+            IndexDomain: (t,z);
+            Range: binary;
+        }
+        Variable Income_E_W_TRLminus {
+            IndexDomain: (t,x,z)| x='Elec';
+            Range: free;
+            Definition: pr_E_W_TRLminus*y3(t,z,x);
+        }
+        Variable Income_E_D_TRLminus {
+            IndexDomain: (t,x,z)| x='Elec';
+            Range: free;
+            Definition: pr_E_D_TRLminus*y4(t,z,x);
+        }
+        Variable Income_P_W_TRLminus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_W_TRLminus(t)*P_W_TRLminus(t,x)/168;
+        }
+        Variable Income_P_D_TRLminus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_D_TRLminus(t)*P_D_TRLminus(t,x)/4;
+        }
+        Variable P_TRLminus_storage {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_W_TRLminus {
+            IndexDomain: (t,x) | x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_D_TRLminus {
+            IndexDomain: (t,x) | x='Elec';
+            Range: nonnegative;
+        }
+        Variable InputEnergy_grid {
+            IndexDomain: (t,conv)|conv='Grid';
+            Range: nonnegative;
+        }
+        Variable OutputEnergy_grid {
+            IndexDomain: (t,x,conv)|conv='Grid';
+            Range: nonnegative;
+            Definition: InputEnergy_grid(t,'Grid') * Cmatrix(x,'Grid');
+        }
+        Variable OC {
+            IndexDomain: z;
+            Range: free;
+        }
+        Variable TC {
+            IndexDomain: z;
+            Range: free;
+        }
+        Variable MC {
+            IndexDomain: z;
+            Range: free;
+        }
+        Variable OEH {
+            IndexDomain: (t,z);
+            Range: nonnegative;
+        }
+        Variable OEE {
+            IndexDomain: (t,z);
+            Range: nonnegative;
+        }
+        Variable IE {
+            IndexDomain: (t,z);
+            Range: nonnegative;
+        }
+        Variable y1 {
+            IndexDomain: (t,z,x) |x='Elec';
+            Range: nonnegative;
+        }
+        Variable y2 {
+            IndexDomain: (t,z,x)|x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_TRLplus_gen {
+            IndexDomain: (t,x);
+            Range: nonnegative;
+        }
+        Variable a_minbid_plus_d {
+            IndexDomain: t;
+            Range: binary;
+        }
+        Variable a_minbid_plus_w {
+            IndexDomain: t;
+            Range: binary;
+        }
+        Variable a_W_TRLplus {
+            IndexDomain: (t,z);
+            Range: binary;
+        }
+        Variable a_D_TRLplus {
+            IndexDomain: (t,z);
+            Range: binary;
+        }
+        Variable Income_E_W_TRLplus {
+            IndexDomain: (t,x,z)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_E_W_TRLplus*y1(t,z,x);
+        }
+        Variable Income_E_D_TRLplus {
+            IndexDomain: (t,x,z)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_E_D_TRLplus*y2(t,z,x);
+        }
+        Variable Income_P_W_TRLplus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_W_TRLplus(t)*P_W_TRLplus(t,x)/168;
+        }
+        Variable Income_P_D_TRLplus {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+            Definition: pr_P_D_TRLplus(t)*P_D_TRLplus(t,x)/4;
+        }
+        Variable P_TRLplus_storage {
+            IndexDomain: (t,x)| x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_W_TRLplus {
+            IndexDomain: (t,x) | x='Elec';
+            Range: nonnegative;
+        }
+        Variable P_D_TRLplus {
+            IndexDomain: (t,x) | x='Elec';
+            Range: nonnegative;
+        }
+        Variable Input_energy {
+            IndexDomain: (t,conv,z)|conv<>'Grid';
+            Range: nonnegative;
+        }
+        Variable Exported_energy_nonrenewable {
+            IndexDomain: (t,x) | x = "Elec";
+            Range: nonnegative;
+        }
+        Variable Exported_energy_renewable {
+            IndexDomain: (t,x) | x = "Elec";
+            Range: nonnegative;
+        }
+        Variable Exported_energy_storage {
+            IndexDomain: (t,x) | x = "Elec";
+            Range: nonnegative;
+        }
+        Variable Output_energy {
+            IndexDomain: (t,x,conv,z) | Cmatrix(x,conv) > 0 AND conv<>'Grid';
+            Range: nonnegative;
+            Definition: Input_energy(t,conv,z) * Cmatrix(x,conv);
+        }
+        Variable Total_cost_per_technology {
+            IndexDomain: (conv,z) | conv <> 'Grid';
+            Range: free;
+            Definition: Operating_cost_per_technology(conv,z) + Maintenance_cost_per_technology(conv,z);
+        }
+        Variable Operating_cost_per_technology {
+            IndexDomain: (conv,z) | conv <> 'Grid';
+            Range: free;
+            Definition: Operating_costs(conv) * sum(t,Input_energy(t,conv,z));
+        }
+        Variable Maintenance_cost_per_technology {
+            IndexDomain: (conv,z)|conv<>'Grid';
+            Range: nonnegative;
+            Definition: sum((t,x), Maintenance_cost_per_timestep(t,conv,x,z));
+        }
+        Variable Total_cost_grid {
+            Range: free;
+            Definition: sum(conv | conv = 'Grid', Operating_cost_grid + Maintenance_cost_grid);
+        }
+        Variable Maintenance_cost_grid {
+            Range: free;
+            Definition: sum((t,x),InputEnergy_grid(t,'Grid') * Cmatrix(x,'Grid') * OMV_costs('Grid'));
+        }
+        Variable Storage_input_energy {
+            IndexDomain: (t,x,z);
+            Range: nonnegative;
+        }
+        Variable Storage_output_energy {
+            IndexDomain: (t,x,z);
+            Range: nonnegative;
+        }
+        Variable Storage_SOC {
+            IndexDomain: (t,x,z);
+            Range: nonnegative;
+        }
+        Variable Energy_demands {
+            IndexDomain: (t,x);
+            Range: nonnegative;
+        }
+        Variable Total_carbon_per_technology {
+            IndexDomain: (conv,z);
+            Range: free;
+            Definition: Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv,z));
+        }
+        Variable Total_carbon_per_timestep {
+            IndexDomain: (t,z);
+            Range: free;
+            Definition: sum(conv,Technology_carbon_factors(conv)*Input_energy(t,conv,z));
+        }
+    }
+    DeclarationSection Objective_functions {
+        Variable IncomeAvail {
+            Range: nonnegative;
+            Definition: sum(t, pr_P_W_TRLplus(t)*P_W_TRLplus(t,'Elec'))/168 +  sum(t, pr_P_D_TRLplus(t)*P_D_TRLplus(t,'Elec'))/4 + sum(t, pr_P_W_TRLminus(t)*P_W_TRLminus(t,'Elec'))/168 +  sum(t, pr_P_D_TRLminus(t)*P_D_TRLminus(t,'Elec'))/4;
+        }
+        Variable Income_via_exports {
+            IndexDomain: z;
+            Range: free;
+            Definition: {
+                pr_E_W_TRLplus*sum(t,y1(t,z,'Elec'))*4/4 +  pr_E_D_TRLplus*sum(t,y2(t,z,'Elec'))*4/4 - pr_E_W_TRLminus*sum(t,y3(t,z,'Elec'))*4/4 - pr_E_D_TRLminus*sum(t,y4(t,z,'Elec'))*4/4!+ sum(x | x = 'Elec', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)))
+            }
+        }
+        Variable Total_cost {
+            Range: free;
+            Definition: {
+                				-IncomeAvail + Total_cost_grid + sum(z,(Operating_cost(z) +  Maintenance_cost(z) - Income_via_exports(z)))/NoSce;
+            }
+        }
+        Variable Operating_cost_grid {
+            Range: free;
+            Definition: sum(conv | conv = 'Grid', sum(t, Operating_costs_grid * InputEnergy_grid(t,conv)));
+        }
+        Variable Operating_cost {
+            IndexDomain: z;
+            Range: free;
+            Definition: sum(conv | conv <> 'Grid', Operating_costs(conv) * sum(t,Input_energy(t,conv,z)));
+        }
+        Variable Maintenance_cost {
+            IndexDomain: z;
+            Range: nonnegative;
+            Definition: sum((t,conv,x), Maintenance_cost_per_timestep(t,conv|conv<>'Grid',x,z));
+        }
+        Variable Maintenance_cost_per_timestep {
+            IndexDomain: (t,conv,x,z) | Cmatrix(x,conv) > 0 AND conv<>'Grid';
+            Range: free;
+            Definition: Input_energy(t,conv,z) * Cmatrix(x,conv) * OMV_costs(conv);
+        }
+        Variable Total_carbon {
+            IndexDomain: z;
+            Range: free;
+            Definition: sum(conv,Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv,z)));
+        }
+    }
+    DeclarationSection constraints {
+        Constraint TRLminus__min_bid_BigM_W {
+            IndexDomain: (t,x);
+            Definition: {
+                !P_W_TRLminuus(t,x) <= a_minbid_minus_w(t) * Big_M
+                1=1
+            }
+        }
+        Constraint TRLminus_min_bid_BigM_D {
+            IndexDomain: (t,x);
+            Definition: {
+                !P_D_TRLminus(t,x) <= a_minbid_minus_d(t) * Big_M
+                1=1
+            }
+        }
+        Constraint TRLminus_min_bid_size_W {
+            IndexDomain: (t,x) | x='Elec';
+            Definition: {
+                !P_W_TRLminus(t,x) >= a_minbid_minus_w(t) * P_min_limit
+                1=1
+            }
+        }
+        Constraint TRLminus_min_bid_size_D {
+            IndexDomain: (t,x) | x='Elec';
+            Definition: {
+                !P_D_TRLminus(t,x) >= a_minbid_minus_d(t) * P_min_limit
+                1=1
+            }
+        }
+        Constraint y3_heat_constraint {
+            IndexDomain: (t,z);
+            Definition: y3(t,z,'Heat')=0;
+        }
+        Constraint y4_heat_constraint {
+            IndexDomain: (t,z);
+            Definition: y4(t,z,'Heat')=0;
+        }
+        Constraint y3_x1 {
+            IndexDomain: (t,z);
+            Definition: y3(t,z,'Elec') <=P_max_limit*a_W_TRLminus(t,z);
+        }
+        Constraint y3_x2 {
+            IndexDomain: (t,z);
+            Definition: y3(t,z,'Elec')<=P_W_TRLminus(t,'Elec');
+        }
+        Constraint y3_0 {
+            IndexDomain: (t,z);
+            Definition: y3(t,z,'Elec')>=0;
+        }
+        Constraint y3_x1x2 {
+            IndexDomain: (t,z);
+            Definition: y3(t,z,'Elec')>=P_W_TRLminus(t,'Elec') - P_max_limit*(1-a_W_TRLminus(t,z));
+        }
+        Constraint y4_x1 {
+            IndexDomain: (t,z);
+            Definition: y4(t,z,'Elec')<= P_max_limit*a_D_TRLminus(t,z);
+        }
+        Constraint y4_x2 {
+            IndexDomain: (t,z);
+            Definition: y4(t,z,'Elec') <= P_D_TRLminus(t,'Elec');
+        }
+        Constraint y4_0 {
+            IndexDomain: (t,z);
+            Definition: y4(t,z,'Elec')>=0;
+        }
+        Constraint y4_x1x2 {
+            IndexDomain: (t,z);
+            Definition: y4(t,z,'Elec')>=P_D_TRLminus(t,'Elec') -P_max_limit*(1-a_D_TRLminus(t,z));
+        }
+        Constraint E_W_minus_market_constraint {
+            IndexDomain: (t,z);
+            Definition: {
+                
+                if pr_E_W_TRLminus *pr_m_E_TRLminus(t,z)>0
+                then
+                if abs(pr_E_W_TRLminus) <= abs(pr_m_E_TRLminus(t,z)) then
+                a_W_TRLminus(t,z) = 1
+                else
+                a_W_TRLminus(t,z) = 0
+                endif
+                elseif  pr_E_W_TRLminus *pr_m_E_TRLminus(t,z)<0
+                then
+                if pr_E_W_TRLminus>0 then
+                a_W_TRLminus(t,z) = 1
+                elseif pr_E_W_TRLminus<0 then
+                a_W_TRLminus(t,z) = 0
+                endif
+                elseif pr_E_W_TRLminus *pr_m_E_TRLminus(t,z)=0
+                then
+                a_W_TRLminus(t,z) = 0
+                endif
+            }
+        }
+        Constraint E_D_minus_market_constraint {
+            IndexDomain: (t,z);
+            Definition: {
+                if pr_E_D_TRLminus *pr_m_E_TRLminus(t,z)>0
+                then
+                if abs(pr_E_D_TRLminus) <= abs(pr_m_E_TRLminus(t,z)) then
+                a_D_TRLminus(t,z) = 1
+                else
+                a_D_TRLminus(t,z) = 0
+                endif
+                elseif  pr_E_D_TRLminus *pr_m_E_TRLminus(t,z)<0
+                then
+                if pr_E_D_TRLminus>0 then
+                a_D_TRLminus(t,z) = 1
+                elseif pr_E_D_TRLminus<0 then
+                a_D_TRLminus(t,z) = 0
+                endif
+                elseif pr_E_D_TRLminus *pr_m_E_TRLminus(t,z)=0
+                then
+                a_D_TRLminus(t,z) = 0
+                endif
+            }
+        }
+        Constraint P_TRLminus_bid_constraint {
+            IndexDomain: (t,x)|x='Elec';
+            Definition: P_W_TRLminus(t,x) + P_D_TRLminus(t,x) = P_TRLminus_gen(t,x)+ P_TRLminus_storage(t,x);
+        }
+        Constraint P_TRLminus_gen_constraint {
+            IndexDomain: (t,x,z);
+            Definition: {
+                1=1
+                !P_TRLminus_gen(t,x) <= Output_energy(t,'Elec','Gas_CHP',z) - Capacity('Gas_CHP')*CHPElec_TechlMin !+  (Solar_radiation(t) * Capacity('Solar_PV') / 1000)*Cmatrix('Elec','Solar_PV') - Exported_energy_renewable(t,'Elec') - Exported_energy_nonrenewable(t,'Elec')
+            }
+        }
+        Constraint P_W_TRLminus_week_constraint {
+            IndexDomain: (t,x) | mod(t,168) <> 0 AND x="Elec";
+            Definition: P_W_TRLminus(t,x) = P_W_TRLminus(t+1,x);
+        }
+        Constraint P_D_TRLminus_4h_constraint {
+            IndexDomain: (t,x) | mod(mod(t,24),4) <> 0 AND x="Elec";
+            Definition: P_D_TRLminus(t,x) = P_D_TRLminus(t+1,x);
+        }
+        Constraint Pstorage_TRLminus_energy_constraint {
+            IndexDomain: (t,x,z) | x="Elec";
+            Definition: P_TRLminus_storage(t,x) <= Storage_capacity(x) - Storage_SOC(t,x,z);
+        }
+        Constraint TRLplus_min_bid_BigM_W {
+            IndexDomain: (t,x);
+            Definition: {
+                !P_W_TRLplus(t,x) <= a_minbid_plus_w(t) * Big_M
+                1=1
+            }
+        }
+        Constraint TRLplus_min_bid_BigM_D {
+            IndexDomain: (t,x);
+            Definition: {
+                !P_D_TRLplus(t,x) <= a_minbid_plus_d(t) * Big_M
+                1=1
+            }
+        }
+        Constraint TRLplus_min_bid_size_W {
+            IndexDomain: (t,x) | x='Elec';
+            Definition: {
+                !P_W_TRLplus(t,x) >= a_minbid_plus_w(t) * P_min_limit
+                1=1
+            }
+        }
+        Constraint TRLplus_min_bid_size_D {
+            IndexDomain: (t,x) | x='Elec';
+            Definition: {
+                !P_D_TRLplus(t,x) >= a_minbid_plus_d(t) * P_min_limit
+                1=1
+            }
+        }
+        Constraint y1_heat_constraint {
+            IndexDomain: (t,z);
+            Definition: y1(t,z,'Heat')=0;
+        }
+        Constraint y2_heat_constraint {
+            IndexDomain: (t,z);
+            Definition: y2(t,z,'Heat')=0;
+        }
+        Constraint y1_x1 {
+            IndexDomain: (t,z);
+            Definition: y1(t,z,'Elec') <=P_max_limit*a_W_TRLplus(t,z);
+        }
+        Constraint y1_x2 {
+            IndexDomain: (t,z);
+            Definition: y1(t,z,'Elec')<=P_W_TRLplus(t,'Elec');
+        }
+        Constraint y1_0 {
+            IndexDomain: (t,z);
+            Definition: y1(t,z,'Elec')>=0;
+        }
+        Constraint y1_x1x2 {
+            IndexDomain: (t,z);
+            Definition: y1(t,z,'Elec')>=P_W_TRLplus(t,'Elec') - P_max_limit*(1-a_W_TRLplus(t,z));
+        }
+        Constraint y2_x1 {
+            IndexDomain: (t,z);
+            Definition: y2(t,z,'Elec')<= P_max_limit*a_D_TRLplus(t,z);
+        }
+        Constraint y2_x2 {
+            IndexDomain: (t,z);
+            Definition: y2(t,z,'Elec') <= P_D_TRLplus(t,'Elec');
+        }
+        Constraint y2_0 {
+            IndexDomain: (t,z);
+            Definition: y2(t,z,'Elec')>=0;
+        }
+        Constraint y2_x1x2 {
+            IndexDomain: (t,z);
+            Definition: y2(t,z,'Elec')>=P_D_TRLplus(t,'Elec') -P_max_limit*(1-a_D_TRLplus(t,z));
+        }
+        Constraint E_W_plus_market_constraint {
+            IndexDomain: (t,z);
+            Definition: {
+                if pr_E_W_TRLplus <= pr_m_E_TRLplus(t,z) then
+                a_W_TRLplus(t,z) = 1
+                else
+                a_W_TRLplus(t,z) = 0
+                endif
+            }
+        }
+        Constraint E_D_plus_market_constraint {
+            IndexDomain: (t,z);
+            Definition: {
+                if pr_E_D_TRLplus <= pr_m_E_TRLplus(t,z) then
+                a_D_TRLplus(t,z) = 1
+                else
+                a_D_TRLplus(t,z) = 0
+                endif
+            }
+        }
+        Constraint P_TRLplus_bid_constraint {
+            IndexDomain: (t,x)|x='Elec';
+            Definition: P_W_TRLplus(t,x) + P_D_TRLplus(t,x) = P_TRLplus_gen(t,x)+ P_TRLplus_storage(t,x);
+        }
+        Constraint P_TRLplus_gen_constraint {
+            IndexDomain: (t,x,z);
+            Definition: {
+                P_TRLplus_gen(t,x) <= Capacity('Gas_CHP') - Output_energy(t,'Elec','Gas_CHP',z) !+  (Solar_radiation(t) * Capacity('Solar_PV') / 1000)*Cmatrix('Elec','Solar_PV') - Exported_energy_renewable(t,'Elec') - Exported_energy_nonrenewable(t,'Elec')
+            }
+        }
+        Constraint P_W_TRLplus_week_constraint {
+            IndexDomain: (t,x) | mod(t,168) <> 0 AND x="Elec";
+            Definition: P_W_TRLplus(t,x) = P_W_TRLplus(t+1,x);
+        }
+        Constraint P_D_TRLplus_4h_constraint {
+            IndexDomain: (t,x) | mod(mod(t,24),4) <> 0 AND x="Elec";
+            Definition: P_D_TRLplus(t,x) = P_D_TRLplus(t+1,x);
+        }
+        Constraint Pstorage_TRLplus_energy_constraint {
+            IndexDomain: (t,x,z) | x="Elec";
+            Definition: P_TRLplus_storage(t,x) <= Storage_SOC(t,x,z) - (Storage_capacity(x) * Storage_min_SOC(x));
+        }
+        Constraint Pstorage_TRLplus_discharge_constraint {
+            IndexDomain: (t,x) | x="Elec";
+            Definition: {
+                1=1
+                !P_TRLplus_storage(t,x) <= Storage_max_discharge_rate(x)*Storage_capacity(x)
+            }
+        }
+        Constraint Load_balance_constraint {
+            IndexDomain: (t,x,z);
+            Definition: {
+                InputEnergy_grid(t,'Grid')*Cmatrix(x,'Grid') + sum(conv|conv<>'Grid', Input_energy(t,conv,z) * Cmatrix(x,conv)) + Storage_output_energy(t,x,z) - Storage_input_energy(t,x,z) + y3(t,z,x)+ y4(t,z,x) = Loads(t,x) + y1(t,z,x) + y2(t,z,x) !+Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x)
+            }
+        }
+        Constraint Capacity_constraint_Gas_CHP {
+            IndexDomain: (t,x,conv,z) | (conv = 'Gas_CHP') AND (x = 'Elec');
+            Definition: Input_energy(t,conv,z) * Cmatrix(x,conv) <= Capacity(conv);
+        }
+        Constraint Capacity_constraint_Gas_boiler {
+            IndexDomain: (t,x,conv,z) | (conv = 'Gas_boiler') AND (x = 'Heat');
+            Definition: Input_energy(t,conv,z) * Cmatrix(x,conv) <= Capacity(conv);
+        }
+        Constraint Capacity_constraint_Heat_pump {
+            IndexDomain: (t,x,conv,z) | (conv = 'Heat_pump') AND (x = 'Heat');
+            Definition: Input_energy(t,conv,z) * Cmatrix(x,conv) <= Capacity(conv);
+        }
+        Constraint Solar_input_constraint {
+            IndexDomain: (t,conv,z) | (conv ='Solar_PV' OR conv ='Solar_thermal');
+            Definition: Input_energy(t,conv,z) <= Solar_radiation(t) * Capacity(conv) / 1000;
+        }
+        Constraint Electricity_export_solar_constraint {
+            IndexDomain: (t,x,z) | x='Elec';
+            Definition: {
+                !Exported_energy_renewable(t,x) <= sum(conv | (conv ='Solar_PV'), Input_energy(t,conv,z) * Cmatrix(x,conv))
+                1=1
+            }
+        }
+        Constraint Electricity_export_nonsolar_constraint {
+            IndexDomain: (t,x,z) | x='Elec';
+            Definition: {
+                !Exported_energy_nonrenewable(t,x) <= sum(conv | (conv ='Gas_CHP'), Input_energy(t,conv,z) * Cmatrix(x,conv))
+                1=1
+            }
+        }
+        Constraint Electricity_export_storage_constraint {
+            IndexDomain: (t,x,z) | x='Elec';
+            Definition: {
+                !Exported_energy_storage(t,x) <= Storage_output_energy(t,x,z)
+                1=1
+            }
+        }
+        Constraint Storage_balance_constraint {
+            IndexDomain: (t,x,z) | t > first(Time);
+            Definition: Storage_SOC(t,x,z) = ((1 - Storage_standing_losses(x)) * Storage_SOC(t-1,x,z)) + Storage_charging_efficiency(x) * ( Storage_input_energy(t,x,z))- ((1 / Storage_discharging_efficiency(x)) *( Storage_output_energy(t,x,z)));
+        }
+        Constraint Storage_charging_rate_constraint {
+            IndexDomain: (t,x,z);
+            Definition: P_TRLminus_storage(t,x) + Storage_input_energy(t,x,z) <= Storage_max_charge_rate(x) * Storage_capacity(x);
+        }
+        Constraint Storage_discharging_rate_constraint {
+            IndexDomain: (t,x,z);
+            Definition: P_TRLplus_storage(t,x)+ Storage_output_energy(t,x,z) <= Storage_max_discharge_rate(x) * Storage_capacity(x);
+        }
+        Constraint Storage_capacity_constraint {
+            IndexDomain: (t,x,z);
+            Definition: Storage_SOC(t,x,z) <= Storage_capacity(x);
+        }
+        Constraint Storage_minimum_SOC_constraint {
+            IndexDomain: (t,x,z);
+            Definition: Storage_SOC(t,x,z) >= Storage_capacity(x) * Storage_min_SOC(x);
+        }
+        Constraint Storage_initialization_2 {
+            IndexDomain: (t,x,z) | t = first(Time) AND (x = 'Elec');
+            Definition: Storage_SOC(t,x,z) = Storage_Init(z);
+        }
+        Constraint Storage_initialization_3 {
+            IndexDomain: (t,x,z) | t = first(Time);
+            Definition: Storage_output_energy(t,x,z) = 0;
+        }
+        Constraint Storage_initializationSOC_3 {
+            IndexDomain: (t,x,z) | t=first(Time) AND (x = 'Heat');
+            Definition: {
+                Storage_SOC(t,x,z) = HeatStorInit(z) !Storage_min_SOC(x)*Storage_capacity(x)
+            }
+        }
+        Constraint StorageBidminus_behaviour_3 {
+            Definition: P_TRLminus_storage(1,'Elec')=0;
+        }
+        Constraint StorageBidplus_behaviour_3 {
+            Definition: P_TRLplus_storage(1,'Elec')=0;
+        }
+    }
+    DeclarationSection Mathematical_programs {
+        MathematicalProgram Cost_minimization {
+            Objective: Total_cost;
+            Direction: minimize;
+            Constraints: AllConstraints;
+            Variables: AllVariables;
+            Type: Automatic;
+        }
+    }
+    Procedure MainExecution {
+        Body: {
+            
+            			empty AllVariables;
+            			for w in Week do
+            
+            			if w = 1 then
+            			Storage_Init(z) := 500;
+            			HeatStorInit(z):=0;
+            			else
+            			Spreadsheet::RetrieveParameter( "input_data/Storage_Init.xlsx", Storage_Init,FormatString("B1:B%i",NoSce),"Storage Init");
+                                    Spreadsheet::RetrieveParameter( "input_data/Storage_Init.xlsx",HeatStorInit,FormatString("B1:B%i",NoSce),"Heat_Storage Init");
+            
+                                    endif;
+                                    Spreadsheet::RetrieveParameter( "input_data/TECH.xlsx", Technologies,FormatString("A1:A%i",Last(tn)),"tech");
+                                    Spreadsheet::RetrieveParameter( "input_data/ALPHABET.xlsx", Alphabet(z),FormatString("A1:A%i",NoSce),"ALPHABET");
+                                    Spreadsheet::RetrieveTable( "input_data/TRL+ weekly prices over hour.xlsx", pr_P_W_TRLplus(t),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),"","TRL+week price");
+            			Spreadsheet::RetrieveTable( "input_data/TRL+ 4h capacity prices over hour.xlsx", pr_P_D_TRLplus(t),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),"","TRL+ P_4h price");
+                                    Spreadsheet::RetrieveTable( "input_data/TRL+ energy prices over hour_market.xlsx", pr_m_E_TRLplus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"TRE+ market price");
+            			Spreadsheet::RetrieveParameter( "input_data/Heat_demand.xlsx", Loads(t,'Heat'),FormatString("A%i:A%i",(w-1)*168+1,168*w),"demand");
+            			Spreadsheet::RetrieveParameter( "input_data/Elec_demand.xlsx", Loads(t,'Elec'),FormatString("A%i:A%i",(w-1)*168+1,168*w),"demand");
+            			Spreadsheet::RetrieveParameter( "input_data/solar_inputs.xlsx", Solar_radiation(t),FormatString("A%i:A%i",(w-1)*168+1,168*w),"solar");
+            
+                                    Spreadsheet::RetrieveTable( "input_data/TRL- weekly prices over hour.xlsx", pr_P_W_TRLminus(t),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),"","TRL-week price");
+            			Spreadsheet::RetrieveTable( "input_data/TRL- 4h capacity prices over hour.xlsx", pr_P_D_TRLminus(t),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),"","TRL- P_4h price");
+                                    Spreadsheet::RetrieveTable( "input_data/TRL- energy prices over hour_market.xlsx", pr_m_E_TRLminus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"TRE- market price");
+            
+            			solve Cost_minimization;
+            
+            			!textwriting;
+            
+                                    if fileexists("results/Electricity balancing market participation/results_TRLplus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_TRLplus.xlsx","P_W_TRLplus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLplus.xlsx","P_D_TRLplus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLplus.xlsx","P_TRLplus_storage");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLplus.xlsx","Income_E_W_TRLplus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLplus.xlsx","Income_E_D_TRLplus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLplus.xlsx","Income_P_TRLplus");
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",P_W_TRLplus,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","P_W_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",P_D_TRLplus,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","P_D_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",P_TRLplus_storage(t,x),FormatString("B%i:C%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:C1","P_TRLplus_storage",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",Income_E_W_TRLplus(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Income_E_W_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",Income_E_D_TRLplus(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Income_E_D_TRLplus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",Income_P_W_TRLplus(t,'Elec'),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Income_P_TRLplus",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLplus.xlsx",Income_P_D_TRLplus(t,'Elec'),FormatString("D%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Income_P_TRLplus",0,1,3);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_TRLplus.xlsx",1);
+            
+            
+            			if fileexists("results/Electricity balancing market participation/results_TRLminus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_TRLminus.xlsx","P_W_TRLminus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLminus.xlsx","P_D_TRLminus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLminus.xlsx","P_TRLminus_storage");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLminus.xlsx","Income_E_W_TRLminus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLminus.xlsx","Income_E_D_TRLminus");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_TRLminus.xlsx","Income_P_TRLminus");
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",P_W_TRLminus,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","P_W_TRLminus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",P_D_TRLminus,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","P_D_TRLminus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",P_TRLminus_storage(t,x),FormatString("B%i:C%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:C1","P_TRLminus_storage",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",Income_E_W_TRLminus(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Income_E_W_TRLminus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",Income_E_D_TRLminus(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Income_E_D_TRLminus",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",Income_P_W_TRLminus(t,'Elec'),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Income_P_TRLminus",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_TRLminus.xlsx",Income_P_D_TRLminus(t,'Elec'),FormatString("D%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Income_P_TRLminus",0,1,3);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_TRLminus.xlsx",1);
+            
+            
+            			if fileexists("results/Electricity balancing market participation/results_demands.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_demands.xlsx","Energy_demands");
+            			endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_demands.xlsx",Energy_demands,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","Energy_demands",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_demands.xlsx",1);
+            
+            
+            			if fileexists("results/Electricity balancing market participation/results_conversion.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_conversion.xlsx");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_conversion.xlsx","Exported_energy_renewable");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_conversion.xlsx","Exported_energy_nonrenewable");
+                                    for tn in technologies_num do
+            
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_conversion.xlsx",FormatString("Input_energy_%s",Technologies(tn)));
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_conversion.xlsx",FormatString("Output_energy_Elec_%s",Technologies(tn)));
+            	                Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_conversion.xlsx",FormatString("Output_energy_Heat_%s",Technologies(tn)));
+            			endfor;
+            			endif;
+            			if fileexists("results/Electricity balancing market participation/results_costs.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_costs.xlsx");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx","Capital_cost_per_storage");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx","Total_cost_per_storage");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx","Income_via_exports");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx","Income_Avail");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx","Total_cost");
+                                    for tn in technologies_num do
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx",FormatString("Operating_cost_%s",Technologies(tn)));
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx",FormatString("Maintenance_cost_%s",Technologies(tn)));
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx",FormatString("Capital_cost_%s",Technologies(tn)));
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_costs.xlsx",FormatString("Total_cost_%s",Technologies(tn)));
+            			endfor;
+            			endif;
+            			for tn in technologies_num do
+            			if tn=1 then
+            			IE(t,z) :=Input_energy(t,'Gas_CHP',z);
+            			OEE(t,z):= Output_energy(t,'Elec','Gas_CHP',z);
+            			OEH(t,z):= Output_energy(t,'Heat','Gas_CHP',z);
+            			MC(z):= Maintenance_cost_per_technology('Gas_CHP',z);
+            			OC(z):= Operating_cost_per_technology('Gas_CHP',z);
+            			TC(z):= Total_cost_per_technology('Gas_CHP',z);
+            			elseif tn=2 then
+            			IE(t,z) :=Input_energy(t,'Gas_boiler',z);
+            			OEE(t,z):= Output_energy(t,'Elec','Gas_boiler',z);
+            			OEH(t,z):= Output_energy(t,'Heat','Gas_boiler',z);
+            			MC(z):= Maintenance_cost_per_technology('Gas_boiler',z);
+            			OC(z):= Operating_cost_per_technology('Gas_boiler',z);
+            			TC(z):= Total_cost_per_technology('Gas_boiler',z);
+            !			elseif tn=3 then
+            !			IE(t,z) :=InputEnergy_grid(t,'Grid');
+            !			OEE(t,z):= Output_energy(t,'Elec','Grid',z);
+            !			OEH(t,z):= Output_energy(t,'Heat','Grid',z);
+            !			MC(z):= Maintenance_cost_per_technology('Grid',z);
+            !			OC(z):= Operating_cost_grid;
+            !                        TC(z):= Total_cost_grid;
+            			elseif tn=4 then
+            			IE(t,z) :=Input_energy(t,'Heat_pump',z);
+            			OEE(t,z):= Output_energy(t,'Elec','Heat_pump',z);
+            			OEH(t,z):= Output_energy(t,'Heat','Heat_pump',z);
+            			MC(z):= Maintenance_cost_per_technology('Heat_pump',z);
+            			OC(z):= Operating_cost_per_technology('Heat_pump',z);
+            			TC(z):= Total_cost_per_technology('Heat_pump',z);
+            			elseif tn=5 then
+            			IE(t,z) :=Input_energy(t,'Solar_PV',z);
+            			OEE(t,z):= Output_energy(t,'Elec','Solar_PV',z);
+            			OEH(t,z):= Output_energy(t,'Heat','Solar_PV',z);
+            			MC(z):= Maintenance_cost_per_technology('Solar_PV',z);
+            			OC(z):= Operating_cost_per_technology('Solar_PV',z);
+            			TC(z):= Total_cost_per_technology('Solar_PV',z);
+            			else
+            			IE(t,z) :=Input_energy(t,'Solar_Thermal',z);
+            			OEE(t,z):= Output_energy(t,'Elec','Solar_Thermal',z);
+            			OEH(t,z):= Output_energy(t,'Heat','Solar_Thermal',z);
+            			MC(z):= Maintenance_cost_per_technology('Solar_Thermal',z);
+            			OC(z):= Operating_cost_per_technology('Solar_Thermal',z);
+            			TC(z):= Total_cost_per_technology('Solar_Thermal',z);
+            			endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",IE,FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Input_energy_%s",Technologies(tn)),0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",OEE,FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Output_energy_Elec_%s",Technologies(tn)),0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",OEH,FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Output_energy_Heat_%s",Technologies(tn)),0,1,1);
+            
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_costs.xlsx",MC,FormatString("B%i:%s%i",w+1,Alphabet(NoSce),w+1),"",FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Maintenance_cost_%s",Technologies(tn)),0,3,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_costs.xlsx",OC,FormatString("B%i:%s%i",w+1,Alphabet(NoSce),w+1),"",FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Operating_cost_%s",Technologies(tn)),0,3,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_costs.xlsx",TC,FormatString("B%i:%s%i",w+1,Alphabet(NoSce),w+1),"",FormatString("B1:%s1",Alphabet(NoSce)),FormatString("Total_cost_%s",Technologies(tn)),0,3,1);
+            			endfor;
+            
+            
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",InputEnergy_grid(t,'Grid'),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Input_energy_Grid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",Exported_energy_renewable,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","Exported_energy_renewable",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",Exported_energy_nonrenewable,FormatString("B%i:D%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"B1:D1","Exported_energy_nonrenewable",0,1,1);
+            
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",OutputEnergy_grid(t,'Elec','Grid'),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Output_energy_Elec_Grid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_conversion.xlsx",OutputEnergy_grid(t,'Heat','Grid'),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","Output_energy_Heat_Grid",0,1,3);
+            
+            
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_conversion.xlsx",1);
+            
+            
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_costs.xlsx",Income_via_exports(z),FormatString("B%i:%s%i",w+1,Alphabet(NoSce),w+1),"",FormatString("B1:%s1",Alphabet(NoSce)),"Income_via_exports",0,3,1);
+            			Spreadsheet::AssignValue("results/Electricity balancing market participation/results_costs.xlsx",IncomeAvail,FormatString("A%i",w),"Income_Avail");
+            			Spreadsheet::AssignValue("results/Electricity balancing market participation/results_costs.xlsx",Total_cost,FormatString("A%i",w),"Total_cost");
+            
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_costs.xlsx",1);
+            
+            			if fileexists("results/Electricity balancing market participation/results_storage.xlsx") then
+                                    else
+            			Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_storage.xlsx","Storage_input_energy_Elec");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_storage.xlsx","Storage_output_energy_Elec");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_storage.xlsx","Storage_SOC_Elec");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_storage.xlsx","Storage_input_energy_Heat");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_storage.xlsx","Storage_output_energy_Heat");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_storage.xlsx","Storage_SOC_Heat");
+            			endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_input_energy(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_input_energy_Elec",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_output_energy(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_output_energy_Elec",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_SOC(t,'Elec',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_SOC_Elec",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_input_energy(t,'Heat',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_input_energy_Heat",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_output_energy(t,'Heat',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_output_energy_Heat",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_storage.xlsx",Storage_SOC(t,'Heat',z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"Storage_SOC_Heat",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_storage.xlsx",1);
+            
+            
+            
+            			if fileexists("results/Electricity balancing market participation/results_emissions.xlsx") then
+                                    else
+            			Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/results_emissions.xlsx","Total_carbon_per_technology");
+            			Spreadsheet::AddNewSheet("results/Electricity balancing market participation/results_emissions.xlsx","Total_carbon_per_timestep");
+            			endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_emissions.xlsx",Total_carbon_per_technology(conv,z),FormatString("B%i:%s%i",(w-1)*6+2,Alphabet(NoSce),6*w+2),FormatString("A%i:A%i",(w-1)*6+2,6*w+2),FormatString("B1:%s1",Alphabet(NoSce)),"Total_carbon_per_technology",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/results_emissions.xlsx",Total_carbon_per_timestep(t,z),FormatString("B%i:%s%i",(w-1)*168+3,Alphabet(NoSce),168*w+2),FormatString("A%i:A%i",(w-1)*168+3,168*w+2),FormatString("B1:%s1",Alphabet(NoSce)),"Total_carbon_per_timestep",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/results_emissions.xlsx",1);
+            
+                                    if fileexists("input_data/Storage_Init.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("input_data/Storage_Init.xlsx","Storage Init");
+                                    endif;
+            			Spreadsheet::AssignTable("input_data/Storage_Init.xlsx",Storage_SOC('168','Elec',z),FormatString("B1:B%i",NoSce),FormatString("A1:A%i",NoSce),"","Storage Init",0,1,3);
+            			Spreadsheet::AssignTable("input_data/Storage_Init.xlsx",Storage_SOC('168','Heat',z),FormatString("B1:B%i",NoSce),FormatString("A1:A%i",NoSce),"","Heat_Storage Init",0,1,3);
+            			!Spreadsheet::AssignValue("input_data/Storage_Init.xlsx",Storage_SOC('168','Elec','1'),"B1","Storage Init");
+                                    !Spreadsheet::AssignValue("input_data/Storage_Init.xlsx",Storage_SOC('168','Heat','1'),"B1","Heat_Storage Init");
+            			Spreadsheet::CloseWorkbook("input_data/Storage_Init.xlsx",1);
+            
+                                     if fileexists("results/Electricity balancing market participation/Binaries_plus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/Binaries_plus.xlsx","a_min_bid");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/Binaries_plus.xlsx","a_w_tre");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/Binaries_plus.xlsx","a_d_tre");
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_plus.xlsx",a_minbid_plus_w(t),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","a_min_bid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_plus.xlsx",a_minbid_plus_d(t),FormatString("C%i:C%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","a_min_bid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_plus.xlsx",a_W_TRLplus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"a_w_tre",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_plus.xlsx",a_D_TRLplus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"a_d_tre",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/Binaries_plus.xlsx",1);
+            
+            
+            			if fileexists("results/Electricity balancing market participation/Binaries_minus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/Binaries_minus.xlsx","a_min_bid");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/Binaries_minus.xlsx","a_w_tre");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/Binaries_minus.xlsx","a_d_tre");
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_minus.xlsx",a_minbid_minus_w(t),FormatString("B%i:B%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","a_min_bid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_minus.xlsx",a_minbid_minus_d(t),FormatString("C%i:C%i",(w-1)*168+2,168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),"","a_min_bid",0,1,3);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_minus.xlsx",a_W_TRLminus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"a_w_tre",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/Binaries_minus.xlsx",a_D_TRLminus(t,z),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"a_d_tre",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/Binaries_minus.xlsx",1);
+            
+            			 if fileexists("results/Electricity balancing market participation/ys_plus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/ys_plus.xlsx","y1");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/ys_plus.xlsx","y2");
+            
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/ys_plus.xlsx",y1(t,z,'Elec'),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"y1",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/ys_plus.xlsx",y2(t,z,'Elec'),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"y2",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/ys_plus.xlsx",1);
+            
+            			 if fileexists("results/Electricity balancing market participation/ys_minus.xlsx") then
+                                    else
+                                    Spreadsheet::CreateWorkbook("results/Electricity balancing market participation/ys_minus.xlsx","y1");
+                                    Spreadsheet::AddNewSheet("results/Electricity balancing market participation/ys_minus.xlsx","y2");
+            
+                                    endif;
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/ys_minus.xlsx",y3(t,z,'Elec'),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"y1",0,1,1);
+            			Spreadsheet::AssignTable("results/Electricity balancing market participation/ys_minus.xlsx",y4(t,z,'Elec'),FormatString("B%i:%s%i",(w-1)*168+2,Alphabet(NoSce),168*w+1),FormatString("A%i:A%i",(w-1)*168+2,168*w+1),FormatString("B1:%s1",Alphabet(NoSce)),"y2",0,1,1);
+            			Spreadsheet::CloseWorkbook("results/Electricity balancing market participation/ys_minus.xlsx",1);
+            
+                                    endfor;
+        }
+    }
+    Procedure Main_Termination {
+        Body: {
+            			return 1;
+        }
+    }
+    Procedure textwriting {
+        Body: {
+            write Input_energy to file "InputEnergy.txt";
+            write Output_energy to file "OutputEnergy.txt";
+            write Income_via_exports to file "IncomeViaExports.txt";
+            write Total_cost to file "Totalcost.txt";
+            write P_W_TRLplus to file "Pwplus.txt";
+            write P_D_TRLplus to file "Pdplus.txt";
+            write P_TRLplus_storage to file "Pstorplus.txt";
+            write P_W_TRLminus to file "Pwminus.txt";
+            write P_D_TRLminus to file "Pdminus.txt";
+            write P_TRLminus_storage to file "Pstorminus.txt" ;
+            write Income_E_W_TRLplus to file "IncomeEwplus.txt";
+            write Income_E_D_TRLplus to file "IncomeEdplus.txt";
+            write Income_E_W_TRLminus to file "IncomeEwminus.txt";
+            write Income_E_D_TRLminus to file "IncomeEdminus.txt";
+            write Income_E_W_TRLplus to file "IncomeEwplus.txt";
+            write Income_E_D_TRLplus to file "IncomeEdplus.txt";
+            write Income_E_W_TRLminus to file "IncomeEwminus.txt";
+            write Income_E_D_TRLminus to file "IncomeEdminus.txt";
+            write IncomeAvail to file "IncomeAvail.txt";
+            write Storage_SOC to file "StorageSOC.txt";
+            write Storage_output_energy to file "StorageOut.txt";
+            write Storage_input_energy to file "StorageIn.txt";
+        }
+    }
+}

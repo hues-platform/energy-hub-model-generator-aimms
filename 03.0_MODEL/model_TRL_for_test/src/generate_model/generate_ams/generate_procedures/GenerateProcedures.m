@@ -1,0 +1,13 @@
+%% GENERATE PROCEDURES FOR AMS FILE
+
+%GENERATE MAIN EXECUTION PROCEDURE
+GenerateMainExecutionProcedure;
+
+%GENERATE DATA INPUTS PROCEDURE
+GenerateDataInputsProcedure;
+
+%GENERATE DATA OUTPUTS PROCEDURE
+GenerateDataOutputsProcedure;
+
+%GENERATE MAIN TERMINATION PROCEDURE
+GenerateMainTerminationProcedure;

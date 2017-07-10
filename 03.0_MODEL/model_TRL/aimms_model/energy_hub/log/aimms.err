@@ -1,0 +1,195 @@
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_capacity_constraint(1,Elec,1)" with type <= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 220 in user-defined function section "MainExecution".
+You have interrupted execution.
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_capacity_constraint(1,Elec,1)" with type <= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+The maximum of 20 warnings reached, further warnings suppressed.  See also option maximal_number_of_warnings_reported
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Heat,1)" with type >= is made obsolete because of row "Storage_initializationSOC_3(1,Heat,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".
+Warning at line 26 in user-defined function section "MainExecution".
+The row "Storage_minimum_SOC_constraint(1,Elec,1)" with type >= is made obsolete because of row "Storage_initialization_2(1,Elec,1)" with type = in the generated mathematical program "Cost_minimization", see also the option "Warning_duplicate_row".

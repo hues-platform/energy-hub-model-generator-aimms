@@ -1,0 +1,2196 @@
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7609 columns.
+Reduced MIP has 531 rows, 1324 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.20 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 531 rows, 1324 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.29 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         24823.023117
+Iteration:   117   Dual objective     =         38243.197707
+Iteration:   230   Dual objective     =         44285.638463
+Iteration:   338   Dual objective     =         44514.476138
+Root relaxation solution time = 0.00 sec. (2.06 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    44514.4942    44514.4942      380    0.00%
+
+Elapsed time = 0.05 sec. (12.71 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 44514.494245 after 0.05 sec. (12.71 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (12.98 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (12.98 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12162 rows and 7560 columns.
+Reduced MIP has 553 rows, 1373 columns, and 2332 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.20 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 553 rows, 1373 columns, and 2332 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         26925.264556
+Iteration:   122   Dual objective     =         36929.036860
+Iteration:   237   Dual objective     =         44991.590856
+Iteration:   339   Dual objective     =         46059.844835
+Iteration:   430   Dual objective     =         46138.007247
+Root relaxation solution time = 0.00 sec. (2.46 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    46138.0105    46138.0105      457    0.00%
+
+Elapsed time = 0.05 sec. (13.49 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 46138.010459 after 0.05 sec. (13.49 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.76 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.76 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12168 rows and 7578 columns.
+Reduced MIP has 547 rows, 1355 columns, and 2302 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 547 rows, 1355 columns, and 2302 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         25861.770781
+Iteration:   122   Dual objective     =         38793.195136
+Iteration:   232   Dual objective     =         45124.622133
+Iteration:   331   Dual objective     =         45966.532114
+Root relaxation solution time = 0.00 sec. (2.15 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    45987.4951    45987.4951      412    0.00%
+
+Elapsed time = 0.05 sec. (13.52 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 45987.495112 after 0.05 sec. (13.52 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.78 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.78 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12163 rows and 7564 columns.
+Reduced MIP has 552 rows, 1369 columns, and 2339 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.31 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 552 rows, 1369 columns, and 2339 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         24710.953374
+Iteration:   113   Dual objective     =         36618.635027
+Iteration:   219   Dual objective     =         44788.538209
+Iteration:   316   Dual objective     =         45632.919903
+Iteration:   403   Dual objective     =         45658.443898
+Root relaxation solution time = 0.02 sec. (2.27 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    45658.4443    45658.4443      415    0.00%
+
+Elapsed time = 0.03 sec. (13.09 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 45658.444287 after 0.03 sec. (13.09 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.36 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.36 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12177 rows and 7584 columns.
+Reduced MIP has 538 rows, 1349 columns, and 2258 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.21 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 538 rows, 1349 columns, and 2258 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         22339.220875
+Iteration:   118   Dual objective     =         33665.045661
+Iteration:   233   Dual objective     =         40374.569941
+Iteration:   332   Dual objective     =         40942.460426
+Iteration:   424   Dual objective     =         40983.020591
+Root relaxation solution time = 0.02 sec. (2.38 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    40983.0234    40983.0234      443    0.00%
+
+Elapsed time = 0.03 sec. (13.08 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 40983.023421 after 0.03 sec. (13.08 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.34 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.34 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7609 columns.
+Reduced MIP has 531 rows, 1324 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.20 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 531 rows, 1324 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.29 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         24823.023117
+Iteration:   117   Dual objective     =         38243.197707
+Iteration:   230   Dual objective     =         44285.638463
+Iteration:   338   Dual objective     =         44514.476138
+Root relaxation solution time = 0.00 sec. (2.06 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    44514.4942    44514.4942      380    0.00%
+
+Elapsed time = 0.03 sec. (12.71 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 44514.494245 after 0.05 sec. (12.71 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (12.98 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (12.98 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12162 rows and 7560 columns.
+Reduced MIP has 553 rows, 1373 columns, and 2332 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.20 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 553 rows, 1373 columns, and 2332 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         26925.264556
+Iteration:   122   Dual objective     =         36929.036860
+Iteration:   237   Dual objective     =         44991.590856
+Iteration:   339   Dual objective     =         46059.844835
+Iteration:   430   Dual objective     =         46138.007247
+Root relaxation solution time = 0.02 sec. (2.46 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    46138.0105    46138.0105      457    0.00%
+
+Elapsed time = 0.05 sec. (13.49 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 46138.010459 after 0.05 sec. (13.49 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.76 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.76 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12168 rows and 7578 columns.
+Reduced MIP has 547 rows, 1355 columns, and 2302 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 547 rows, 1355 columns, and 2302 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         25861.770781
+Iteration:   122   Dual objective     =         38793.195136
+Iteration:   232   Dual objective     =         45124.622133
+Iteration:   331   Dual objective     =         45966.532114
+Root relaxation solution time = 0.00 sec. (2.15 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    45987.4951    45987.4951      412    0.00%
+
+Elapsed time = 0.05 sec. (13.52 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 45987.495112 after 0.05 sec. (13.52 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.78 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.78 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12163 rows and 7564 columns.
+Reduced MIP has 552 rows, 1369 columns, and 2339 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.31 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 552 rows, 1369 columns, and 2339 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         24710.953374
+Iteration:   113   Dual objective     =         36618.635027
+Iteration:   219   Dual objective     =         44788.538209
+Iteration:   316   Dual objective     =         45632.919903
+Iteration:   403   Dual objective     =         45658.443898
+Root relaxation solution time = 0.02 sec. (2.27 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    45658.4443    45658.4443      415    0.00%
+
+Elapsed time = 0.03 sec. (13.09 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 45658.444287 after 0.03 sec. (13.09 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.36 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.36 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12177 rows and 7584 columns.
+Reduced MIP has 538 rows, 1349 columns, and 2258 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.21 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 538 rows, 1349 columns, and 2258 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         22339.220875
+Iteration:   118   Dual objective     =         33665.045661
+Iteration:   233   Dual objective     =         40374.569941
+Iteration:   332   Dual objective     =         40942.460426
+Iteration:   424   Dual objective     =         40983.020591
+Root relaxation solution time = 0.02 sec. (2.38 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    40983.0234    40983.0234      443    0.00%
+
+Elapsed time = 0.05 sec. (13.08 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 40983.023421 after 0.05 sec. (13.08 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.34 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.34 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12158 rows and 7547 columns.
+Reduced MIP has 557 rows, 1386 columns, and 2359 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 557 rows, 1386 columns, and 2359 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         24499.988564
+Iteration:   121   Dual objective     =         37640.488210
+Iteration:   230   Dual objective     =         44823.836021
+Iteration:   329   Dual objective     =         45323.690421
+Iteration:   411   Dual objective     =         45335.152014
+Root relaxation solution time = 0.00 sec. (2.44 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    45335.1523    45335.1523      421    0.00%
+
+Elapsed time = 0.05 sec. (13.23 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 45335.152347 after 0.05 sec. (13.23 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.49 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.49 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12141 rows and 7515 columns.
+Reduced MIP has 574 rows, 1418 columns, and 2448 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.21 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 574 rows, 1418 columns, and 2448 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.37 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         19603.195753
+Iteration:   119   Dual objective     =         32965.188518
+Iteration:   231   Dual objective     =         41272.285252
+Iteration:   333   Dual objective     =         41886.670560
+Iteration:   421   Dual objective     =         41966.802148
+Root relaxation solution time = 0.02 sec. (2.45 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    41966.8078    41966.8078      458    0.00%
+
+Elapsed time = 0.05 sec. (13.24 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 41966.807816 after 0.05 sec. (13.24 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.51 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.51 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12137 rows and 7506 columns.
+Reduced MIP has 578 rows, 1427 columns, and 2459 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.33 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 576 rows, 1422 columns, and 2452 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.39 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         21606.113051
+Iteration:   119   Dual objective     =         34000.771422
+Iteration:   230   Dual objective     =         42002.262826
+Iteration:   330   Dual objective     =         42927.500927
+Iteration:   416   Dual objective     =         42941.523200
+Root relaxation solution time = 0.00 sec. (2.40 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    42941.5235    42941.5235      422    0.00%
+
+Elapsed time = 0.05 sec. (14.91 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 42941.523503 after 0.05 sec. (14.91 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (15.18 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (15.18 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12151 rows and 7536 columns.
+Reduced MIP has 564 rows, 1397 columns, and 2392 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.21 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 564 rows, 1397 columns, and 2392 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.35 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         20286.907868
+Iteration:   118   Dual objective     =         31478.103867
+Iteration:   228   Dual objective     =         38632.708457
+Iteration:   328   Dual objective     =         39844.552865
+Iteration:   414   Dual objective     =         39871.554800
+Root relaxation solution time = 0.00 sec. (2.40 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    39871.5587    39871.5587      447    0.00%
+
+Elapsed time = 0.05 sec. (13.46 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 39871.558712 after 0.05 sec. (13.46 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.73 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.73 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7617 columns.
+Reduced MIP has 531 rows, 1316 columns, and 2175 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.29 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 529 rows, 1311 columns, and 2168 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.30 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         21581.434326
+Iteration:   108   Dual objective     =         29956.830182
+Iteration:   218   Dual objective     =         35087.955471
+Iteration:   315   Dual objective     =         35708.467051
+Root relaxation solution time = 0.00 sec. (2.21 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    35728.0143    35728.0143      404    0.00%
+
+Elapsed time = 0.05 sec. (14.53 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 35728.014269 after 0.05 sec. (14.53 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.80 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.80 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12139 rows and 7501 columns.
+Reduced MIP has 576 rows, 1432 columns, and 2468 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.21 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 576 rows, 1432 columns, and 2468 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.39 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16586.937503
+Iteration:   121   Dual objective     =         27359.301340
+Iteration:   229   Dual objective     =         33595.237884
+Iteration:   329   Dual objective     =         35006.701516
+Iteration:   426   Dual objective     =         35139.590293
+Root relaxation solution time = 0.02 sec. (2.48 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    35139.5952    35139.5952      475    0.00%
+
+Elapsed time = 0.03 sec. (13.91 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 35139.595226 after 0.03 sec. (13.91 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (14.18 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (14.18 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12153 rows and 7535 columns.
+Reduced MIP has 562 rows, 1398 columns, and 2385 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 562 rows, 1398 columns, and 2385 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.35 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16609.712619
+Iteration:   119   Dual objective     =         27689.488471
+Iteration:   236   Dual objective     =         34320.962773
+Iteration:   339   Dual objective     =         35137.438279
+Iteration:   433   Dual objective     =         35162.641861
+Root relaxation solution time = 0.00 sec. (2.36 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    35162.6504    35162.6504      450    0.00%
+
+Elapsed time = 0.03 sec. (13.18 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 35162.650374 after 0.05 sec. (13.18 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.45 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.45 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12118 rows and 7466 columns.
+Reduced MIP has 597 rows, 1467 columns, and 2565 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 597 rows, 1467 columns, and 2565 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.42 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         14194.694190
+Iteration:   122   Dual objective     =         27200.756995
+Iteration:   238   Dual objective     =         35670.247434
+Iteration:   337   Dual objective     =         36974.120376
+Iteration:   433   Dual objective     =         37029.219853
+Root relaxation solution time = 0.00 sec. (2.54 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    37029.2237    37029.2237      472    0.00%
+
+Elapsed time = 0.03 sec. (13.78 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 37029.223723 after 0.05 sec. (13.78 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.05 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.05 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12126 rows and 7488 columns.
+Reduced MIP has 589 rows, 1445 columns, and 2501 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.27 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 587 rows, 1440 columns, and 2494 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.41 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         14141.038326
+Iteration:   121   Dual objective     =         24112.439631
+Iteration:   238   Dual objective     =         29592.280654
+Iteration:   346   Dual objective     =         30957.496114
+Iteration:   442   Dual objective     =         31096.257614
+Root relaxation solution time = 0.01 sec. (2.62 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    31096.3935    31096.3935      505    0.00%
+
+Elapsed time = 0.05 sec. (15.12 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 31096.393510 after 0.05 sec. (15.12 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (15.38 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (15.38 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12182 rows and 7633 columns.
+Reduced MIP has 533 rows, 1300 columns, and 2144 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (7.24 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 533 rows, 1300 columns, and 2144 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18205.114533
+Iteration:   112   Dual objective     =         26326.015486
+Iteration:   226   Dual objective     =         28884.520344
+Iteration:   321   Dual objective     =         29111.113468
+Root relaxation solution time = 0.02 sec. (2.29 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    29112.0264    29112.0264      368    0.00%
+
+Elapsed time = 0.05 sec. (13.29 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 29112.026362 after 0.05 sec. (13.29 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.56 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.56 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12181 rows and 7626 columns.
+Reduced MIP has 534 rows, 1307 columns, and 2156 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.24 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 534 rows, 1307 columns, and 2156 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.32 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18600.149154
+Iteration:   112   Dual objective     =         27631.096363
+Iteration:   220   Dual objective     =         29656.010621
+Iteration:   308   Dual objective     =         29847.491957
+Root relaxation solution time = 0.00 sec. (2.37 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    29856.6951    29856.6951      390    0.00%
+
+Elapsed time = 0.05 sec. (13.08 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 29856.695093 after 0.05 sec. (13.08 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.35 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.35 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7640 columns.
+Reduced MIP has 531 rows, 1293 columns, and 2124 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (7.25 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 531 rows, 1293 columns, and 2124 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18582.681716
+Iteration:   111   Dual objective     =         26313.735445
+Iteration:   218   Dual objective     =         26961.586874
+Iteration:   287   Dual objective     =         27089.177872
+Root relaxation solution time = 0.02 sec. (2.66 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    27185.6629    27185.6629      376    0.00%
+
+Elapsed time = 0.05 sec. (13.98 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 27185.662890 after 0.05 sec. (13.98 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.25 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.25 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12174 rows and 7627 columns.
+Reduced MIP has 541 rows, 1306 columns, and 2157 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 541 rows, 1306 columns, and 2157 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.34 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16808.695713
+Iteration:   125   Dual objective     =         23946.758659
+Iteration:   223   Dual objective     =         24723.690518
+Iteration:   312   Dual objective     =         24881.241124
+Root relaxation solution time = 0.02 sec. (2.25 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    24881.3128    24881.3128      351    0.00%
+
+Elapsed time = 0.03 sec. (13.62 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 24881.312799 after 0.03 sec. (13.62 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.89 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.89 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12176 rows and 7628 columns.
+Reduced MIP has 539 rows, 1305 columns, and 2150 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 539 rows, 1305 columns, and 2150 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.35 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17351.367187
+Iteration:   122   Dual objective     =         24962.058585
+Iteration:   219   Dual objective     =         26439.569139
+Iteration:   307   Dual objective     =         26563.711260
+Iteration:   390   Dual objective     =         26646.336037
+Root relaxation solution time = 0.02 sec. (2.71 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    26646.3920    26646.3920      422    0.00%
+
+Elapsed time = 0.03 sec. (13.46 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 26646.392019 after 0.03 sec. (13.46 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.73 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.73 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12187 rows and 7651 columns.
+Reduced MIP has 528 rows, 1282 columns, and 2095 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 528 rows, 1282 columns, and 2095 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.32 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17345.377593
+Iteration:   113   Dual objective     =         23950.004875
+Iteration:   208   Dual objective     =         25975.651132
+Iteration:   289   Dual objective     =         26141.453064
+Root relaxation solution time = 0.00 sec. (2.43 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    26151.9078    26151.9078      351    0.00%
+
+Elapsed time = 0.05 sec. (13.76 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 26151.907846 after 0.05 sec. (13.76 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.03 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.03 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12169 rows and 7577 columns.
+Reduced MIP has 546 rows, 1356 columns, and 2261 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.24 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 546 rows, 1356 columns, and 2261 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.34 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17143.790450
+Iteration:   114   Dual objective     =         24941.867583
+Iteration:   227   Dual objective     =         29134.820602
+Iteration:   329   Dual objective     =         29714.010351
+Root relaxation solution time = 0.00 sec. (2.19 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    29735.5077    29735.5077      408    0.00%
+
+Elapsed time = 0.03 sec. (13.56 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 29735.507743 after 0.05 sec. (13.56 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.83 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.83 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12174 rows and 7615 columns.
+Reduced MIP has 541 rows, 1318 columns, and 2181 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.25 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 541 rows, 1318 columns, and 2181 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.33 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17763.160693
+Iteration:   111   Dual objective     =         25941.549021
+Iteration:   221   Dual objective     =         29810.365714
+Iteration:   317   Dual objective     =         30219.418962
+Iteration:   393   Dual objective     =         30238.038738
+Root relaxation solution time = 0.01 sec. (2.54 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    30238.0526    30238.0526      421    0.00%
+
+Elapsed time = 0.05 sec. (13.28 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 30238.052567 after 0.05 sec. (13.28 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.55 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.55 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12163 rows and 7606 columns.
+Reduced MIP has 552 rows, 1327 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.26 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 552 rows, 1327 columns, and 2206 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.42 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         15266.561173
+Iteration:   125   Dual objective     =         22257.344659
+Iteration:   226   Dual objective     =         22576.253733
+Iteration:   291   Dual objective     =         22748.473593
+Root relaxation solution time = 0.00 sec. (2.50 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    22768.2966    22768.2966      347    0.00%
+
+Elapsed time = 0.05 sec. (13.65 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 22768.296601 after 0.05 sec. (13.65 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.92 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.92 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12183 rows and 7660 columns.
+Reduced MIP has 532 rows, 1273 columns, and 2076 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 532 rows, 1273 columns, and 2076 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.37 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18386.542068
+Iteration:   120   Dual objective     =         24348.923960
+Iteration:   215   Dual objective     =         24511.153003
+Root relaxation solution time = 0.02 sec. (1.86 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    24529.0005    24529.0005      252    0.00%
+
+Elapsed time = 0.03 sec. (13.26 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 24529.000541 after 0.03 sec. (13.26 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (13.53 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (13.53 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12194 rows and 7693 columns.
+Reduced MIP has 521 rows, 1240 columns, and 1999 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 521 rows, 1240 columns, and 1999 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.44 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         19930.533845
+Iteration:   117   Dual objective     =         25897.915977
+Iteration:   197   Dual objective     =         26083.325479
+Iteration:   259   Dual objective     =         26110.370148
+Root relaxation solution time = 0.02 sec. (2.48 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    26110.4458    26110.4458      290    0.00%
+
+Elapsed time = 0.05 sec. (13.62 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 26110.445786 after 0.05 sec. (13.62 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.89 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.89 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12175 rows and 7631 columns.
+Reduced MIP has 540 rows, 1302 columns, and 2143 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 540 rows, 1302 columns, and 2143 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.35 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16736.135967
+Iteration:   124   Dual objective     =         23420.929782
+Iteration:   220   Dual objective     =         24229.750183
+Iteration:   312   Dual objective     =         24357.497139
+Root relaxation solution time = 0.00 sec. (2.49 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    24359.2943    24359.2943      370    0.00%
+
+Elapsed time = 0.05 sec. (13.25 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 24359.294340 after 0.05 sec. (13.25 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.52 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.52 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12187 rows and 7680 columns.
+Reduced MIP has 528 rows, 1253 columns, and 2032 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 528 rows, 1253 columns, and 2032 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.46 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16270.216055
+Iteration:   116   Dual objective     =         22253.480278
+Iteration:   203   Dual objective     =         22262.742069
+Root relaxation solution time = 0.00 sec. (1.76 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    22262.8838    22262.8838      250    0.00%
+
+Elapsed time = 0.05 sec. (12.93 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 22262.883812 after 0.05 sec. (12.93 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.20 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.20 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7673 columns.
+Reduced MIP has 531 rows, 1260 columns, and 2051 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 531 rows, 1260 columns, and 2051 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.43 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17394.924982
+Iteration:   116   Dual objective     =         22826.163063
+Iteration:   204   Dual objective     =         22870.386619
+Root relaxation solution time = 0.00 sec. (1.99 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    22870.6479    22870.6479      233    0.00%
+
+Elapsed time = 0.05 sec. (13.44 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 22870.647915 after 0.05 sec. (13.44 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.71 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.71 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12183 rows and 7669 columns.
+Reduced MIP has 532 rows, 1264 columns, and 2059 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 532 rows, 1264 columns, and 2059 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.41 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         15226.950486
+Iteration:   121   Dual objective     =         21157.524793
+Iteration:   209   Dual objective     =         21199.626062
+Iteration:   281   Dual objective     =         21200.141344
+Root relaxation solution time = 0.01 sec. (2.36 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    21200.1851    21200.1851      314    0.00%
+
+Elapsed time = 0.05 sec. (13.79 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 21200.185086 after 0.05 sec. (13.79 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.06 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.06 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12163 rows and 7611 columns.
+Reduced MIP has 552 rows, 1322 columns, and 2195 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 552 rows, 1322 columns, and 2195 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.43 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         12853.521741
+Iteration:   125   Dual objective     =         18400.564211
+Iteration:   218   Dual objective     =         18495.962064
+Root relaxation solution time = 0.00 sec. (1.81 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    18496.0518    18496.0518      250    0.00%
+
+Elapsed time = 0.03 sec. (13.28 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 18496.051789 after 0.05 sec. (13.28 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.55 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.55 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12180 rows and 7667 columns.
+Reduced MIP has 535 rows, 1266 columns, and 2071 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 535 rows, 1266 columns, and 2071 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.47 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         15541.267459
+Iteration:   116   Dual objective     =         20800.957208
+Iteration:   209   Dual objective     =         20878.310189
+Root relaxation solution time = 0.00 sec. (1.83 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    20878.4118    20878.4118      233    0.00%
+
+Elapsed time = 0.05 sec. (13.32 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 20878.411822 after 0.05 sec. (13.32 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.59 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.59 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12181 rows and 7667 columns.
+Reduced MIP has 534 rows, 1266 columns, and 2067 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 534 rows, 1266 columns, and 2067 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.52 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16865.694702
+Iteration:   118   Dual objective     =         22326.030838
+Iteration:   207   Dual objective     =         22384.347275
+Root relaxation solution time = 0.00 sec. (1.81 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    22384.4519    22384.4519      229    0.00%
+
+Elapsed time = 0.05 sec. (13.35 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 22384.451946 after 0.05 sec. (13.35 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.62 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.62 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12182 rows and 7668 columns.
+Reduced MIP has 533 rows, 1265 columns, and 2066 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 533 rows, 1265 columns, and 2066 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.39 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         15872.869484
+Iteration:   121   Dual objective     =         22283.607299
+Iteration:   207   Dual objective     =         22418.050252
+Root relaxation solution time = 0.01 sec. (1.97 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    22423.1005    22423.1005      259    0.00%
+
+Elapsed time = 0.03 sec. (13.39 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 22423.100491 after 0.03 sec. (13.39 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (13.65 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (13.65 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12171 rows and 7633 columns.
+Reduced MIP has 544 rows, 1300 columns, and 2147 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 544 rows, 1300 columns, and 2147 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.42 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         13078.855332
+Iteration:   119   Dual objective     =         18995.758262
+Iteration:   219   Dual objective     =         19193.471550
+Iteration:   286   Dual objective     =         19287.659368
+Root relaxation solution time = 0.00 sec. (2.81 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    19288.1367    19288.1367      354    0.00%
+
+Elapsed time = 0.05 sec. (14.26 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 19288.136665 after 0.05 sec. (14.26 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.53 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.53 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12171 rows and 7648 columns.
+Reduced MIP has 544 rows, 1285 columns, and 2124 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 542 rows, 1280 columns, and 2117 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.35 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         13912.587314
+Iteration:   120   Dual objective     =         20361.469606
+Iteration:   214   Dual objective     =         20508.826275
+Root relaxation solution time = 0.00 sec. (2.23 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    20526.5679    20526.5679      294    0.00%
+
+Elapsed time = 0.03 sec. (14.58 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 20526.567875 after 0.05 sec. (14.58 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.85 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.85 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12190 rows and 7696 columns.
+Reduced MIP has 525 rows, 1237 columns, and 2000 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.28 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 523 rows, 1232 columns, and 1993 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.46 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18294.012923
+Iteration:   118   Dual objective     =         24370.979524
+Iteration:   204   Dual objective     =         24449.609374
+Root relaxation solution time = 0.00 sec. (1.85 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    24449.8711    24449.8711      230    0.00%
+
+Elapsed time = 0.05 sec. (14.28 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 24449.871136 after 0.05 sec. (14.28 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.55 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.55 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12184 rows and 7663 columns.
+Reduced MIP has 531 rows, 1270 columns, and 2075 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.26 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 529 rows, 1265 columns, and 2068 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.31 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         18747.005496
+Iteration:   107   Dual objective     =         25365.007174
+Iteration:   208   Dual objective     =         26702.348735
+Iteration:   292   Dual objective     =         26900.292937
+Root relaxation solution time = 0.00 sec. (2.31 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    26917.1793    26917.1793      368    0.00%
+
+Elapsed time = 0.03 sec. (14.30 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 26917.179297 after 0.05 sec. (14.30 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.57 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.57 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12198 rows and 7716 columns.
+Reduced MIP has 517 rows, 1217 columns, and 1944 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.28 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 515 rows, 1212 columns, and 1937 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.62 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         19460.978292
+Iteration:   108   Dual objective     =         24921.030302
+Iteration:   170   Dual objective     =         24921.128786
+Root relaxation solution time = 0.00 sec. (2.32 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    24921.2009    24921.2009      201    0.00%
+
+Elapsed time = 0.03 sec. (14.90 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 24921.200908 after 0.03 sec. (14.90 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (15.17 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (15.17 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12201 rows and 7724 columns.
+Reduced MIP has 514 rows, 1209 columns, and 1930 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (7.28 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 514 rows, 1209 columns, and 1930 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.62 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         21910.272688
+Iteration:   113   Dual objective     =         27653.131509
+Iteration:   175   Dual objective     =         27653.236747
+Root relaxation solution time = 0.02 sec. (2.80 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    27653.3073    27653.3073      197    0.00%
+
+Elapsed time = 0.05 sec. (14.40 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 27653.307281 after 0.05 sec. (14.40 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.67 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.67 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12193 rows and 7691 columns.
+Reduced MIP has 522 rows, 1242 columns, and 2009 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 522 rows, 1242 columns, and 2009 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.36 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         20152.904975
+Iteration:   114   Dual objective     =         26617.179822
+Iteration:   198   Dual objective     =         27431.967772
+Iteration:   282   Dual objective     =         27482.068337
+Iteration:   344   Dual objective     =         27482.425282
+Root relaxation solution time = 0.00 sec. (2.67 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    27482.4253    27482.4253      344    0.00%
+
+Elapsed time = 0.05 sec. (13.41 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 27482.425282 after 0.05 sec. (13.41 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.68 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.68 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12188 rows and 7620 columns.
+Reduced MIP has 527 rows, 1313 columns, and 2180 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.27 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 527 rows, 1313 columns, and 2180 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.29 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         17788.882444
+Iteration:   122   Dual objective     =         26296.392355
+Iteration:   229   Dual objective     =         30513.421153
+Iteration:   327   Dual objective     =         31448.447325
+Iteration:   418   Dual objective     =         31487.432963
+Root relaxation solution time = 0.02 sec. (2.51 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    31487.5540    31487.5540      468    0.00%
+
+Elapsed time = 0.05 sec. (13.22 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 31487.554039 after 0.05 sec. (13.22 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.49 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.49 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12198 rows and 7663 columns.
+Reduced MIP has 517 rows, 1270 columns, and 2079 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.23 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 517 rows, 1270 columns, and 2079 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.25 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         19770.002088
+Iteration:   113   Dual objective     =         26930.759150
+Iteration:   222   Dual objective     =         31143.710865
+Iteration:   327   Dual objective     =         31725.285532
+Root relaxation solution time = 0.01 sec. (2.25 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    31732.2119    31732.2119      375    0.00%
+
+Elapsed time = 0.03 sec. (13.17 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 31732.211901 after 0.03 sec. (13.17 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (13.44 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (13.44 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12211 rows and 7691 columns.
+Reduced MIP has 504 rows, 1242 columns, and 1995 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.25 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 504 rows, 1242 columns, and 1995 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.27 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         22428.147579
+Iteration:   113   Dual objective     =         30287.245147
+Iteration:   222   Dual objective     =         31920.065163
+Iteration:   309   Dual objective     =         32125.231604
+Root relaxation solution time = 0.02 sec. (2.28 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    32127.2796    32127.2796      369    0.00%
+
+Elapsed time = 0.03 sec. (12.90 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 32127.279589 after 0.03 sec. (12.90 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.17 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.17 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12204 rows and 7668 columns.
+Reduced MIP has 511 rows, 1265 columns, and 2062 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.23 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 511 rows, 1265 columns, and 2062 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.26 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         20564.605037
+Iteration:   112   Dual objective     =         29090.078522
+Iteration:   222   Dual objective     =         32069.302407
+Iteration:   310   Dual objective     =         32622.895162
+Iteration:   402   Dual objective     =         32630.749389
+Root relaxation solution time = 0.00 sec. (2.37 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    32630.7498    32630.7498      406    0.00%
+
+Elapsed time = 0.03 sec. (13.30 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 32630.749779 after 0.05 sec. (13.30 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (13.57 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (13.57 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12180 rows and 7602 columns.
+Reduced MIP has 535 rows, 1331 columns, and 2225 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.22 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 535 rows, 1331 columns, and 2225 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.30 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         16920.673214
+Iteration:   117   Dual objective     =         25142.128400
+Iteration:   224   Dual objective     =         30208.542876
+Iteration:   320   Dual objective     =         31155.827151
+Iteration:   416   Dual objective     =         31274.289240
+Root relaxation solution time = 0.01 sec. (2.31 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    31274.2911    31274.2911      430    0.00%
+
+Elapsed time = 0.03 sec. (13.60 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 31274.291134 after 0.03 sec. (13.60 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (13.87 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (13.87 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12132 rows and 7500 columns.
+Reduced MIP has 583 rows, 1433 columns, and 2503 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.25 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 581 rows, 1428 columns, and 2496 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.39 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         14202.379387
+Iteration:   128   Dual objective     =         29304.291559
+Iteration:   254   Dual objective     =         39272.671255
+Iteration:   359   Dual objective     =         39610.002554
+Iteration:   456   Dual objective     =         39626.166511
+Root relaxation solution time = 0.02 sec. (2.52 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    39626.1674    39626.1674      467    0.00%
+
+Elapsed time = 0.05 sec. (14.36 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 39626.167364 after 0.05 sec. (14.36 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.63 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.63 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12117 rows and 7468 columns.
+Reduced MIP has 598 rows, 1465 columns, and 2581 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.14 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 596 rows, 1460 columns, and 2574 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.43 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         14466.914519
+Iteration:   123   Dual objective     =         32176.216135
+Iteration:   236   Dual objective     =         41278.901543
+Iteration:   334   Dual objective     =         42284.330955
+Iteration:   425   Dual objective     =         42337.597936
+Root relaxation solution time = 0.01 sec. (2.78 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    42337.6108    42337.6108      492    0.00%
+
+Elapsed time = 0.05 sec. (14.57 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 42337.610798 after 0.05 sec. (14.57 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.83 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.83 ticks)
+Tried aggregator 2 times.
+MIP Presolve eliminated 12092 rows and 7432 columns.
+Aggregator did 1 substitutions.
+Reduced MIP has 622 rows, 1500 columns, and 2686 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (8.90 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 622 rows, 1500 columns, and 2686 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.48 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =          9799.174015
+Iteration:   125   Dual objective     =         28886.496415
+Iteration:   235   Dual objective     =         40504.557030
+Iteration:   335   Dual objective     =         41628.006026
+Iteration:   414   Dual objective     =         41656.233238
+Root relaxation solution time = 0.02 sec. (2.99 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    41656.2414    41656.2414      484    0.00%
+
+Elapsed time = 0.05 sec. (15.63 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 41656.241388 after 0.05 sec. (15.63 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (15.90 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (15.90 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12095 rows and 7438 columns.
+Reduced MIP has 620 rows, 1495 columns, and 2675 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.19 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 618 rows, 1490 columns, and 2668 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.46 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =          9838.297838
+Iteration:   121   Dual objective     =         27817.047340
+Iteration:   228   Dual objective     =         38065.113998
+Iteration:   321   Dual objective     =         38939.646216
+Iteration:   407   Dual objective     =         38967.339666
+Root relaxation solution time = 0.02 sec. (2.81 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    38967.3468    38967.3468      468    0.00%
+
+Elapsed time = 0.03 sec. (14.70 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 38967.346781 after 0.03 sec. (14.70 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (14.97 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (14.97 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12099 rows and 7444 columns.
+Reduced MIP has 616 rows, 1489 columns, and 2655 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.18 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 614 rows, 1484 columns, and 2648 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (1.45 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         12008.284472
+Iteration:   124   Dual objective     =         31111.533352
+Iteration:   239   Dual objective     =         41677.730460
+Iteration:   334   Dual objective     =         42653.572869
+Iteration:   421   Dual objective     =         42707.667725
+Root relaxation solution time = 0.02 sec. (2.94 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    42707.6732    42707.6732      477    0.00%
+
+Elapsed time = 0.05 sec. (14.80 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 42707.673215 after 0.05 sec. (14.80 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (15.07 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (15.07 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12106 rows and 7458 columns.
+Reduced MIP has 609 rows, 1475 columns, and 2625 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (7.25 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 607 rows, 1470 columns, and 2618 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.46 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         11658.532709
+Iteration:   120   Dual objective     =         30739.933668
+Iteration:   236   Dual objective     =         40527.534479
+Iteration:   334   Dual objective     =         41485.081290
+Iteration:   418   Dual objective     =         41501.390016
+Root relaxation solution time = 0.00 sec. (2.72 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    41501.3928    41501.3928      448    0.00%
+
+Elapsed time = 0.05 sec. (14.65 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 41501.392779 after 0.05 sec. (14.65 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (14.92 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (14.92 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 12115 rows and 7482 columns.
+Reduced MIP has 600 rows, 1451 columns, and 2573 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (7.19 ticks)
+Tried aggregator 1 time.
+MIP Presolve eliminated 2 rows and 5 columns.
+Reduced MIP has 598 rows, 1446 columns, and 2566 nonzeros.
+Reduced MIP has 0 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.42 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: none, using 1 thread.
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =         10881.121874
+Iteration:   123   Dual objective     =         26943.049104
+Iteration:   243   Dual objective     =         36512.486931
+Iteration:   346   Dual objective     =         37547.349677
+Iteration:   437   Dual objective     =         37597.350564
+Root relaxation solution time = 0.02 sec. (2.72 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+
+*     0     0      integral     0    37597.3557    37597.3557      478    0.00%
+
+Elapsed time = 0.03 sec. (14.53 ticks, tree = 0.00 MB
+, solutions = 1
+)
+Found incumbent of value 37597.355653 after 0.03 sec. (14.53 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.03 sec. (14.80 ticks)
+Sequential b&c:
+  Real time             =    0.00 sec. (0.00 ticks)
+                          ------------
+Total (root+branch&cut) =    0.03 sec. (14.80 ticks)

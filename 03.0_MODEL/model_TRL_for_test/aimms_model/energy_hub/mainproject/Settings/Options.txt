@@ -1,0 +1,17 @@
+﻿* AIMMS
+MIP_relative_optimality_tolerance 0.03
+solver_listing_messages 4
+* AOA
+* CBC 2.9
+* CONOPT 3.14V
+* CPLEX 12.6.2
+"CPLEX 12.6.2".MIP_display 4
+* CPOptimizer 12.6
+* IPOPT 3.11
+* MINOS
+* SNOPT 7.2
+* XA 15
+* CPLEX 12.6
+"CPLEX 12.6".mps 1
+* NETSOL
+* Environment

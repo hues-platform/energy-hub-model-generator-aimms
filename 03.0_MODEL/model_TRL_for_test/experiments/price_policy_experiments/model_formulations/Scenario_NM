@@ -1,0 +1,503 @@
+## ams_version=1.0
+Model Energy_Hub_Model {
+	DeclarationSection Sets {
+		Set Time {
+			SubsetOf: Integers;
+			Index: t, s;
+			InitialData: data{1 ..8760};
+		}
+		Set Energy_conversion_technologies {
+			Index: conv;
+			Definition: data {Gas_CHP,Gas_boiler,Grid,Heat_pump,Solar_PV,Solar_thermal};
+		}
+		Set Energy_storage_technologies {
+			Index: stor;
+			Definition: data {Battery,Hot_water_tank,Net_meter};
+		}
+		Set Energy_carriers {
+			Index: x;
+			Definition: data {Elec,Heat};
+		}
+	}
+	DeclarationSection Parameters {
+		Parameter Loads {
+			IndexDomain: (t,x);
+		}
+		Parameter Operating_costs {
+			IndexDomain: conv | conv <> 'Grid';
+			Definition: data {Gas_CHP:0.09,Gas_boiler:0.09,Heat_pump:0,Solar_PV:0,Solar_thermal:0};
+		}
+		Parameter Operating_costs_grid {
+			Definition:0.214;
+		}
+		Parameter OMV_costs {
+			IndexDomain: conv;
+			Definition: data {Gas_CHP:0.021,Gas_boiler:0.01,Grid:0,Heat_pump:0.1,Solar_PV:0.06,Solar_thermal:0.12 };
+		}
+		Parameter Linear_capital_costs {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0;
+			Definition: {
+			data {(Elec,Gas_CHP):2870,(Elec,Grid):0,(Elec,Solar_PV):325,(Heat,Gas_boiler):730,(Heat,Heat_pump):2270,(Heat,Solar_thermal):1350}
+			};
+		}
+		Parameter Fixed_capital_costs {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0;
+			Definition: {
+			data {(Elec,Gas_CHP):0,(Elec,Grid):0,(Elec,Solar_PV):0,(Heat,Gas_boiler):0,(Heat,Heat_pump):0,(Heat,Solar_thermal):0}
+			};
+		}
+		Parameter Electricity_feedin_price_renewables {
+			Definition:0;
+		}
+		Parameter Electricity_feedin_price_nonrenewables {
+			Definition:0;
+		}
+		Parameter Interest_rate {
+			Definition:0.08;
+		}
+		Parameter Lifetime {
+			IndexDomain: conv | conv <> "Grid";
+			Definition: data {Gas_CHP:20,Gas_boiler:30,Grid:0,Heat_pump:20,Solar_PV:25,Solar_thermal:25 };
+		}
+		Parameter CRF_tech {
+			IndexDomain: conv | conv <> "Grid";
+			Definition: Interest_rate/(1-(1/((1+Interest_rate)^(Lifetime(conv)))));
+		}
+		Parameter Cmatrix {
+			IndexDomain: (x,conv);
+			Definition: { data {(Elec,Grid):1,(Elec,Solar_PV):0.17,(Heat,Gas_boiler):0.94,(Heat,Heat_pump):3.2,(Heat,Solar_thermal):0.75,(Elec,Gas_CHP):0.3,(Heat,Gas_CHP):0.519,(Elec,Heat_pump):-1}
+			}
+		}
+		Parameter Min_allowable_capacity {
+			IndexDomain: conv | conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump';
+			Definition: data {Gas_CHP:0,Gas_boiler:0,Heat_pump:0 };
+		}
+		Parameter Max_allowable_capacity {
+			IndexDomain: conv | conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump';
+			Definition: data {Gas_CHP:100000,Gas_boiler:100000,Heat_pump:100000 };
+		}
+		Parameter Min_allowable_capacity_grid {
+			Definition:1000000;
+		}
+		Parameter Max_allowable_capacity_grid {
+			Definition:1000000;
+		}
+		Parameter Minimum_part_load {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump');
+			Definition: { data {(Elec,Gas_CHP):0,(Elec,Grid):0,(Elec,Solar_PV):0,(Heat,Gas_CHP):0,(Heat,Gas_boiler):0,(Heat,Heat_pump):0,(Heat,Solar_thermal):0}
+			;}
+		}
+		Parameter Linear_capital_costs_storage {
+			IndexDomain: stor;
+			Definition: data {Battery:430,Hot_water_tank:40,Net_meter:0 };
+		}
+		Parameter Fixed_capital_costs_storage {
+			IndexDomain: stor;
+			Definition: data {Battery:0,Hot_water_tank:0,Net_meter:0 };
+		}
+		Parameter Lifetime_storage {
+			IndexDomain: stor;
+			Definition: data {Battery:20,Hot_water_tank:20,Net_meter:100 };
+		}
+		Parameter CRF_stor {
+			IndexDomain: stor;
+			Definition: Interest_rate/(1-(1/((1+Interest_rate)^(Lifetime_storage(stor)))));
+		}
+		Parameter Smatrix {
+			IndexDomain: (x,stor);
+			Definition: { data {(Elec,Battery):1.0,(Elec,Net_meter):1.0,(Heat,Hot_water_tank):1.0}
+			}
+		}
+		Parameter Storage_max_charge_rate {
+			IndexDomain: stor;
+			Definition: data {Battery:0.3,Hot_water_tank:0.25,Net_meter:1 };
+		}
+		Parameter Storage_max_discharge_rate {
+			IndexDomain: stor;
+			Definition: data {Battery:0.3,Hot_water_tank:0.25,Net_meter:1 };
+		}
+		Parameter Storage_standing_losses {
+			IndexDomain: stor;
+			Definition: data {Battery:0.0001,Hot_water_tank:0.001,Net_meter:0 };
+		}
+		Parameter Storage_charging_efficiency {
+			IndexDomain: stor;
+			Definition: data {Battery:0.9,Hot_water_tank:0.9,Net_meter:1 };
+		}
+		Parameter Storage_discharging_efficiency {
+			IndexDomain: stor;
+			Definition: data {Battery:0.9,Hot_water_tank:0.9,Net_meter:1 };
+		}
+		Parameter Storage_min_SOC {
+			IndexDomain: stor;
+			Definition: data {Battery:0,Hot_water_tank:0,Net_meter:0 };
+		}
+		Parameter Storage_minimum_capacity {
+			IndexDomain: stor;
+			Definition: data {Battery:0,Hot_water_tank:0,Net_meter:100000 };
+		}
+		Parameter Storage_maximum_capacity {
+			IndexDomain: stor;
+			Definition: data {Battery:100000,Hot_water_tank:100000,Net_meter:100000 };
+		}
+		Parameter Building_roof_area {
+			Definition:12500;
+		}
+		Parameter Technology_carbon_factors {
+			IndexDomain: (conv);
+			Definition: data {Gas_CHP:0.198,Gas_boiler:0.198,Grid:0.137,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
+		}
+		Parameter Solar_radiation {
+			IndexDomain: t;
+		}
+		Parameter Big_M {
+			Definition: 100000;
+		}
+	}
+	DeclarationSection Variables {
+		Variable Input_energy {
+			IndexDomain: (t,conv);
+			Range: nonnegative;
+		}
+		Variable Exported_energy_nonrenewable {
+			IndexDomain: (t,x) | x = "Elec";
+			Range: nonnegative;
+		}
+		Variable Exported_energy_renewable {
+			IndexDomain: (t,x) | x = "Elec";
+			Range: nonnegative;
+		}
+		Variable Installation {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0;
+			Range: binary;
+		}
+		Variable Operation {
+			IndexDomain: (t,conv) | (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump' OR conv ='Solar_PV' OR conv ='Solar_thermal');
+			Range: binary;
+		}
+		Variable Capacity {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND conv <> 'Grid';
+			Range: nonnegative;
+		}
+		Variable Capacity_grid {
+			Range: nonnegative;
+		}
+		Variable Output_energy_electricity  {
+			IndexDomain: (t,conv) | Cmatrix('Elec',conv) > 0;
+			Range: nonnegative;
+			Definition: Input_energy(t,conv) * Cmatrix('Elec',conv);
+		}
+		Variable Output_energy_heat {
+			IndexDomain: (t,conv) | Cmatrix('Heat',conv) > 0;
+			Range: nonnegative;
+			Definition: Input_energy(t,conv) * Cmatrix('Heat',conv);
+		}
+		Variable Operating_cost_per_technology {
+			IndexDomain: conv | conv <> 'Grid';
+			Range: free;
+			Definition: Operating_costs(conv) * sum(t,Input_energy(t,conv));
+		}
+		Variable Maintenance_cost_per_technology {
+			IndexDomain: conv;
+			Range: nonnegative;
+			Definition: sum((t,x), Maintenance_cost_per_timestep(t,conv,x));
+		}
+		Variable Capital_cost_per_technology {
+			IndexDomain: conv;
+			Range: nonnegative;
+			Definition: sum(x, (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv));
+		}
+		Variable Total_cost_per_technology {
+			IndexDomain: conv | conv <> 'Grid';
+			Range: free;
+			Definition: Capital_cost_per_technology(conv) + Operating_cost_per_technology(conv) + Maintenance_cost_per_technology(conv);
+		}
+		Variable Total_cost_grid {
+			Range: free;
+			Definition: sum(conv | conv = 'Grid', Capital_cost_per_technology(conv) + Operating_cost_grid + Maintenance_cost_per_technology(conv));
+		}
+		Variable Storage_input_energy {
+			IndexDomain: (t,stor);
+			Range: nonnegative;
+		}
+		Variable Storage_output_energy {
+			IndexDomain: (t,stor);
+			Range: nonnegative;
+		}
+		Variable Storage_SOC {
+			IndexDomain: (t,stor);
+			Range: nonnegative;
+		}
+		Variable Storage_capacity {
+			IndexDomain: stor;
+			Range: nonnegative;
+		}
+		Variable Installation_storage {
+			IndexDomain: stor;
+			Range: binary;
+		}
+		Variable Capital_cost_per_storage {
+			IndexDomain: stor;
+			Range: nonnegative;
+			Definition: (Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor);
+		}
+		Variable Total_cost_per_storage {
+			IndexDomain: stor;
+			Range: free;
+			Definition: Capital_cost_per_storage(stor);
+		}
+		Variable Energy_demands {
+			IndexDomain: (t,x);
+			Range: nonnegative;
+			Definition: Loads(t,x);
+		}
+		Variable Total_carbon_per_technology {
+			IndexDomain: conv;
+			Range: free;
+			Definition: Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv));
+		}
+		Variable Total_carbon_per_timestep {
+			IndexDomain: t;
+			Range: free;
+			Definition: sum(conv,Technology_carbon_factors(conv)*Input_energy(t,conv));
+		}
+	}
+	DeclarationSection Objective_functions {
+		Variable Operating_cost_grid {
+			Range: free;
+			Definition: sum(conv | conv = 'Grid', sum(t, Operating_costs_grid * Input_energy(t,conv)));
+		}
+		Variable Operating_cost {
+			Range: free;
+			Definition: sum(conv | conv <> 'Grid', Operating_costs(conv) * sum(t,Input_energy(t,conv)));
+		}
+		Variable Maintenance_cost {
+			Range: nonnegative;
+			Definition: sum((t,conv,x), Maintenance_cost_per_timestep(t,conv,x));
+		}
+		Variable Maintenance_cost_per_timestep {
+			IndexDomain: (t,conv,x) | Cmatrix(x,conv) > 0;
+			Range: free;
+			Definition: Input_energy(t,conv) * Cmatrix(x,conv) * OMV_costs(conv);
+		}
+		Variable Income_via_exports {
+			Range: nonnegative;
+			Definition: sum(x | x = 'Elec', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x)));
+		}
+		Variable Capital_cost {
+			Range: nonnegative;
+			Definition: sum((x,conv), (Fixed_capital_costs(x,conv) * Installation(x,conv) + Linear_capital_costs(x,conv) * Capacity(x,conv)) * CRF_tech(conv)) + sum(stor,(Fixed_capital_costs_storage(stor) * Installation_storage(stor) + Linear_capital_costs_storage(stor) * Storage_capacity(stor)) * CRF_stor(stor));
+		}
+		Variable Total_cost {
+			Range: free;
+			Definition: Capital_cost + Operating_cost + Operating_cost_grid + Maintenance_cost - Income_via_exports;
+		}
+		Variable Total_carbon {
+			Range: free;
+			Definition: sum(conv,Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv)));
+		}
+	}
+	DeclarationSection Constraints {
+		Constraint Load_balance_constraint {
+			IndexDomain: (t,x);
+			Definition: sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor) - Storage_input_energy(t,stor)) * Smatrix(x,stor)) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x);
+		}
+		Constraint Capacity_constraint {
+			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump');
+			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(x,conv);
+		}
+		Constraint Minimum_capacity_constraint {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_boiler' OR conv ='Heat_pump');
+			Definition: Capacity(x,conv) >= Min_allowable_capacity(conv);
+		}
+		Constraint Maximum_capacity_constraint {
+			IndexDomain: (x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_boiler' OR conv ='Heat_pump');
+			Definition: Capacity(x,conv) <= Max_allowable_capacity(conv);
+		}
+		Constraint Dispatch_constraint {
+			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump' OR conv ='Solar_PV' OR conv ='Solar_thermal');
+			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Big_M * Operation(t,conv);
+		}
+		Constraint Part_load_constraint {
+			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Heat_pump' OR conv ='Solar_PV' OR conv ='Solar_thermal');
+			Definition: Input_energy(t,conv) * Cmatrix(x,conv) + Big_M * (1 - Operation(t,conv)) >= Minimum_part_load(x,conv) * Capacity(x,conv);
+		}
+		Constraint Solar_input_constraint {
+			IndexDomain: (t,conv,x) | Cmatrix(x, conv) > 0 AND (conv ='Solar_PV' OR conv ='Solar_thermal');
+			Definition: Input_energy(t,conv) = Solar_radiation(t) * Capacity(x,conv) / 1000;
+		}
+		Constraint Roof_area_constraint {
+			Definition:Capacity('Elec','Solar_PV')+Capacity('Heat','Solar_thermal') <= Building_roof_area;
+		}
+		Constraint Installation_constraint {
+			IndexDomain: (x,conv);
+			Definition: Capacity(x,conv) <= Big_M * Installation(x,conv);
+		}
+		Constraint Operation_constraint {
+			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0 AND (conv ='Gas_CHP' OR conv ='Gas_boiler' OR conv ='Grid' OR conv ='Heat_pump');
+			Definition: Operation(t,conv) <= Installation(x,conv);
+		}
+		Constraint Grid_capacity_violation_constraint_import {
+			IndexDomain: (t,conv) | conv='Grid';
+			Definition: Input_energy(t,conv) <= Capacity_grid;
+		}
+		Constraint Grid_capacity_violation_constraint_export {
+			IndexDomain: (t,x) | x='Elec';
+			Definition: Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) <= Capacity_grid;
+		}
+		Constraint Electricity_export_nonsolar_constraint {
+			IndexDomain: (t,x) | x='Elec';
+			Definition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv ='Gas_CHP'), Input_energy(t,conv) * Cmatrix(x,conv));
+		}
+		Constraint Electricity_export_solar_constraint {
+			IndexDomain: (t,x) | x='Elec';
+			Definition: Exported_energy_renewable(t,x) + Storage_input_energy(t,'Net_meter') <= sum(conv | (conv ='Solar_PV'), Input_energy(t,conv) * Cmatrix(x,conv));
+		}
+		Constraint Heat_CHP_HTP_constraint {
+			IndexDomain: conv | (conv ='Gas_CHP');
+			Definition: Capacity('Heat',conv) = Cmatrix('Heat', conv) / Cmatrix('Elec', conv) * Capacity('Elec',conv);
+		}
+		Constraint Heat_CHP_HTP_constraint2 {
+			IndexDomain: conv | (conv ='Gas_CHP');
+			Definition: Installation('Elec',conv) = Installation('Heat',conv);
+		}
+		Constraint CHP_installation_constraint {
+			IndexDomain: conv | (conv ='Gas_CHP');
+			Definition: Capacity('Elec',conv) <= Max_allowable_capacity(conv) * Installation('Elec',conv);
+		}
+		Constraint Storage_balance_constraint {
+			IndexDomain: (t,stor) | t > first(Time);
+			Definition: Storage_SOC(t,stor) = (1 - Storage_standing_losses(stor)) * Storage_SOC(t-1,stor) + Storage_charging_efficiency(stor) *  Storage_input_energy(t,stor) - (1 / Storage_discharging_efficiency(stor)) * Storage_output_energy(t,stor);
+		}
+		Constraint Storage_charging_rate_constraint {
+			IndexDomain: (t,stor);
+			Definition: Storage_input_energy(t,stor) <= Storage_max_charge_rate(stor) * Storage_capacity(stor);
+		}
+		Constraint Storage_discharging_rate_constraint {
+			IndexDomain: (t,stor);
+			Definition: Storage_output_energy(t,stor) <= Storage_max_discharge_rate(stor) * Storage_capacity(stor);
+		}
+		Constraint Storage_capacity_constraint {
+			IndexDomain: (t,stor);
+			Definition: Storage_SOC(t,stor) <= Storage_capacity(stor);
+		}
+		Constraint Storage_minimum_SOC_constraint {
+			IndexDomain: (t,stor);
+			Definition: Storage_SOC(t,stor) >= Storage_capacity(stor) * Storage_min_SOC(stor);
+		}
+		Constraint Storage_installation_constraint {
+			IndexDomain: stor;
+			Definition: Storage_capacity(stor) <= Big_M * Installation_storage(stor);
+		}
+		Constraint Storage_minimum_capacity_constraint {
+			IndexDomain: stor;
+			Definition: Storage_capacity(stor) >= Storage_minimum_capacity(stor);
+		}
+		Constraint Storage_maximum_capacity_constraint {
+			IndexDomain: stor;
+			Definition: Storage_capacity(stor) <= Storage_maximum_capacity(stor);
+		}
+		Constraint Storage_initialization_constraint_electricity1 {
+			IndexDomain: (t,stor) | t = first(Time) AND (stor ='Battery' OR stor ='Net_meter');
+			Definition: Storage_SOC(t,stor) = Storage_capacity(stor) * Storage_min_SOC(stor);
+		}
+		Constraint Storage_initialization_constrain_heat2 {
+			IndexDomain: (t,stor) | t = first(Time) AND (stor ='Hot_water_tank');
+			Definition: Storage_SOC(t,stor) = Storage_SOC(last(Time),stor);
+		}
+		Constraint Storage_initialization_constraint_heat3 {
+			IndexDomain: (t,stor) | t = first(Time) AND (stor ='Hot_water_tank');
+			Definition: Storage_output_energy(t,stor) = 0;
+		}
+	}
+	DeclarationSection Mathematical_programs {
+		MathematicalProgram Cost_minimization {
+			Objective: Total_cost;
+			Direction: minimize;
+			Constraints: AllConstraints;
+			Variables: AllVariables;
+			Type: Automatic;
+		}
+	}
+	Procedure Main_Execution {
+		Body: {
+			empty AllVariables;
+			Capacity('Heat','Gas_boiler').relax := 1;
+			Capacity('Heat','Heat_pump').relax := 1;
+			Capacity('Elec','Grid').relax := 1;
+			Load_Input_Data;
+			solve Cost_minimization;
+			Write_Output_Data;
+		}
+	}
+	Procedure Load_Input_Data {
+		Body: {
+			Spreadsheet::RetrieveParameter( "electricity_demand.xlsx", Loads(t,'Elec'),"A1:A8760","electricity_demand");
+			Spreadsheet::RetrieveParameter( "heating_demand.xlsx", Loads(t,'Heat'),"A1:A8760","heating_demand");
+			Spreadsheet::RetrieveParameter( "solar_inputs.xlsx", Solar_radiation(t),"A1:A8760","solar");
+		}
+	}
+	Procedure Write_Output_Data {
+		Body: {
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_demands.xlsx","Energy_demands");
+			Spreadsheet::AssignTable("results/NetMetering/results_demands.xlsx",Energy_demands,"B2:C8761","A2:A8761","B1:C1","Energy_demands",0,1,1);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_demands.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_conversion.xlsx","Input_energy");
+			Spreadsheet::AssignTable("results/NetMetering/results_conversion.xlsx",Input_energy,"B2:G8761","A2:A8761","B1:G1","Input_energy",0,1,1);
+			Spreadsheet::AddNewSheet("results/NetMetering/results_conversion.xlsx","Exported_energy_renewable");
+			Spreadsheet::AssignTable("results/NetMetering/results_conversion.xlsx",Exported_energy_renewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_renewable",0,1,1);
+			Spreadsheet::AddNewSheet("results/NetMetering/results_conversion.xlsx","Exported_energy_nonrenewable");
+			Spreadsheet::AssignTable("results/NetMetering/results_conversion.xlsx",Exported_energy_nonrenewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_nonrenewable",0,1,1);
+			Spreadsheet::AddNewSheet("results/NetMetering/results_conversion.xlsx","Output_energy_electricity");
+			Spreadsheet::AssignTable("results/NetMetering/results_conversion.xlsx",Output_energy_electricity,"B2:G8761","A2:A8761","B1:G1","Output_energy_electricity",0,1,1);
+			Spreadsheet::AddNewSheet("results/NetMetering/results_conversion.xlsx","Output_energy_heat");
+			Spreadsheet::AssignTable("results/NetMetering/results_conversion.xlsx",Output_energy_heat,"B2:G8761","A2:A8761","B1:G1","Output_energy_heat",0,1,1);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_conversion.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_storage.xlsx","Storage_input_energy");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_storage.xlsx","Storage_output_energy");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_storage.xlsx","Storage_SOC");
+			Spreadsheet::AssignTable("results/NetMetering/results_storage.xlsx",Storage_input_energy,"B2:D8761","A2:A8761","B1:D1","Storage_input_energy",0,1,1);
+			Spreadsheet::AssignTable("results/NetMetering/results_storage.xlsx",Storage_output_energy,"B2:D8761","A2:A8761","B1:D1","Storage_output_energy",0,1,1);
+			Spreadsheet::AssignTable("results/NetMetering/results_storage.xlsx",Storage_SOC,"B2:D8761","A2:A8761","B1:D1","Storage_SOC",0,1,1);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_storage.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_capacities.xlsx","Installation");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_capacities.xlsx","Capacity");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_capacities.xlsx","Storage_capacity");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_capacities.xlsx","Installation_storage");
+			Spreadsheet::AssignTable("results/NetMetering/results_capacities.xlsx",Installation,"B2:G3","A2:A3","B1:G1","Installation",0,1,1);
+			Spreadsheet::AssignTable("results/NetMetering/results_capacities.xlsx",Capacity,"B2:G3","A2:A3","B1:G1","Capacity",0,1,1);
+			Spreadsheet::AssignTable("results/NetMetering/results_capacities.xlsx",Storage_capacity,"B1:B3","A1:A3","","Storage_capacity",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_capacities.xlsx",Installation_storage,"B1:B3","A1:A3","","Installation_storage",0,1,3);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_capacities.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_costs.xlsx","Operating_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Maintenance_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Capital_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Total_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Operating_cost_grid");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Total_cost_grid");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Capital_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Total_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_costs.xlsx","Income_via_exports");
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Maintenance_cost_per_technology,"B1:B7","A1:A7","","Maintenance_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Capital_cost_per_technology,"B1:B7","A1:A7","","Capital_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Operating_cost_per_technology,"B1:B7","A1:A7","","Operating_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Total_cost_per_technology,"B1:B7","A1:A7","","Total_cost_per_technology",0,1,3);
+			Spreadsheet::AssignValue("results/NetMetering/results_costs.xlsx",Operating_cost_grid,"A1:A1","Operating_cost_grid");
+			Spreadsheet::AssignValue("results/NetMetering/results_costs.xlsx",Total_cost_grid,"A1:A1","Total_cost_grid");
+			Spreadsheet::AssignValue("results/NetMetering/results_costs.xlsx",Income_via_exports,"A1:A1","Income_via_exports");
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Capital_cost_per_storage,"B1:B4","A1:A4","","Capital_cost_per_storage",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_costs.xlsx",Total_cost_per_storage,"B1:B4","A1:A4","","Total_cost_per_storage",0,1,3);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_costs.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/NetMetering/results_emissions.xlsx","Total_carbon_per_technology");
+			Spreadsheet::AddNewSheet("results/NetMetering/results_emissions.xlsx","Total_carbon_per_timestep");
+			Spreadsheet::AssignTable("results/NetMetering/results_emissions.xlsx",Total_carbon_per_technology,"B1:B6","A1:A6","","Total_carbon_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/NetMetering/results_emissions.xlsx",Total_carbon_per_timestep,"B1:B8760","A1:A8760","","Total_carbon_per_timestep",0,1,3);
+			Spreadsheet::CloseWorkbook("results/NetMetering/results_emissions.xlsx",1);
+		}
+	}
+	Procedure Main_Termination {
+		Body: {
+			return 1;
+		}
+	}
+}

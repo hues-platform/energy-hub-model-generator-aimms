@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<PageManager>
+	<Page Name="All Data Pages" PageGUID="B1B209F8-EFBD-48B9-9F73-7F1BDB7BDED1">
+		<Page Name="[Data Page] P_TRLplus_storage" PageGUID="8A73554B-E9F0-4C00-8005-C58B41DE1F70" />
+		<Page Name="[Data Page] Output_energy" PageGUID="48B188BB-CD95-402C-A243-1039F24FE8D1" />
+		<Page Name="[Data Page] a_D_TRLplus" PageGUID="19D0957A-AA6D-432A-9E7E-D315F3805B4E" />
+		<Page Name="[Data Page] Income_E_D_TRLplus" PageGUID="87ADF8AD-1022-4107-943C-7284DB465803" />
+		<Page Name="[Data Page] Income_E_W_TRLplus" PageGUID="4EA6C16C-9CA6-47A6-B9C9-1D2175435C68" />
+		<Page Name="[Data Page] Storage_output_energy" PageGUID="8C2D132D-0F31-43F8-8DD2-493845066DC7" />
+		<Page Name="[Data Page] Input_energy" PageGUID="57921F94-E102-4BF9-BFAF-79C16949F1B5" />
+		<Page Name="[Data Page] Storage_SOC" PageGUID="86F9297A-081D-4EE2-BF9C-42AA7124510E" />
+	</Page>
+</PageManager>
