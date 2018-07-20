@@ -46,7 +46,7 @@ Software requirements:
 3. Visualization of results is executed via an R Script, and uses the R packages openxlsx, ggplot2, sqldf and reshape2. R can be downloaded for free from https://www.r-project.org/.
 4. The Ehub Modeling Tool has been tested on a Windows OS, but should also function with minimal changes on other systems as well. _NOTE: The CSV inputs to the Ehub Modeling Tool use comma-separated formatting. If your OS uses a semicolen as the default list separator, this will cause errors.  On Windows, this can be checked/changed at Control Panel -> Region and language -> Additional settings -> List separator (under the "Numbers" tab)._
 
-Download the Ehub Modeling Tool from [Github](https://github.com/hues-platform/ehub_modeling_tool) (click the "Clone or download" button). Place the downloaded files in a convenient location in your system.
+Download the Ehub Modeling Tool from [Github](https://github.com/hues-platform/ehub-modeling-tool) (click the "Clone or download" button). Place the downloaded files in a convenient location in your system.
 
 ##2. Create an experiment folder
 
