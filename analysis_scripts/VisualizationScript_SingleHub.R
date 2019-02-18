@@ -20,7 +20,7 @@ library(sqldf)
 options(stringsAsFactors = FALSE)
 
 # set the working directory - the path to the directory where the results are stored
-setwd("C:\\Users\\boa\\Documents\\Repositories_Github\\energy-hub-model-generator-aimms\\analysis_scripts\\test_data")
+setwd("D:\\Surfdrive\\Modelleren\\EnergyHub\\ehub-modeling-tool-master\\analysis_scripts\\test_data")
 
 #set the experiments - list the names of the directories containing the XLSX results files from AIMMS
 experiments = c("experiment1","experiment2","experiment3")

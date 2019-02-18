@@ -31,9 +31,9 @@ if visualize_model_results == 1
     path_for_r = strrep(path_for_r,'\','//');
     
     if select_techs_and_do_sizing == 0
-        [status.run,out] = system(['Rscript ',analysis_scripts_path,'generate_plots.R ',path_for_r]);
+        [status.run,out] = system(['D:\R\R-3.5.2\bin\Rscript ',analysis_scripts_path,'generate_plots.R ',path_for_r]);
     else
-        [status.run,out] = system(['Rscript ',analysis_scripts_path,'generate_plots.R ',path_for_r]);
+        [status.run,out] = system(['D:\R\R-3.5.2\bin\Rscript ',analysis_scripts_path,'generate_plots.R ',path_for_r]);
     end
     disp('EHM results visualized successfully!');
 end
