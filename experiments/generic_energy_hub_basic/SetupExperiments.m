@@ -10,11 +10,10 @@ clc
 
 %% SET THE DIRECTORIES
 
-%set this to the path of the experiment folder
-experiment_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\experiments\generic_energy_hub_basic\';
-
-%set this path to the root of the project
-project_root_path = 'C:\Users\boa\Documents\Repositories_Github\energy-hub-model-generator-aimms\';
+experiment_path = 'D:\Surfdrive\Modelleren\EnergyHub\ehub-modeling-tool\experiments\generic_energy_hub_basic\';
+project_root_path = 'D:\Surfdrive\Modelleren\EnergyHub\ehub-modeling-tool\';
+aimms_executable_path = 'C:\Program Files (x86)\AIMMS\IFA\Aimms\4.62.1.4-x64-VS2017\Bin\aimms.exe';
+analysis_scripts_path = 'D:\Surfdrive\Modelleren\EnergyHub\ehub-modeling-tool\analysis_scripts\';
 
 cd(project_root_path);
 
