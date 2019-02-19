@@ -1,2 +1,2 @@
-Syntax error at line 1 in the definition of constraint "Electricity_export_nonsolar_constraint", column 69.
-The symbol ")" is not expected.
+Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 78.
+Unexpected end of the definition of constraint "Electricity_export_storage_constraint".

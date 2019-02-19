@@ -10,10 +10,6 @@ Model Energy_Hub_Model {
 			Index: conv;
 			Definition: data {Gas_boiler,Grid};
 		}
-		Set Energy_storage_technologies {
-			Index: stor;
-			Definition: data {Hot_water_tank,Net_meter};
-		}
 		Set Energy_carriers {
 			Index: x;
 			Definition: data {Elec,Heat};
@@ -54,38 +50,33 @@ Model Energy_Hub_Model {
 			Definition: { data {(Gas_boiler,1):45,(Gas_boiler,2):45};
 			}
 		}
-		Parameter Smatrix {
-			IndexDomain: (x,stor);
-			Definition: { data {(Heat,Hot_water_tank):1.0,(Elec,Net_meter):1.0}
-			}
-		}
 		Parameter Storage_max_charge_rate {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0.25,Net_meter:1 };
+			IndexDomain: x;
+			Definition: data {Heat:0.25 };
 		}
 		Parameter Storage_max_discharge_rate {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0.25,Net_meter:1 };
+			IndexDomain: x;
+			Definition: data {Heat:0.25 };
 		}
 		Parameter Storage_standing_losses {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0.01,Net_meter:0 };
+			IndexDomain: x;
+			Definition: data {Heat:0.01 };
 		}
 		Parameter Storage_charging_efficiency {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0.9,Net_meter:1 };
+			IndexDomain: x;
+			Definition: data {Heat:0.9 };
 		}
 		Parameter Storage_discharging_efficiency {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0.9,Net_meter:1 };
+			IndexDomain: x;
+			Definition: data {Heat:0.9 };
 		}
 		Parameter Storage_min_SOC {
-			IndexDomain: stor;
-			Definition: data {Hot_water_tank:0,Net_meter:0 };
+			IndexDomain: x;
+			Definition: data {Heat:0 };
 		}
 		Parameter Storage_capacity {
-			IndexDomain:(stor,h);
-			Definition: { data {(Hot_water_tank,1):12.8,(Hot_water_tank,2):12.8};
+			IndexDomain:(x,h);
+			Definition: { data {(Heat,1):12.8,(Heat,2):12.8};
 			}
 		}
 		Parameter Link_installation  {
@@ -154,15 +145,15 @@ Model Energy_Hub_Model {
 			Definition: sum(conv | conv = 'Grid', Operating_cost_grid + Maintenance_cost_per_technology(conv));
 		}
 		Variable Storage_input_energy {
-			IndexDomain: (t,stor,h);
+			IndexDomain: (t,x,h) | x ='Heat';
 			Range: nonnegative;
 		}
 		Variable Storage_output_energy {
-			IndexDomain: (t,stor,h);
+			IndexDomain: (t,x,h) | x ='Heat';
 			Range: nonnegative;
 		}
 		Variable Storage_SOC {
-			IndexDomain: (t,stor,h);
+			IndexDomain: (t,x,h) | x ='Heat';
 			Range: nonnegative;
 		}
 		Variable Link_flow {
@@ -228,7 +219,7 @@ Model Energy_Hub_Model {
 	DeclarationSection Constraints {
 		Constraint Load_balance_constraint {
 			IndexDomain: (t,x,h);
-			Definition:sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x,h)+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + Exported_energy_storage(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));
+			Definition:sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + Storage_output_energy(t,x,h) - Storage_input_energy(t,x,h) = Loads(t,x,h)+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + Exported_energy_storage(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));
 		}
 		Constraint Capacity_constraint_Gas_boiler {
 			IndexDomain: (t,x,conv,h) | (conv = 'Gas_boiler') AND (x = 'Heat');
@@ -236,39 +227,39 @@ Model Energy_Hub_Model {
 		}
 		Constraint Electricity_export_nonsolar_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv) | (conv =), Input_energy(t,conv,h) * Cmatrix(x,conv));
+			Definition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv), Input_energy(t,conv,h) * Cmatrix(x,conv));
 		}
 		Constraint Electricity_export_storage_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor ='Net_meter'), (Storage_output_energy(t,stor,h)));
+			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h));
 		}
 		Constraint Storage_balance_constraint {
-			IndexDomain: (t,stor,h) | t > first(Time);
-			Definition: Storage_SOC(t,stor,h) = (1 - Storage_standing_losses(stor)) * Storage_SOC(t-1,stor,h) + Storage_charging_efficiency(stor) *  Storage_input_energy(t,stor,h) - (1 / Storage_discharging_efficiency(stor)) * Storage_output_energy(t,stor,h);
+			IndexDomain: (t,x,h) | t > first(Time);
+			Definition: Storage_SOC(t,x,h) = (1 - Storage_standing_losses(x)) * Storage_SOC(t-1,x,h) + Storage_charging_efficiency(x) *  Storage_input_energy(t,x,h) - (1 / Storage_discharging_efficiency(x)) * Storage_output_energy(t,x,h);
 		}
 		Constraint Storage_charging_rate_constraint {
-			IndexDomain: (t,stor,h);
-			Definition: Storage_input_energy(t,stor,h) <= Storage_max_charge_rate(stor) * Storage_capacity(stor,h);
+			IndexDomain: (t,x,h);
+			Definition: Storage_input_energy(t,x,h) <= Storage_max_charge_rate(x) * Storage_capacity(x,h);
 		}
 		Constraint Storage_discharging_rate_constraint {
-			IndexDomain: (t,stor,h);
-			Definition: Storage_output_energy(t,stor,h) <= Storage_max_discharge_rate(stor) * Storage_capacity(stor,h);
+			IndexDomain: (t,x,h);
+			Definition: Storage_output_energy(t,x,h) <= Storage_max_discharge_rate(x) * Storage_capacity(x,h);
 		}
 		Constraint Storage_capacity_constraint {
-			IndexDomain: (t,stor,h);
-			Definition: Storage_SOC(t,stor,h) <= Storage_capacity(stor,h);
+			IndexDomain: (t,x,h);
+			Definition: Storage_SOC(t,x,h) <= Storage_capacity(x,h);
 		}
 		Constraint Storage_minimum_SOC_constraint {
-			IndexDomain: (t,stor,h);
-			Definition: Storage_SOC(t,stor,h) >= Storage_capacity(stor,h) * Storage_min_SOC(stor);
+			IndexDomain: (t,x,h);
+			Definition: Storage_SOC(t,x,h) >= Storage_capacity(x,h) * Storage_min_SOC(x);
 		}
 		Constraint Storage_initialization_2 {
-			IndexDomain: (t,stor,h) | t = first(Time);
-			Definition: Storage_SOC(t,stor,h) = Storage_SOC(last(Time),stor,h);
+			IndexDomain: (t,x,h) | t = first(Time);
+			Definition: Storage_SOC(t,x,h) = Storage_SOC(last(Time),x,h);
 		}
 		Constraint Storage_initialization_3 {
-			IndexDomain: (t,stor,h) | t = first(Time);
-			Definition: Storage_output_energy(t,stor,h) = 0;
+			IndexDomain: (t,x,h) | t = first(Time);
+			Definition: Storage_output_energy(t,x,h) = 0;
 		}
 		Constraint Link_installation_constraint {
 			IndexDomain: (x,h,hh);
@@ -346,15 +337,15 @@ Model Energy_Hub_Model {
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_input_energy1");
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_output_energy1");
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_SOC1");
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_input_energy1",0,1,1);
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_output_energy1",0,1,1);
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_SOC1",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,x,'1'),"B2:B8761","A2:A8761","B1:B1","Storage_input_energy1",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,x,'1'),"B2:B8761","A2:A8761","B1:B1","Storage_output_energy1",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,x,'1'),"B2:B8761","A2:A8761","B1:B1","Storage_SOC1",0,1,1);
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_input_energy2");
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_output_energy2");
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_SOC2");
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_input_energy2",0,1,1);
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_output_energy2",0,1,1);
-			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_SOC2",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,x,'2'),"B2:B8761","A2:A8761","B1:B1","Storage_input_energy2",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,x,'2'),"B2:B8761","A2:A8761","B1:B1","Storage_output_energy2",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,x,'2'),"B2:B8761","A2:A8761","B1:B1","Storage_SOC2",0,1,1);
 			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_storage.xlsx",1);
 			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_operation_Heat_1_2");
 			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_flow_Heat_1_2");
