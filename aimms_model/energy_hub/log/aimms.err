@@ -1,8 +1,4 @@
-Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 78.
-Unexpected end of the definition of constraint "Electricity_export_storage_constraint".
-Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 79.
-Unexpected end of the definition of constraint "Electricity_export_storage_constraint".
-Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 81.
-Unexpected end of the definition of constraint "Electricity_export_storage_constraint".
-Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 83.
-Unexpected end of the definition of constraint "Electricity_export_storage_constraint".
+Syntax error at line 44 in user-defined function section "Write_Output_Data", column 38.
+The symbol "AddNewSheet" is not expected.
+Syntax error at line 44 in user-defined function section "Write_Output_Data", column 38.
+The symbol "AddNewSheet" is not expected.
