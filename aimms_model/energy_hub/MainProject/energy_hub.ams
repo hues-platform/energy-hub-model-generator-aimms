@@ -231,7 +231,7 @@ Model Energy_Hub_Model {
 		}
 		Constraint Electricity_export_storage_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h));
+			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h)));
 		}
 		Constraint Storage_balance_constraint {
 			IndexDomain: (t,x,h) | t > first(Time);

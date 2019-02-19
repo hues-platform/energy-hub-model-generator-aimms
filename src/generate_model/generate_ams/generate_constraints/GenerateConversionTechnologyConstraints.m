@@ -343,7 +343,7 @@ if apply_constraint_storage_export == 1
         if multiple_hubs == 0
             constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_storage(t,x) <= Storage_output_energy(t,x);\n\t\t}');
         else
-            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h));\n\t\t}');
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum(h, (Storage_output_energy(t,x,h)));\n\t\t}');
         end
     else
         included_techs = unique_technologies.storage_techs_names(find(strcmp(unique_technologies.storage_techs_types,'Elec')));
