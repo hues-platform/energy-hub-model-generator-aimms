@@ -38,7 +38,7 @@ if apply_constraint_energy_balance == 1
             exported_energy_storage_string = ' + Exported_energy_storage(t,x)';
         end
 
-        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x)',exported_energy_string,exported_energy_storage_string,';\n\t\t}');
+        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x,h)',exported_energy_string,exported_energy_storage_string,';\n\t\t}');
     else
         if isempty(technologies.conversion_techs_names) == 0
             conversion_tech_string = 'sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv))';
@@ -68,7 +68,7 @@ if apply_constraint_energy_balance == 1
             exported_energy_storage_string = ' + Exported_energy_storage(t,x,h)';
         end
 
-        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x)',exported_energy_string,exported_energy_storage_string,' + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}');
+        constraint_energy_balance = strcat('\n\t\tConstraint Load_balance_constraint {\n\t\t\tIndexDomain: (t,x,h);\n\t\t\tDefinition: ',conversion_tech_string,storage_tech_string,' = Loads(t,x,h)',exported_energy_string,exported_energy_storage_string,' + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));\n\t\t}');
     end
 end
     
@@ -343,9 +343,9 @@ if apply_constraint_storage_export == 1
             end
         end   
         if multiple_hubs == 0
-            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_storage(t,x) <= sum(stor | (stor = ',definition_string,'), (Storage_output_energy(t,stor));\n\t\t}');
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: Exported_energy_storage(t,x) <= sum(stor | (stor = ',definition_string,'), (Storage_output_energy(t,stor)));\n\t\t}');
         else
-            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor = ',definition_string,'), (Storage_output_energy(t,stor,h));\n\t\t}');
+            constraint_storage_export = strcat('\n\t\tConstraint Electricity_export_storage_constraint {\n\t\t\tIndexDomain: (t,x) | x=''Elec'';\n\t\t\tDefinition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor = ',definition_string,'), (Storage_output_energy(t,stor,h)));\n\t\t}');
         end
     end
 end
