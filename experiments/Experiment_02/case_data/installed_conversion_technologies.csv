@@ -1,0 +1,11 @@
+Technology name,Gas boiler,Gas boiler
+Output type 1,Heat,Heat
+Output type 2,,
+Input type 1,Gas,Gas
+Input type 2,,
+Efficiency,0.94,0.94
+Minimum part load,0,0
+Output ratio,0,0
+Input ratio,0,0
+Capacity,45,45
+Node,1,2

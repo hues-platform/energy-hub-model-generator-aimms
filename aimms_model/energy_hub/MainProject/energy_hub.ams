@@ -8,79 +8,105 @@ Model Energy_Hub_Model {
 		}
 		Set Energy_conversion_technologies {
 			Index: conv;
-			Definition: data {Gas_CHP1,Gas_CHP2,Gas_CHP3,Gas_boiler,Grid,Heat_pump,Solar_PV,Solar_thermal};
+			Definition: data {Gas_boiler,Grid};
+		}
+		Set Energy_storage_technologies {
+			Index: stor;
+			Definition: data {Hot_water_tank,Net_meter};
 		}
 		Set Energy_carriers {
 			Index: x;
 			Definition: data {Elec,Heat};
 		}
+		Set Hubs {
+			Index: h,hh;
+			Definition: data {1,2};
+		}
 	}
 	DeclarationSection Parameters {
 		Parameter Loads {
-			IndexDomain: (t,x);
+			IndexDomain: (t,x,h);
 		}
 		Parameter Operating_costs {
 			IndexDomain: conv | conv <> 'Grid';
-			Definition: data {Gas_CHP1:0.09,Gas_CHP2:0.09,Gas_CHP3:0.09,Gas_boiler:0.09,Heat_pump:0,Solar_PV:0,Solar_thermal:0};
+			Definition: data {Gas_boiler:0.09};
 		}
 		Parameter Operating_costs_grid {
-			Definition:0.24;
+			Definition:0.23;
 		}
 		Parameter OMV_costs {
 			IndexDomain: conv;
-			Definition: data {Gas_CHP1:0,Gas_CHP2:0,Gas_CHP3:0,Gas_boiler:0,Grid:0,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
+			Definition: data {Gas_boiler:0,Grid:0 };
 		}
 		Parameter Electricity_feedin_price_renewables {
-			Definition:0.14;
+			Definition:0.05;
 		}
 		Parameter Electricity_feedin_price_nonrenewables {
-			Definition:0.14;
+			Definition:0.05;
 		}
 		Parameter Cmatrix {
 			IndexDomain: (x,conv);
-			Definition: { data {(Heat,Gas_boiler):0.94,(Elec,Grid):1,(Heat,Heat_pump):3.2,(Elec,Solar_PV):0.14,(Heat,Solar_thermal):0.46,(Elec,Gas_CHP1):0.3,(Heat,Gas_CHP1):0.519,(Elec,Gas_CHP2):0.3,(Heat,Gas_CHP2):0.519,(Elec,Gas_CHP3):0.3,(Heat,Gas_CHP3):0.519,(Elec,Heat_pump):-1}
+			Definition: { data {(Heat,Gas_boiler):0.94,(Elec,Grid):1}
 			}
 		}
 		Parameter Capacity {
-			IndexDomain:conv;
-			Definition: { data {Heat_pump:100,Gas_boiler:100,Gas_CHP1:50,Gas_CHP2:50,Gas_CHP3:50,Solar_PV:50,Solar_thermal:50};
+			IndexDomain:(conv,h);
+			Definition: { data {(Gas_boiler,1):45,(Gas_boiler,2):45};
+			}
+		}
+		Parameter Smatrix {
+			IndexDomain: (x,stor);
+			Definition: { data {(Heat,Hot_water_tank):1.0,(Elec,Net_meter):1.0}
 			}
 		}
 		Parameter Storage_max_charge_rate {
-			IndexDomain: x;
-			Definition: data {Elec:0.3,Heat:0.25 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0.25,Net_meter:1 };
 		}
 		Parameter Storage_max_discharge_rate {
-			IndexDomain: x;
-			Definition: data {Elec:0.3,Heat:0.25 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0.25,Net_meter:1 };
 		}
 		Parameter Storage_standing_losses {
-			IndexDomain: x;
-			Definition: data {Elec:0.001,Heat:0.01 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0.01,Net_meter:0 };
 		}
 		Parameter Storage_charging_efficiency {
-			IndexDomain: x;
-			Definition: data {Elec:0.9,Heat:0.9 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0.9,Net_meter:1 };
 		}
 		Parameter Storage_discharging_efficiency {
-			IndexDomain: x;
-			Definition: data {Elec:0.9,Heat:0.9 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0.9,Net_meter:1 };
 		}
 		Parameter Storage_min_SOC {
-			IndexDomain: x;
-			Definition: data {Elec:0.3,Heat:0 };
+			IndexDomain: stor;
+			Definition: data {Hot_water_tank:0,Net_meter:0 };
 		}
 		Parameter Storage_capacity {
-			IndexDomain:(x);
-			Definition: { data {Elec:100,Heat:100};
+			IndexDomain:(stor,h);
+			Definition: { data {(Hot_water_tank,1):12.8,(Hot_water_tank,2):12.8};
 			}
+		}
+		Parameter Link_installation  {
+			IndexDomain: (x,h,hh);
+			Definition: data {(Heat,1,2) : 1,(Elec,1,2) : 1 };
+		}
+		Parameter Link_length  {
+			IndexDomain: (x,h,hh);
+			Definition: data {(Heat,1,2):10,(Elec,1,2):10 };
+		}
+		Parameter Link_losses_per_meter  {
+			IndexDomain: (x,h,hh);
+			Definition: data {(Heat,1,2):0,(Elec,1,2):0 };
+		}
+		Parameter Link_capacity  {
+			IndexDomain: (x,h,hh);
+			Definition: data {(Heat,1,2):100,(Elec,1,2):10000 };
 		}
 		Parameter Technology_carbon_factors {
 			IndexDomain: (conv);
-			Definition: data {Gas_CHP1:0.198,Gas_CHP2:0.198,Gas_CHP3:0.198,Gas_boiler:0.198,Grid:0.137,Heat_pump:0,Solar_PV:0,Solar_thermal:0 };
-		}
-		Parameter Solar_radiation {
-			IndexDomain: t;
+			Definition: data {Gas_boiler:0.198,Grid:0.137 };
 		}
 		Parameter Big_M {
 			Definition: 100000;
@@ -88,35 +114,35 @@ Model Energy_Hub_Model {
 	}
 	DeclarationSection Variables {
 		Variable Input_energy {
-			IndexDomain: (t,conv);
+			IndexDomain: (t,conv,h);
 			Range: nonnegative;
 		}
 		Variable Exported_energy_nonrenewable {
-			IndexDomain: (t,x) | x = "Elec";
+			IndexDomain: (t,x,h) | x = "Elec";
 			Range: nonnegative;
 		}
 		Variable Exported_energy_renewable {
-			IndexDomain: (t,x) | x = "Elec";
+			IndexDomain: (t,x,h) | x = "Elec";
 			Range: nonnegative;
 		}
 		Variable Exported_energy_storage {
-			IndexDomain: (t,x) | x = "Elec";
+			IndexDomain: (t,x,h) | x = "Elec";
 			Range: nonnegative;
 		}
 		Variable Output_energy  {
-			IndexDomain: (t,x,conv) | Cmatrix(x,conv) > 0;
+			IndexDomain: (t,x,conv,h) | Cmatrix(x,conv) > 0;
 			Range: nonnegative;
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv);
+			Definition: Input_energy(t,conv,h) * Cmatrix(x,conv);
 		}
 		Variable Operating_cost_per_technology {
 			IndexDomain: conv | conv <> 'Grid';
 			Range: free;
-			Definition: Operating_costs(conv) * sum(t,Input_energy(t,conv));
+			Definition: Operating_costs(conv) * sum((t,h),Input_energy(t,conv,h));
 		}
 		Variable Maintenance_cost_per_technology {
 			IndexDomain: conv;
 			Range: nonnegative;
-			Definition: sum((t,x), Maintenance_cost_per_timestep(t,conv,x));
+			Definition: sum((t,x,h), Maintenance_cost_per_timestep(t,conv,x,h));
 		}
 		Variable Total_cost_per_technology {
 			IndexDomain: conv | conv <> 'Grid';
@@ -128,54 +154,67 @@ Model Energy_Hub_Model {
 			Definition: sum(conv | conv = 'Grid', Operating_cost_grid + Maintenance_cost_per_technology(conv));
 		}
 		Variable Storage_input_energy {
-			IndexDomain: (t,x) | x ='Elec' OR x ='Heat';
+			IndexDomain: (t,stor,h);
 			Range: nonnegative;
 		}
 		Variable Storage_output_energy {
-			IndexDomain: (t,x) | x ='Elec' OR x ='Heat';
+			IndexDomain: (t,stor,h);
 			Range: nonnegative;
 		}
 		Variable Storage_SOC {
-			IndexDomain: (t,x) | x ='Elec' OR x ='Heat';
+			IndexDomain: (t,stor,h);
 			Range: nonnegative;
 		}
-		Variable Energy_demands {
-			IndexDomain: (t,x);
+		Variable Link_flow {
+			IndexDomain: (t,x,h,hh);
 			Range: nonnegative;
-			Definition: Loads(t,x);
+		}
+		Variable Link_operation {
+			IndexDomain: (t,x,h,hh);
+			Range: binary;
+		}
+		Variable Link_losses {
+			IndexDomain: (t,x,h,hh);
+			Range: nonnegative;
+			Definition: Link_flow(t,x,h,hh) * Link_losses_per_meter(x,h,hh) * Link_length(x,h,hh);
+		}
+		Variable Energy_demands {
+			IndexDomain: (t,x,h);
+			Range: nonnegative;
+			Definition: Loads(t,x,h);
 		}
 		Variable Total_carbon_per_technology {
 			IndexDomain: conv;
 			Range: free;
-			Definition: Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv));
+			Definition: Technology_carbon_factors(conv)*sum((t,h),Input_energy(t,conv,h));
 		}
 		Variable Total_carbon_per_timestep {
 			IndexDomain: t;
 			Range: free;
-			Definition: sum(conv,Technology_carbon_factors(conv)*Input_energy(t,conv));
+			Definition: sum((conv,h),Technology_carbon_factors(conv)*Input_energy(t,conv,h));
 		}
 	}
 	DeclarationSection Objective_functions {
 		Variable Operating_cost_grid {
 			Range: free;
-			Definition: sum(conv | conv = 'Grid', sum(t, Operating_costs_grid * Input_energy(t,conv)));
+			Definition: sum(conv | conv = 'Grid', sum((t,h), Operating_costs_grid * Input_energy(t,conv,h)));
 		}
 		Variable Operating_cost {
 			Range: free;
-			Definition: sum(conv | conv <> 'Grid', Operating_costs(conv) * sum(t,Input_energy(t,conv)));
+			Definition: sum(conv | conv <> 'Grid', Operating_costs(conv) * sum((t,h),Input_energy(t,conv,h)));
 		}
 		Variable Maintenance_cost {
 			Range: nonnegative;
-			Definition: sum((t,conv,x), Maintenance_cost_per_timestep(t,conv,x));
+			Definition: sum((t,conv,x,h), Maintenance_cost_per_timestep(t,conv,x,h));
 		}
 		Variable Maintenance_cost_per_timestep {
-			IndexDomain: (t,conv,x) | Cmatrix(x,conv) > 0;
+			IndexDomain: (t,conv,x,h) | Cmatrix(x,conv) > 0;
 			Range: free;
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) * OMV_costs(conv);
+			Definition: Input_energy(t,conv,h) * Cmatrix(x,conv) * OMV_costs(conv);
 		}
 		Variable Income_via_exports {
 			Range: nonnegative;
-			Definition: sum(x | x = 'Elec', Electricity_feedin_price_renewables * sum(t, Exported_energy_renewable(t,x)) + Electricity_feedin_price_nonrenewables * sum(t, Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x)));
+			Definition: sum(x | x = 'Elec', Electricity_feedin_price_renewables * sum((t,h), Exported_energy_renewable(t,x,h)) + Electricity_feedin_price_nonrenewables * sum((t,h), Exported_energy_nonrenewable(t,x,h)));
 		}
 		Variable Total_cost {
 			Range: free;
@@ -183,77 +222,69 @@ Model Energy_Hub_Model {
 		}
 		Variable Total_carbon {
 			Range: free;
-			Definition: sum(conv,Technology_carbon_factors(conv)*sum(t,Input_energy(t,conv)));
+			Definition: sum(conv,Technology_carbon_factors(conv)*sum((t,h),Input_energy(t,conv,h)));
 		}
 	}
 	DeclarationSection Constraints {
 		Constraint Load_balance_constraint {
-			IndexDomain: (t,x);
-			Definition:sum(conv, Input_energy(t,conv) * Cmatrix(x,conv)) + Storage_output_energy(t,x) - Storage_input_energy(t,x) = Loads(t,x) + Exported_energy_renewable(t,x) + Exported_energy_nonrenewable(t,x) + Exported_energy_storage(t,x);
-		}
-		Constraint Capacity_constraint_Gas_CHP1 {
-			IndexDomain: (t,x,conv) | (conv = 'Gas_CHP1') AND (x = 'Elec');
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(conv);
-		}
-		Constraint Capacity_constraint_Gas_CHP2 {
-			IndexDomain: (t,x,conv) | (conv = 'Gas_CHP2') AND (x = 'Elec');
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(conv);
-		}
-		Constraint Capacity_constraint_Gas_CHP3 {
-			IndexDomain: (t,x,conv) | (conv = 'Gas_CHP3') AND (x = 'Elec');
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(conv);
+			IndexDomain: (t,x,h);
+			Definition:sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x)+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + Exported_energy_storage(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));
 		}
 		Constraint Capacity_constraint_Gas_boiler {
-			IndexDomain: (t,x,conv) | (conv = 'Gas_boiler') AND (x = 'Heat');
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(conv);
-		}
-		Constraint Capacity_constraint_Heat_pump {
-			IndexDomain: (t,x,conv) | (conv = 'Heat_pump') AND (x = 'Heat');
-			Definition: Input_energy(t,conv) * Cmatrix(x,conv) <= Capacity(conv);
-		}
-		Constraint Solar_input_constraint {
-			IndexDomain: (t,conv) | (conv ='Solar_PV' OR conv ='Solar_thermal');
-			Definition: Input_energy(t,conv) <= Solar_radiation(t) * Capacity(conv) / 1000;
-		}
-		Constraint Electricity_export_solar_constraint {
-			IndexDomain: (t,x) | x='Elec';
-			Definition: Exported_energy_renewable(t,x) <= sum(conv | (conv ='Solar_PV'), Input_energy(t,conv) * Cmatrix(x,conv));
+			IndexDomain: (t,x,conv,h) | (conv = 'Gas_boiler') AND (x = 'Heat');
+			Definition: Input_energy(t,conv,h) * Cmatrix(x,conv) <= Capacity(conv,h);
 		}
 		Constraint Electricity_export_nonsolar_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: Exported_energy_nonrenewable(t,x) <= sum(conv | (conv ='Gas_CHP1' OR conv ='Gas_CHP2' OR conv ='Gas_CHP3'), Input_energy(t,conv) * Cmatrix(x,conv));
+			Definition: sum(h,Exported_energy_nonrenewable(t,x,h)) <= sum((h,conv) | (conv =), Input_energy(t,conv,h) * Cmatrix(x,conv));
 		}
 		Constraint Electricity_export_storage_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: Exported_energy_storage(t,x) <= Storage_output_energy(t,x);
+			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor ='Net_meter'), (Storage_output_energy(t,stor,h));
 		}
 		Constraint Storage_balance_constraint {
-			IndexDomain: (t,x) | t > first(Time);
-			Definition: Storage_SOC(t,x) = (1 - Storage_standing_losses(x)) * Storage_SOC(t-1,x) + Storage_charging_efficiency(x) *  Storage_input_energy(t,x) - (1 / Storage_discharging_efficiency(x)) * Storage_output_energy(t,x);
+			IndexDomain: (t,stor,h) | t > first(Time);
+			Definition: Storage_SOC(t,stor,h) = (1 - Storage_standing_losses(stor)) * Storage_SOC(t-1,stor,h) + Storage_charging_efficiency(stor) *  Storage_input_energy(t,stor,h) - (1 / Storage_discharging_efficiency(stor)) * Storage_output_energy(t,stor,h);
 		}
 		Constraint Storage_charging_rate_constraint {
-			IndexDomain: (t,x);
-			Definition: Storage_input_energy(t,x) <= Storage_max_charge_rate(x) * Storage_capacity(x);
+			IndexDomain: (t,stor,h);
+			Definition: Storage_input_energy(t,stor,h) <= Storage_max_charge_rate(stor) * Storage_capacity(stor,h);
 		}
 		Constraint Storage_discharging_rate_constraint {
-			IndexDomain: (t,x);
-			Definition: Storage_output_energy(t,x) <= Storage_max_discharge_rate(x) * Storage_capacity(x);
+			IndexDomain: (t,stor,h);
+			Definition: Storage_output_energy(t,stor,h) <= Storage_max_discharge_rate(stor) * Storage_capacity(stor,h);
 		}
 		Constraint Storage_capacity_constraint {
-			IndexDomain: (t,x);
-			Definition: Storage_SOC(t,x) <= Storage_capacity(x);
+			IndexDomain: (t,stor,h);
+			Definition: Storage_SOC(t,stor,h) <= Storage_capacity(stor,h);
 		}
 		Constraint Storage_minimum_SOC_constraint {
-			IndexDomain: (t,x);
-			Definition: Storage_SOC(t,x) >= Storage_capacity(x) * Storage_min_SOC(x);
+			IndexDomain: (t,stor,h);
+			Definition: Storage_SOC(t,stor,h) >= Storage_capacity(stor,h) * Storage_min_SOC(stor);
 		}
 		Constraint Storage_initialization_2 {
-			IndexDomain: (t,x) | t = first(Time);
-			Definition: Storage_SOC(t,x) = Storage_SOC(last(Time),x);
+			IndexDomain: (t,stor,h) | t = first(Time);
+			Definition: Storage_SOC(t,stor,h) = Storage_SOC(last(Time),stor,h);
 		}
 		Constraint Storage_initialization_3 {
-			IndexDomain: (t,x) | t = first(Time);
-			Definition: Storage_output_energy(t,x) = 0;
+			IndexDomain: (t,stor,h) | t = first(Time);
+			Definition: Storage_output_energy(t,stor,h) = 0;
+		}
+		Constraint Link_installation_constraint {
+			IndexDomain: (x,h,hh);
+			Definition: Link_capacity(x,h,hh) <= Big_M * Link_installation(x,h,hh);
+		}
+		Constraint Link_operation_constraint {
+			IndexDomain: (t,x,h,hh);
+			Definition: Link_flow(t,x,h,hh) <= Big_M * Link_operation(t,x,h,hh);
+		}
+		Constraint Link_capacity_constraint {
+			IndexDomain: (t,x,h,hh);
+			Definition: Link_flow(t,x,h,hh) <= Link_capacity(x,h,hh);
+		}
+		Constraint Link_flow_direction_constraint {
+			IndexDomain: (t,x,h,hh) | val(h) > val(hh);
+			Definition: Link_operation(t,x,h,hh) + Link_operation(t,x,hh,h) <= 1;
 		}
 	}
 	DeclarationSection Mathematical_programs {
@@ -275,55 +306,90 @@ Model Energy_Hub_Model {
 	}
 	Procedure Load_Input_Data {
 		Body: {
-			Spreadsheet::RetrieveParameter( "input_data/Heat_demand.xlsx", Loads(t,'Heat'),"A1:A8760","demand");
-			Spreadsheet::RetrieveParameter( "input_data/Elec_demand.xlsx", Loads(t,'Elec'),"A1:A8760","demand");
-			Spreadsheet::RetrieveParameter( "input_data/solar_inputs.xlsx", Solar_radiation(t),"A1:A8760","solar");
+			Spreadsheet::RetrieveParameter( "input_data/Heat_demand.xlsx", Loads(t,'Heat',h),"A1:B8760","demand");
+			Spreadsheet::RetrieveParameter( "input_data/Elec_demand.xlsx", Loads(t,'Elec',h),"A1:B8760","demand");
+			Spreadsheet::RetrieveParameter( "input_data/Heat_demand.xlsx", Loads(t,'Heat',h),"A1:B8760","demand");
+			Spreadsheet::RetrieveParameter( "input_data/Elec_demand.xlsx", Loads(t,'Elec',h),"A1:B8760","demand");
 		}
 	}
 	Procedure Write_Output_Data {
 		Body: {
-			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_demands.xlsx","Energy_demands");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_demands.xlsx",Energy_demands,"B2:C8761","A2:A8761","B1:C1","Energy_demands",0,1,1);
-			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_demands.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx","Input_energy");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",Input_energy,"B2:I8761","A2:A8761","B1:I1","Input_energy",0,1,1);
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx","Exported_energy_renewable");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",Exported_energy_renewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_renewable",0,1,1);
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx","Exported_energy_nonrenewable");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",Exported_energy_nonrenewable,"B2:C8761","A2:A8761","B1:C1","Exported_energy_nonrenewable",0,1,1);
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx","Output_energy_Elec");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",Output_energy(t,'Elec',conv),"B2:I8761","A2:A8761","B1:I1","Output_energy_Elec",0,1,1);
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx","Output_energy_Heat");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",Output_energy(t,'Heat',conv),"B2:I8761","A2:A8761","B1:I1","Output_energy_Heat",0,1,1);
-			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_conversion.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx","Storage_input_energy");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx","Storage_output_energy");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx","Storage_SOC");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx",Storage_input_energy,"B2:C8761","A2:A8761","B1:C1","Storage_input_energy",0,1,1);
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx",Storage_output_energy,"B2:C8761","A2:A8761","B1:C1","Storage_output_energy",0,1,1);
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx",Storage_SOC,"B2:C8761","A2:A8761","B1:C1","Storage_SOC",0,1,1);
-			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_storage.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Operating_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Maintenance_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Capital_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Total_cost_per_technology");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Operating_cost_grid");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Total_cost_grid");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Capital_cost_per_storage");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Total_cost_per_storage");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx","Income_via_exports");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Maintenance_cost_per_technology,"B1:B9","A1:A9","","Maintenance_cost_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Operating_cost_per_technology,"B1:B7","A1:A7","","Operating_cost_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Total_cost_per_technology,"B1:B9","A1:A9","","Total_cost_per_technology",0,1,3);
-			Spreadsheet::AssignValue("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Operating_cost_grid,"A1:A1","Operating_cost_grid");
-			Spreadsheet::AssignValue("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Total_cost_grid,"A1:A1","Total_cost_grid");
-			Spreadsheet::AssignValue("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",Income_via_exports,"A1:A1","Income_via_exports");
-			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_costs.xlsx",1);
-			Spreadsheet::CreateWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_emissions.xlsx","Total_carbon_per_technology");
-			Spreadsheet::AddNewSheet("results/Generic_energy_hub_experiment_without_sizing/results_emissions.xlsx","Total_carbon_per_timestep");
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_emissions.xlsx",Total_carbon_per_technology,"B1:B8","A1:A8","","Total_carbon_per_technology",0,1,3);
-			Spreadsheet::AssignTable("results/Generic_energy_hub_experiment_without_sizing/results_emissions.xlsx",Total_carbon_per_timestep,"B1:B8760","A1:A8760","","Total_carbon_per_timestep",0,1,3);
-			Spreadsheet::CloseWorkbook("results/Generic_energy_hub_experiment_without_sizing/results_emissions.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_demands.xlsx","Energy_demands");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_demands.xlsx","Energy_demands1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_demands.xlsx",Energy_demands(t,x,'1'),"B2:C8761","A2:A8761","B1:C1","Energy_demands1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_demands.xlsx","Energy_demands2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_demands.xlsx",Energy_demands(t,x,'2'),"B2:C8761","A2:A8761","B1:C1","Energy_demands2",0,1,1);
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_demands.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Input_energy");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Input_energy1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Input_energy(t,conv,'1'),"B2:C8761","A2:A8761","B1:C1","Input_energy1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Exported_energy_renewable1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Exported_energy_renewable(t,x,'1'),"B2:C8761","A2:A8761","B1:C1","Exported_energy_renewable1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Exported_energy_nonrenewable1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Exported_energy_nonrenewable(t,x,'1'),"B2:C8761","A2:A8761","B1:C1","Exported_energy_nonrenewable1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Output_energy_Elec1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Output_energy(t,'Elec',conv,'1'),"B2:C8761","A2:A8761","B1:C1","Output_energy_Elec1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Output_energy_Heat1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Output_energy(t,'Heat',conv,'1'),"B2:C8761","A2:A8761","B1:C1","Output_energy_Heat1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Input_energy2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Input_energy(t,conv,'2'),"B2:C8761","A2:A8761","B1:C1","Input_energy2",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Exported_energy_renewable2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Exported_energy_renewable(t,x,'2'),"B2:C8761","A2:A8761","B1:C1","Exported_energy_renewable2",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Exported_energy_nonrenewable2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Exported_energy_nonrenewable(t,x,'2'),"B2:C8761","A2:A8761","B1:C1","Exported_energy_nonrenewable2",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Output_energy_Elec2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Output_energy(t,'Elec',conv,'2'),"B2:C8761","A2:A8761","B1:C1","Output_energy_Elec2",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_conversion.xlsx","Output_energy_Heat2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_conversion.xlsx",Output_energy(t,'Heat',conv,'2'),"B2:C8761","A2:A8761","B1:C1","Output_energy_Heat2",0,1,1);
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_conversion.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_input_energy");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_input_energy1");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_output_energy1");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_SOC1");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_input_energy1",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_output_energy1",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,stor,'1'),"B2:C8761","A2:A8761","B1:C1","Storage_SOC1",0,1,1);
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_input_energy2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_output_energy2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_storage.xlsx","Storage_SOC2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_input_energy(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_input_energy2",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_output_energy(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_output_energy2",0,1,1);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_storage.xlsx",Storage_SOC(t,stor,'2'),"B2:C8761","A2:A8761","B1:C1","Storage_SOC2",0,1,1);
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_storage.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_operation_Heat_1_2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_flow_Heat_1_2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_losses_Heat_1_2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_operation(t,'Heat','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_operation_Heat_1_2",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_flow(t,'Heat','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_flow_Heat_1_2",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_losses(t,'Heat','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_losses_Heat_1_2",0,1,3);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_operation_Elec_1_2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_flow_Elec_1_2");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_network.xlsx","Link_losses_Elec_1_2");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_operation(t,'Elec','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_operation_Elec_1_2",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_flow(t,'Elec','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_flow_Elec_1_2",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_network.xlsx",Link_losses(t,'Elec','1','2'),"B2:C8761","A2:A8761","B1:C1","Link_losses_Elec_1_2",0,1,3);
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_network.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_costs.xlsx","Operating_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Maintenance_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Capital_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Total_cost_per_technology");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Operating_cost_grid");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Total_cost_grid");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Capital_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Total_cost_per_storage");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_costs.xlsx","Income_via_exports");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_costs.xlsx",Maintenance_cost_per_technology,"B1:B3","A1:A3","","Maintenance_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_costs.xlsx",Operating_cost_per_technology,"B1:B7","A1:A7","","Operating_cost_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_costs.xlsx",Total_cost_per_technology,"B1:B3","A1:A3","","Total_cost_per_technology",0,1,3);
+			Spreadsheet::AssignValue("results/Experiment_002_01_no_sizing/results_costs.xlsx",Operating_cost_grid,"A1:A1","Operating_cost_grid");
+			Spreadsheet::AssignValue("results/Experiment_002_01_no_sizing/results_costs.xlsx",Total_cost_grid,"A1:A1","Total_cost_grid");
+			Spreadsheet::AssignValue("results/Experiment_002_01_no_sizing/results_costs.xlsx",Income_via_exports,"A1:A1","Income_via_exports");
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_costs.xlsx",1);
+			Spreadsheet::CreateWorkbook("results/Experiment_002_01_no_sizing/results_emissions.xlsx","Total_carbon_per_technology");
+			Spreadsheet::AddNewSheet("results/Experiment_002_01_no_sizing/results_emissions.xlsx","Total_carbon_per_timestep");
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_emissions.xlsx",Total_carbon_per_technology,"B1:B2","A1:A2","","Total_carbon_per_technology",0,1,3);
+			Spreadsheet::AssignTable("results/Experiment_002_01_no_sizing/results_emissions.xlsx",Total_carbon_per_timestep,"B1:B8760","A1:A8760","","Total_carbon_per_timestep",0,1,3);
+			Spreadsheet::CloseWorkbook("results/Experiment_002_01_no_sizing/results_emissions.xlsx",1);
 		}
 	}
 	Procedure Main_Termination {

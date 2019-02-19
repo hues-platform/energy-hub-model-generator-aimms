@@ -1,0 +1,5 @@
+Technology name,Thermal network pipe,Microgrid
+Energy type,Heat,Elec
+Capacity,100,10000
+Losses (fraction per m),0,0
+Link ID,1,2
