@@ -79,5 +79,5 @@ storage_initialization_method = 2;
 
 %set to 1 to execute the energy hub model automatically
 %set to 0 if you want to run the energy hub model manually
-execute_energy_hub_model = 0;
+execute_energy_hub_model = 1;
 visualize_model_results = 0;

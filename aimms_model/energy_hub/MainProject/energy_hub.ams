@@ -89,7 +89,7 @@ Model Energy_Hub_Model {
 		}
 		Parameter Link_losses_per_meter  {
 			IndexDomain: (x,h,hh);
-			Definition: data {(Heat,1,2):0,(Elec,1,2):0 };
+			Definition: data {(Heat,1,2):-0.01,(Elec,1,2):-0.01 };
 		}
 		Parameter Link_capacity  {
 			IndexDomain: (x,h,hh);
