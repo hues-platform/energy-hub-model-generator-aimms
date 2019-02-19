@@ -1,6 +1,2 @@
-Domain violation at line 1 in the definition of constraint "Load_balance_constraint", column 153.
-The number of arguments in the parameter "Loads" is not correct.
 Syntax error at line 1 in the definition of constraint "Electricity_export_nonsolar_constraint", column 69.
 The symbol ")" is not expected.
-Syntax error at line 2 in the definition of constraint "Electricity_export_storage_constraint", column 110.
-Unexpected end of the definition of constraint "Electricity_export_storage_constraint".

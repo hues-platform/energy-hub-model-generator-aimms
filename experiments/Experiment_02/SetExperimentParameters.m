@@ -59,7 +59,7 @@ grid_electricity_price = 0.23;
 grid_electricity_feedin_price_renewables = 0.05;
 grid_electricity_feedin_price_nonrenewables = 0.05;
 
-implement_net_metering = 1;
+implement_net_metering = 0; %only implement net metering when electricity generation is present
 
 %% CARBON PARAMETERS
 

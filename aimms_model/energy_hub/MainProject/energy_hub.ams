@@ -228,7 +228,7 @@ Model Energy_Hub_Model {
 	DeclarationSection Constraints {
 		Constraint Load_balance_constraint {
 			IndexDomain: (t,x,h);
-			Definition:sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x)+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + Exported_energy_storage(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));
+			Definition:sum(conv, Input_energy(t,conv,h) * Cmatrix(x,conv)) + sum(stor, (Storage_output_energy(t,stor,h) - Storage_input_energy(t,stor,h)) * Smatrix(x,stor)) = Loads(t,x,h)+ Exported_energy_renewable(t,x,h) + Exported_energy_nonrenewable(t,x,h) + Exported_energy_storage(t,x,h) + sum(hh, Link_flow(t,x,hh,h) - Link_losses(t,x,hh,h) - Link_flow(t,x,h,hh));
 		}
 		Constraint Capacity_constraint_Gas_boiler {
 			IndexDomain: (t,x,conv,h) | (conv = 'Gas_boiler') AND (x = 'Heat');
@@ -240,7 +240,7 @@ Model Energy_Hub_Model {
 		}
 		Constraint Electricity_export_storage_constraint {
 			IndexDomain: (t,x) | x='Elec';
-			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor ='Net_meter'), (Storage_output_energy(t,stor,h));
+			Definition: sum(h,Exported_energy_storage(t,x,h)) <= sum((h,stor) | (stor ='Net_meter'), (Storage_output_energy(t,stor,h)));
 		}
 		Constraint Storage_balance_constraint {
 			IndexDomain: (t,stor,h) | t > first(Time);
