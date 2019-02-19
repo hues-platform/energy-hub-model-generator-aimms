@@ -1,0 +1,13 @@
+Technology name,Battery,Hot water tank
+Type of energy stored,Elec,Heat
+Charging efficiency,0.9,0.9
+Discharging efficiency,0.9,0.9
+Decay,0.0001,0.001
+Maximum charging rate,0.3,0.25
+Maximum discharging rate,0.3,0.25
+Minimum state of charge,0,0
+Minimum temperature (thermal storage),,
+Maximum temperature (thermal storage),,
+Specific heat (thermal storage),,
+Capacity,10000,10000
+Node,1,1
