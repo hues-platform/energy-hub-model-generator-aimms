@@ -3,3 +3,4 @@ analysis_scripts/test_data/**/*
 results_repository/**/*
 aimms_model/energy_hub/results/**/*
 aimms_model/energy_hub/input_data/*
+aimms_model/energy_hub/log/*
